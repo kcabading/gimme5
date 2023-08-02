@@ -10,7 +10,7 @@ export interface IPlaySlice {
     setGuesses: (guess: string) => void,
 }
 
-const CATEGORIES = ['Tao', 'Bagay', 'Pagkain', 'Lugar', 'Pangyayari']
+const CATEGORIES = ['Tao', 'Bagay', 'Hayop', 'Pagkain', 'Lugar']
 
 export const createPlaySlice: StateCreator<IPlaySlice> = (set) => ({
     categories: CATEGORIES,

@@ -1,15 +1,8 @@
-'use client'
-
 import { useState, useEffect } from 'react'
-// import SigninButton from "../SigninButton"
-// import { Switch } from '@headlessui/react'
 import useColorMode from "@/hooks/useColorMode"
 import { Link } from 'react-router-dom'
-// import Image from "next/image"
 
 import { AiOutlineMenu, AiOutlineClose, AiFillSetting, AiFillFacebook, AiFillInstagram}  from "react-icons/ai";
-// import useIsLoggedIn from '@/hooks/useIsLoggedIn'
-// import { useRouter } from "next/navigation"
 
 import { BsSun, BsMoon } from "react-icons/bs";
 
@@ -35,8 +28,6 @@ const Navigation = function () {
     const [mobileNavEnabled, setMobileNavEnabled] = useState(false)
     const [colorMode, setColorMode] = useColorMode()
     console.log(colorMode)
-    // const isLoggedIn = useIsLoggedIn()
-    const isLoggedIn = true
 
     const handleNavClick = function(link: string) {
         setMobileNavEnabled(false)
@@ -45,7 +36,7 @@ const Navigation = function () {
 
     const toggleTheme = function() {
         setSwitchEnabled(!switcheEnabled)
-    }
+    }    
 
     useEffect(() => {   
         setColorMode( switcheEnabled ? "dark" : "light")
@@ -86,10 +77,13 @@ const Navigation = function () {
                 mt-[50px] w-full h-full fixed bg-slate-800/90 transition-right ease-in-out duration-200 sm:hidden p-5 text-white z-50`}>
                 <div className="flex flex-col">
                     <div className="w-full flex text-xl">
-                        <Button onClick={() => navigate('/signin')}>SignIn</Button>
+                        {route !== 'authenticated' ? (
+                        <Button onClick={() => navigate('/signin')}>Login</Button>
+                        ) : (
+                        <Button onClick={() => logOut()}>Logout</Button>
+                        )}
                     </div>
-                    { isLoggedIn && <button onClick={ () => handleNavClick('/play')} className="text-xl my-3 text-left">Play</button> }
-                    <button onClick={ () => handleNavClick('/flags')} className="text-xl my-3 text-left">Flags</button>
+                    <button onClick={ () => handleNavClick('/play')} className="text-xl my-3 text-left">Play</button>
                     <button onClick={ () => handleNavClick('/leaderboards')} className="text-xl my-3 text-left">Leaderboards</button>
                     <div className="text-xl flex justify-between my-3">
                         <label htmlFor="">Dark Mode</label>
