@@ -1,0 +1,20 @@
+{
+  "dev": {
+    "awscloudformation": {
+      "AuthRoleName": "amplify-gimme5-dev-15749-authRole",
+      "UnauthRoleArn": "arn:aws:iam::193365704239:role/amplify-gimme5-dev-15749-unauthRole",
+      "AuthRoleArn": "arn:aws:iam::193365704239:role/amplify-gimme5-dev-15749-authRole",
+      "Region": "us-east-1",
+      "DeploymentBucketName": "amplify-gimme5-dev-15749-deployment",
+      "UnauthRoleName": "amplify-gimme5-dev-15749-unauthRole",
+      "StackName": "amplify-gimme5-dev-15749",
+      "StackId": "arn:aws:cloudformation:us-east-1:193365704239:stack/amplify-gimme5-dev-15749/f0426440-3094-11ee-aa00-0eae7f17c02d",
+      "AmplifyAppId": "d3osxefc286uo0"
+    },
+    "categories": {
+      "auth": {
+        "gimme50fe016aa": {}
+      }
+    }
+  }
+}
