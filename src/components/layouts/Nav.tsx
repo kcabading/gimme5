@@ -34,6 +34,7 @@ const Navigation = function () {
     const [switcheEnabled, setSwitchEnabled] = useState(false)
     const [mobileNavEnabled, setMobileNavEnabled] = useState(false)
     const [colorMode, setColorMode] = useColorMode()
+    console.log(colorMode)
     // const isLoggedIn = useIsLoggedIn()
     const isLoggedIn = true
 

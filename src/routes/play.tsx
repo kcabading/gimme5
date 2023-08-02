@@ -19,6 +19,7 @@ export default function Play() {
 
     const selectedCategory = useBoundStore((state) => state.selectedCategory)
     const setSelectedCategory = useBoundStore((state) => state.setSelectedCategory)
+    console.log(selectedCategory)
 
     const guesses = useBoundStore((state) => state.guesses)
     const setGuesses = useBoundStore((state) => state.setGuesses)
