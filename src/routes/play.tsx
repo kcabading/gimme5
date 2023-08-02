@@ -2,9 +2,23 @@ import { Input } from "@/components/ui/input";
 import { useEffect, useRef } from "react";
 // import { Form } from "react-router-dom";
 import { useBoundStore } from '@/store/index'
+import useTimer from "@/hooks/useTimer";
 // import { useAuthenticator, Heading } from '@aws-amplify/ui-react';
 
+import { GiMagnifyingGlass } from "react-icons/gi";
+
+import {
+    Dialog,
+    DialogContent,
+    DialogDescription,
+    DialogHeader,
+    DialogTitle,
+  } from "@/components/ui/dialog"
+
+
 export default function Play() {
+
+    console.log('RENDER')
     const inputRef = useRef<HTMLInputElement>(null)
 
     const playState = useBoundStore((state) => state.playState)
@@ -12,13 +26,42 @@ export default function Play() {
 
     const selectedCategory = useBoundStore((state) => state.selectedCategory)
     const setSelectedCategory = useBoundStore((state) => state.setSelectedCategory)
-    console.log(selectedCategory)
 
     const guesses = useBoundStore((state) => state.guesses)
     const setGuesses = useBoundStore((state) => state.setGuesses)
+
+    const hintText = useBoundStore((state) => state.hintText)
+    const setHintText = useBoundStore((state) => state.setHintText)
+
+    const hintOpen = useBoundStore((state) => state.hintOpen)
+    const setHintOpen = useBoundStore((state) => state.setHintOpen)
+
+    const reset = useBoundStore((state) => state.resetPlay)
     
     const gimme5answers = ['Switzerland', 'Singapore', 'Spain', 'Samoa', 'Suriname']
     const gimme5question = 'Give 5 Countries that starts with the Letter S?'
+    const gimme5hints = ['HINT # 1','HINT # 2', 'HINT # 3']
+
+
+    const { timer, startTimer, resetTimer, stopTimer } = useTimer(60, false)
+
+    const handleGameFinished = () => {
+        console.log('GAME FINISHED!')
+        stopTimer()
+    }
+
+    const handleHintOpen = (hintNumber: number) => {
+        setHintText(gimme5hints[hintNumber-1])
+        setHintOpen(true)
+    }
+
+    const handleSetCategory = (category: string) => {
+        setSelectedCategory(category)
+        startTimer()
+        setTimeout( ()=> {
+            inputRef.current?.focus()
+        }, 500)
+    }
 
     const handleInputChange = (e:React.KeyboardEvent<HTMLInputElement>) => {
         if(e.code === 'Enter') {
@@ -46,65 +89,84 @@ export default function Play() {
     }
 
     useEffect(() => {
-        if (playState === 'PLAY') inputRef.current?.focus()
-    //   return () => {
-    //     second
-    //   }
-    }, [playState])
+        // reset initial state
+        reset()
+    }, [])
+
+    if (timer === '00:00') handleGameFinished()
     
     return (
-        <div className="lg:w-3/4 max-sm:px-5">
-            {
-                playState === 'SELECT' 
-                ?
-                <div className="gimme5-categories">
-                    <p className="text-4xl text-center mb-5 font-bold">SELECT YOUR CATEGORY</p>
-                    <div className="grid grid-cols-8 gap-5">
-                    {
-                        playCategories.map( (cat, index) => {
-                            return (
-                                <button
-                                    key={index}
-                                    className={`${index === 2 ? 'col-start-3' : ''} col-span-4 px-5 py-5 text-black font-bold hover:bg-amber-300 rounded-2xl text-2xl sm:text-4xl shadow-2xl`}
-                                    onClick={() => setSelectedCategory(cat)} 
-                                >
-                                    {cat}
-                                </button>
-                            )
-                        })
-                    }
-                    </div>
-                </div>
-                :
-                <div className="gimme5-game text-center">
-                    <div className="gimme5-question">
-                        <p className="text-2xl"><span className="font-bold mb-5">Category</span>: {selectedCategory}</p>
-                        <p className="text-4xl text-black">{gimme5question}</p>
-                    </div>
-                    <div className="input-answer my-8 sm:w-1/2 m-auto">
-                        <Input ref={inputRef} type="text" className="text-4xl border-4 focus-visible:ring-0 p-8" placeholder="Start Typing..." onKeyUpCapture={ (e) => handleInputChange(e) }/>
-                    </div>
-                    <div className="grid grid-cols-8 gap-5">
+        <>
+            <Dialog open={hintOpen} onOpenChange={setHintOpen}>
+                <DialogContent>
+                    <DialogHeader>
+                    <DialogTitle>HINT # </DialogTitle>
+                    <DialogDescription>
+                        {hintText}
+                    </DialogDescription>
+                    </DialogHeader>
+                </DialogContent>
+            </Dialog>
+            <div className="lg:w-3/4 max-sm:px-5">
+                {
+                    playState === 'SELECT' 
+                    ?
+                    <div className="gimme5-categories">
+                        <p className="text-4xl text-center mb-5 font-bold">SELECT YOUR CATEGORY</p>
+                        <div className="grid grid-cols-8 gap-5">
                         {
-                            gimme5answers.map( (answer, index) => {
-
-                                let isCorrect = guesses.includes(answer.toLowerCase()) ? true : false
-
+                            playCategories.map( (cat, index) => {
                                 return (
                                     <button
                                         key={index}
-                                        className={`${index === 2 ? 'col-start-3' : ''} ${isCorrect ? 'border-green-300' : ''} col-span-4 px-5 py-5 border-4 text-black font-bold rounded-2xl text-2xl sm:text-4xl shadow-2xl`} 
+                                        className={`${index === 2 ? 'col-start-3' : ''} col-span-4 px-5 py-5 text-black font-bold hover:bg-amber-300 rounded-2xl text-2xl sm:text-4xl shadow-2xl`}
+                                        onClick={() => handleSetCategory(cat)} 
                                     >
-                                        { isCorrect ?  answer : <span className="font-bold">{index + 1}</span>}
+                                        {cat}
                                     </button>
                                 )
                             })
                         }
+                        </div>
                     </div>
-                </div>
-            }
-        </div>
-
+                    :
+                    <div className="gimme5-game text-center relative">
+                        {/* <div className="timer absolute right-0 -top-8 sm:-top-2 sm:right-6 font-bold text-4xl sm:text-4xl">{timer}</div> */}
+                        <div className="flex justify-between items-center mb-5">
+                            <p className="text-lg sm:text-2xl"><span className="font-bold mb-5">Category</span>: {selectedCategory}</p>
+                            <div className="timer font-bold text-4xl">{timer}</div>
+                        </div>
+                        <div className="gimme5-question">
+                            
+                            <p className="text-2xl sm:text-4xl">{gimme5question}</p>
+                        </div>
+                        <div className="input-answer my-8 sm:w-1/2 m-auto">
+                            <Input ref={inputRef} type="text" className="text-4xl border-4 focus-visible:ring-0 p-8" placeholder="Start Typing..." onKeyUpCapture={ (e) => handleInputChange(e) }/>
+                            <div className="hints flex items-center justify-center mt-3 text-2xl">
+                                <button className="mx-2" onClick={ () => handleHintOpen(1) }><GiMagnifyingGlass /></button>
+                                <button className="mx-2" onClick={ () => handleHintOpen(2) }><GiMagnifyingGlass /></button>
+                                <button className="mx-2" onClick={ () => handleHintOpen(3) }><GiMagnifyingGlass /></button>
+                            </div>
+                        </div>
+                        <div className="grid grid-cols-8 gap-3 sm:gap-5">
+                            {
+                                gimme5answers.map( (answer, index) => {
+                                    let isCorrect = guesses.includes(answer.toLowerCase()) ? true : false
+                                    return (
+                                        <button
+                                            key={index}
+                                            className={`${index === 2 ? 'col-start-3' : ''} ${isCorrect ? 'border-green-300' : ''} col-span-4 px-5 py-5 border-4 font-bold rounded-2xl text-2xl sm:text-4xl shadow-2xl`} 
+                                        >
+                                            { isCorrect ?  answer : <span className="font-bold">{index + 1}</span>}
+                                        </button>
+                                    )
+                                })
+                            }
+                        </div>
+                    </div>
+                }
+            </div>
+        </>
     )
 
 

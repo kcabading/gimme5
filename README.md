@@ -4,7 +4,7 @@ This project bootstrapped with [`vite`](https://vitejs.dev/) and is deployed usi
 # Gimme5
 
 Gimme5 is a charade guessing game inspired by a game portion on a local noontime TV Show.
-https://gimme5.dev
+https://main.d3osxefc286uo0.amplifyapp.com/
 
 ## Features
 - Play the game in different mode and difficulty levels.
@@ -28,16 +28,15 @@ https://gimme5.dev
 
 ## Roadmap
 - [x] Home and Basic Layout pages
-- [] Play Page
-- [] Game Components
-- [] Leaderboards page
-- [] New Game Mode (Give me 5!)
-- [] Multiplayer page
+- [ ] Game Components (Select Category, Enter Guesses, Use hints, Timer)
+- [ ] Play Page
+- [ ] Leaderboards page
+- [ ] Settings page
+- [ ] Multiplayer page
 
 ## Installation
 
 First, run the development server:
-
 
 ```bash
 npm run dev
