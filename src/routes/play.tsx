@@ -2,8 +2,6 @@ import { Input } from "@/components/ui/input";
 import { useEffect, useRef } from "react";
 // import { Form } from "react-router-dom";
 import { useBoundStore } from '@/store/index'
-import useTimer from "@/hooks/useTimer";
-// import { useAuthenticator, Heading } from '@aws-amplify/ui-react';
 
 import { GiMagnifyingGlass } from "react-icons/gi";
 
@@ -14,6 +12,7 @@ import {
     DialogHeader,
     DialogTitle,
   } from "@/components/ui/dialog"
+import Timer from "@/components/game/Timer";
 
 
 export default function Play() {
@@ -22,6 +21,7 @@ export default function Play() {
     const inputRef = useRef<HTMLInputElement>(null)
 
     const playState = useBoundStore((state) => state.playState)
+    const setPlayState = useBoundStore((state) => state.setPlayState)
     const playCategories= useBoundStore((state) => state.categories)
 
     const selectedCategory = useBoundStore((state) => state.selectedCategory)
@@ -42,12 +42,14 @@ export default function Play() {
     const gimme5question = 'Give 5 Countries that starts with the Letter S?'
     const gimme5hints = ['HINT # 1','HINT # 2', 'HINT # 3']
 
+    // const handleGameFinished = () => {
+    //     console.log('GAME FINISHED!')
+    //     // stopTimer()
+    // }
 
-    const { timer, startTimer, resetTimer, stopTimer } = useTimer(60, false)
-
-    const handleGameFinished = () => {
-        console.log('GAME FINISHED!')
-        stopTimer()
+    const handleTimesUp = () => {
+        console.log('TIMES UP')
+        setPlayState('FINISHED')
     }
 
     const handleHintOpen = (hintNumber: number) => {
@@ -57,7 +59,7 @@ export default function Play() {
 
     const handleSetCategory = (category: string) => {
         setSelectedCategory(category)
-        startTimer()
+        // startTimer()
         setTimeout( ()=> {
             inputRef.current?.focus()
         }, 500)
@@ -92,8 +94,6 @@ export default function Play() {
         // reset initial state
         reset()
     }, [])
-
-    if (timer === '00:00') handleGameFinished()
     
     return (
         <>
@@ -110,7 +110,7 @@ export default function Play() {
             <div className="lg:w-3/4 max-sm:px-5">
                 {
                     playState === 'SELECT' 
-                    ?
+                    &&
                     <div className="gimme5-categories">
                         <p className="text-4xl text-center mb-5 font-bold">SELECT YOUR CATEGORY</p>
                         <div className="grid grid-cols-8 gap-5">
@@ -129,23 +129,26 @@ export default function Play() {
                         }
                         </div>
                     </div>
-                    :
+                }
+                {
+                    playState === 'PLAY' 
+                    &&
                     <div className="gimme5-game text-center relative">
                         {/* <div className="timer absolute right-0 -top-8 sm:-top-2 sm:right-6 font-bold text-4xl sm:text-4xl">{timer}</div> */}
                         <div className="flex justify-between items-center mb-5">
                             <p className="text-lg sm:text-2xl"><span className="font-bold mb-5">Category</span>: {selectedCategory}</p>
-                            <div className="timer font-bold text-4xl">{timer}</div>
+                            {/* <div className="timer font-bold text-4xl">{timer}</div> */}
+                            <Timer initialTime={60} handleTimesUp={handleTimesUp}/>
                         </div>
                         <div className="gimme5-question">
-                            
                             <p className="text-2xl sm:text-4xl">{gimme5question}</p>
                         </div>
                         <div className="input-answer my-8 sm:w-1/2 m-auto">
                             <Input ref={inputRef} type="text" className="text-4xl border-4 focus-visible:ring-0 p-8" placeholder="Start Typing..." onKeyUpCapture={ (e) => handleInputChange(e) }/>
                             <div className="hints flex items-center justify-center mt-3 text-2xl">
-                                <button className="mx-2" onClick={ () => handleHintOpen(1) }><GiMagnifyingGlass /></button>
-                                <button className="mx-2" onClick={ () => handleHintOpen(2) }><GiMagnifyingGlass /></button>
-                                <button className="mx-2" onClick={ () => handleHintOpen(3) }><GiMagnifyingGlass /></button>
+                                <button className="mx-2 p-2 hover:bg-slate-200 rounded-lg" onClick={ () => handleHintOpen(1) }><GiMagnifyingGlass /></button>
+                                <button className="mx-2 p-2 hover:bg-slate-200 rounded-lg" onClick={ () => handleHintOpen(2) }><GiMagnifyingGlass /></button>
+                                <button className="mx-2 p-2 hover:bg-slate-200 rounded-lg" onClick={ () => handleHintOpen(3) }><GiMagnifyingGlass /></button>
                             </div>
                         </div>
                         <div className="grid grid-cols-8 gap-3 sm:gap-5">
@@ -163,6 +166,13 @@ export default function Play() {
                                 })
                             }
                         </div>
+                    </div>
+                }
+                {
+                    playState === 'FINISHED' 
+                    &&
+                    <div className="gimme5-result text center">
+                        <p className="font-bold text-2xl sm:text-4xl">TIMES UP!</p>
                     </div>
                 }
             </div>

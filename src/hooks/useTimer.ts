@@ -1,5 +1,4 @@
 import { useState } from "react";
-
 import { convertTimeToString } from '@/lib/utils'
 
 const Timer = function (initial: number, ascending: boolean) {
@@ -22,7 +21,7 @@ const Timer = function (initial: number, ascending: boolean) {
     function resetTimer() {
         setCounter(initial)
     }
-    
+        
     return { timer: convertTimeToString(counter), counter, stopTimer, startTimer, resetTimer }
 }
 

@@ -7,7 +7,7 @@ type Thint = {
 }
 
 export interface IPlaySlice {
-    playState: string,
+    playState: string, // SELECT | PLAY | FINISHED
     categories: string[],
     selectedCategory: string,
     question: string,
@@ -15,6 +15,7 @@ export interface IPlaySlice {
     hints: Thint[],
     hintText: string,
     hintOpen: boolean,
+    setPlayState: (state: string) => void,
     setSelectedQuestion: (question: string) => void,
     setSelectedCategory: (category: string) => void,
     setGuesses: (guess: string) => void,
@@ -38,6 +39,9 @@ const initState = {
 
 export const createPlaySlice: StateCreator<IPlaySlice> = (set) => ({
     ...initState,
+    setPlayState: (state) => {
+        set({playState: state})
+    },
     setSelectedQuestion: (question) => {
         set({question: question})
     },

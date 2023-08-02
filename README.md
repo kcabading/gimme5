@@ -18,11 +18,12 @@ https://main.d3osxefc286uo0.amplifyapp.com/
 - Vite
 - React
 - Typescript
+- React Router 6
 - React Query
 - Zod
 - Shadcdn (React Component Library)
-- AWS Lambda (Other Data Processing)
 - AWS Cognito (Authentication)
+- AWS Lambda (Other Data Processing)
 - AWS DynamoDB (Game Data)
 - Upstash Redis (Leaderboards data)
 
