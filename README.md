@@ -1,4 +1,4 @@
-This project bootstrapped with [`vite`](https://vitejs.dev/) and is deployed using AWS Amplify(https://aws.amazon.com/amplify/)
+This project bootstrapped with [`vite`](https://vitejs.dev/) and is deployed using [`AWS Amplify`](https://aws.amazon.com/amplify/)
 
 
 # Gimme5
