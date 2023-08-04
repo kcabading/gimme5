@@ -1,6 +1,7 @@
 import { create } from 'zustand'
 
-import { createPlaySlice, IPlaySlice } from '@/store/playSlice'
+import { createPlaySlice } from '@/store/playSlice'
+import { IPlaySlice } from '@/types/play'
 import { createLeaderboardSlice, ILeaderboardSlice } from '@/store/leaderboardSlice'
 
 export const useBoundStore = create<IPlaySlice & ILeaderboardSlice>()((...a) => ({

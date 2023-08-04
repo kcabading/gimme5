@@ -1,28 +1,16 @@
-import { useState } from "react";
-import { convertTimeToString } from '@/lib/utils'
+import { convertMSTimeToString } from '@/lib/utils'
+import { useBoundStore } from "@/store";
 
-const Timer = function (initial: number, ascending: boolean) {
-    const [counter, setCounter] = useState(initial)
-    const [interval, setCounterInterval] = useState<number>()
+const Timer = () => {
+    const timerMS = useBoundStore((state) => state.timerMS)
+    let { minutes, seconds, milliseconds, timerString} = convertMSTimeToString(timerMS)
 
-    function stopTimer() {
-        window.clearInterval(interval)
+    return { 
+        minutes, 
+        seconds, 
+        milliseconds, 
+        timerString
     }
-    // order - determines if ascending or descending counter
-    function startTimer() {
-        let counterInterval = window.setInterval(() => {
-            setCounter( (prev) => {
-                return ascending ? prev + 1 : prev - 1
-            })
-        }, 1000)
-        setCounterInterval(counterInterval)
-    }
-
-    function resetTimer() {
-        setCounter(initial)
-    }
-        
-    return { timer: convertTimeToString(counter), counter, stopTimer, startTimer, resetTimer }
 }
 
 export default Timer

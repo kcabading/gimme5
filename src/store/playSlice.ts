@@ -1,58 +1,50 @@
 
 import { StateCreator } from 'zustand'
-
-type Thint = {
-    text: string,
-    used: boolean
-}
-
-export interface IPlaySlice {
-    playState: string, // SELECT | PLAY | FINISHED
-    categories: string[],
-    selectedCategory: string,
-    question: string,
-    guesses: string[],
-    hints: Thint[],
-    hintText: string,
-    hintOpen: boolean,
-    setPlayState: (state: string) => void,
-    setSelectedQuestion: (question: string) => void,
-    setSelectedCategory: (category: string) => void,
-    setGuesses: (guess: string) => void,
-    setHintText: (hint: string) => void,
-    setHintOpen: (hint: boolean) => void,
-    resetPlay: () => void,   
-}
+import { PlayStatusEnum, IPlaySlice } from '@/types/play'
 
 const CATEGORIES = ['Tao', 'Bagay', 'Hayop', 'Pagkain', 'Lugar']
+const gimme5answers = ['Switzerland', 'Singapore', 'Spain', 'Samoa', 'Suriname']
 
 const initState = {
     categories: CATEGORIES,
-    playState: 'SELECT',
+    playState: PlayStatusEnum.SELECT,
     selectedCategory: '',
     question: '',
+    answers: gimme5answers,
+    noOfCorrectAnswer: 0,
     guesses: [],
     hints: [],
     hintText: '',
-    hintOpen: false
+    hintOpen: false,
+    timer: '',
+    initialTime: 0,
+    timerMS: 0,
+    timerAscending: false,
+    timerIntervalRef: 0
 }
 
-export const createPlaySlice: StateCreator<IPlaySlice> = (set) => ({
+export const createPlaySlice: StateCreator<IPlaySlice> = (set, get) => ({
     ...initState,
-    setPlayState: (state) => {
-        set({playState: state})
-    },
     setSelectedQuestion: (question) => {
         set({question: question})
     },
     setSelectedCategory: (category) => {
         set({ selectedCategory: category})
-        set({ playState: 'PLAY'})
+        set({ playState: PlayStatusEnum.PLAY})
     },
-    setGuesses: (guess) => {
-        set( (state) => ({ guesses: [...state.guesses, guess]}))
+    setGuesses: (guess, time) => {
+        set( (state) => ({ guesses: [...state.guesses, { guess, time}]}))
+    },
+    setNoOfCorrectAnswer: () => {
+        let noOfAnswers = get().answers.length
+        let noOfCorrectAnswer = get().noOfCorrectAnswer + 1
+        set({ 
+            noOfCorrectAnswer,
+            playState: noOfAnswers === noOfCorrectAnswer ? PlayStatusEnum.FINISHED : get().playState
+        })
     },
     resetPlay: () => {
+        get().resetTimer()
         set(initState)
     },
     setHintText: (hint) => {
@@ -60,5 +52,34 @@ export const createPlaySlice: StateCreator<IPlaySlice> = (set) => ({
     },
     setHintOpen: (toggle) => {
         set({hintOpen: toggle})
+    },
+    setTimerSetting: (initial, ascending) => {
+        set({ 
+            initialTime: initial * 100,
+            timerMS: initial * 100,
+            timerAscending: ascending
+        })
+    },
+    startTimer: () => {
+        let intervalId = window.setInterval(() => {
+            if( get().playState === PlayStatusEnum.PLAY && get().timerMS === 0 ) {
+                get().stopTimer()
+                set({ playState: PlayStatusEnum.FINISHED })
+                return
+            } else {
+                set( (state) => ({ timerMS: state.timerAscending ? state.timerMS + 1 : state.timerMS - 1 }))
+            }
+        }, 10)
+        set({timerIntervalRef: intervalId})
+    },
+    stopTimer: () => {
+        window.clearInterval(get().timerIntervalRef)
+    },
+    resetTimer: () => {
+        window.clearInterval(get().timerIntervalRef)
+        set({ 
+            timerMS: get().timerMS,
+            timerAscending: get().timerAscending
+        })
     }
 })

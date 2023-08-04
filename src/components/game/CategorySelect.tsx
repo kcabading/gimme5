@@ -1,0 +1,37 @@
+import { GiPerson, GiPoloShirt, GiSittingDog, GiCakeSlice, GiTreasureMap   } from "react-icons/gi";
+
+type ICategorySelectProps = {
+    categories: string[],
+    handleCategorySelect: (category: string) => void
+}
+
+let categoryImage = [<GiPerson />, <GiPoloShirt/>, <GiSittingDog/>, <GiCakeSlice/>, <GiTreasureMap/>]
+
+const CategorySelect = ({categories, handleCategorySelect}: ICategorySelectProps ) => {
+    return (
+        <>
+            <div className="gimme5-categories">
+                <p className="text-4xl text-center mb-5 font-bold">SELECT YOUR CATEGORY</p>
+                <div className="grid grid-cols-8 gap-5">
+                {
+                    categories.map( (cat, index) => {
+                        return (
+                            <button
+                                key={index}
+                                className={`${index === 2 ? 'col-start-3' : ''} col-span-4 px-5 py-5 text-black font-bold hover:bg-amber-300 rounded-2xl text-2xl sm:text-4xl shadow-2xl relative`}
+                                onClick={() => handleCategorySelect(cat)} 
+                            >
+                                {cat}
+                                <span className="absolute left-5 top-3">{categoryImage[index]}</span>
+                            </button>
+                        )
+                    })
+                }
+                </div>
+            </div>
+        </>
+    )
+}
+
+export default CategorySelect
+ 

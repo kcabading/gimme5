@@ -1,9 +1,5 @@
-import { Input } from "@/components/ui/input";
 import { useEffect, useRef } from "react";
-// import { Form } from "react-router-dom";
 import { useBoundStore } from '@/store/index'
-
-import { GiMagnifyingGlass } from "react-icons/gi";
 
 import {
     Dialog,
@@ -12,8 +8,11 @@ import {
     DialogHeader,
     DialogTitle,
   } from "@/components/ui/dialog"
-import Timer from "@/components/game/Timer";
 
+import CategorySelect from "@/components/game/CategorySelect";
+import Game from "@/components/game/Game";
+import Results from "@/components/game/Results";
+import { convertMSTimeToString } from "@/lib/utils";
 
 export default function Play() {
 
@@ -21,14 +20,17 @@ export default function Play() {
     const inputRef = useRef<HTMLInputElement>(null)
 
     const playState = useBoundStore((state) => state.playState)
-    const setPlayState = useBoundStore((state) => state.setPlayState)
     const playCategories= useBoundStore((state) => state.categories)
 
     const selectedCategory = useBoundStore((state) => state.selectedCategory)
     const setSelectedCategory = useBoundStore((state) => state.setSelectedCategory)
 
+    const answers = useBoundStore((state) => state.answers)
+
     const guesses = useBoundStore((state) => state.guesses)
     const setGuesses = useBoundStore((state) => state.setGuesses)
+    const setNoOfCorrectAnswer = useBoundStore((state) => state.setNoOfCorrectAnswer)
+    
 
     const hintText = useBoundStore((state) => state.hintText)
     const setHintText = useBoundStore((state) => state.setHintText)
@@ -36,21 +38,17 @@ export default function Play() {
     const hintOpen = useBoundStore((state) => state.hintOpen)
     const setHintOpen = useBoundStore((state) => state.setHintOpen)
 
-    const reset = useBoundStore((state) => state.resetPlay)
+    const timerMS = useBoundStore((state) => state.timerMS)
+    const initialTime = useBoundStore((state) => state.initialTime)
+    const startTimer = useBoundStore((state) => state.startTimer)
+    const setTimerSetting = useBoundStore((state) => state.setTimerSetting)
     
-    const gimme5answers = ['Switzerland', 'Singapore', 'Spain', 'Samoa', 'Suriname']
-    const gimme5question = 'Give 5 Countries that starts with the Letter S?'
-    const gimme5hints = ['HINT # 1','HINT # 2', 'HINT # 3']
 
-    // const handleGameFinished = () => {
-    //     console.log('GAME FINISHED!')
-    //     // stopTimer()
-    // }
-
-    const handleTimesUp = () => {
-        console.log('TIMES UP')
-        setPlayState('FINISHED')
-    }
+    const resetGameState = useBoundStore((state) => state.resetPlay)
+    
+    // const gimme5answers = ['Switzerland', 'Singapore', 'Spain', 'Samoa', 'Suriname']
+    const gimme5question = 'Magbigay ng Limang(5) Bansa na nagsisimula sa letter S?'
+    const gimme5hints = ['Ito ay nagsisimula sa letter S','HINT # 2', 'HINT # 3']
 
     const handleHintOpen = (hintNumber: number) => {
         setHintText(gimme5hints[hintNumber-1])
@@ -59,7 +57,9 @@ export default function Play() {
 
     const handleSetCategory = (category: string) => {
         setSelectedCategory(category)
-        // startTimer()
+        setTimerSetting(60, false)
+        startTimer()
+
         setTimeout( ()=> {
             inputRef.current?.focus()
         }, 500)
@@ -69,9 +69,11 @@ export default function Play() {
         if(e.code === 'Enter') {
             if (inputRef.current !== null) {
                 let guessedAnswer = (inputRef.current?.value).toLowerCase()
-                if (!guesses.includes(guessedAnswer)) {
-                    if (gimme5answers.map(answer => answer.toLowerCase()).includes(guessedAnswer)) {
-                        console.log('adding border')
+                if (!guesses.map(r => r.guess).includes(guessedAnswer)) {
+                    let {timerString} = convertMSTimeToString(initialTime - timerMS)
+                    setGuesses(guessedAnswer,timerString)
+                    if (answers.map(answer => answer.toLowerCase()).includes(guessedAnswer)) {
+                        setNoOfCorrectAnswer()
                         inputRef.current?.classList.add('border-green-300')
                         setTimeout(() => {
                             inputRef.current?.classList.remove('border-green-300')
@@ -82,8 +84,6 @@ export default function Play() {
                             inputRef.current?.classList.remove('border-red-300')
                         }, 2000);
                     }
-                    setGuesses(guessedAnswer)
-                    
                 }
                 inputRef.current.value = ''
             }   
@@ -91,17 +91,21 @@ export default function Play() {
     }
 
     useEffect(() => {
-        // reset initial state
-        reset()
+        resetGameState()
+        return () => {
+            resetGameState()
+        }
     }, [])
+
+    console.log('PLAY STATE:',  playState)
     
     return (
         <>
             <Dialog open={hintOpen} onOpenChange={setHintOpen}>
                 <DialogContent>
                     <DialogHeader>
-                    <DialogTitle>HINT # </DialogTitle>
-                    <DialogDescription>
+                    <DialogTitle className="text-2xl sm:text-4xl">HINT # </DialogTitle>
+                    <DialogDescription className="text-2xl sm:text-4xl">
                         {hintText}
                     </DialogDescription>
                     </DialogHeader>
@@ -111,69 +115,23 @@ export default function Play() {
                 {
                     playState === 'SELECT' 
                     &&
-                    <div className="gimme5-categories">
-                        <p className="text-4xl text-center mb-5 font-bold">SELECT YOUR CATEGORY</p>
-                        <div className="grid grid-cols-8 gap-5">
-                        {
-                            playCategories.map( (cat, index) => {
-                                return (
-                                    <button
-                                        key={index}
-                                        className={`${index === 2 ? 'col-start-3' : ''} col-span-4 px-5 py-5 text-black font-bold hover:bg-amber-300 rounded-2xl text-2xl sm:text-4xl shadow-2xl`}
-                                        onClick={() => handleSetCategory(cat)} 
-                                    >
-                                        {cat}
-                                    </button>
-                                )
-                            })
-                        }
-                        </div>
-                    </div>
+                    <CategorySelect categories={playCategories} handleCategorySelect={handleSetCategory} />
                 }
                 {
                     playState === 'PLAY' 
                     &&
-                    <div className="gimme5-game text-center relative">
-                        {/* <div className="timer absolute right-0 -top-8 sm:-top-2 sm:right-6 font-bold text-4xl sm:text-4xl">{timer}</div> */}
-                        <div className="flex justify-between items-center mb-5">
-                            <p className="text-lg sm:text-2xl"><span className="font-bold mb-5">Category</span>: {selectedCategory}</p>
-                            {/* <div className="timer font-bold text-4xl">{timer}</div> */}
-                            <Timer initialTime={60} handleTimesUp={handleTimesUp}/>
-                        </div>
-                        <div className="gimme5-question">
-                            <p className="text-2xl sm:text-4xl">{gimme5question}</p>
-                        </div>
-                        <div className="input-answer my-8 sm:w-1/2 m-auto">
-                            <Input ref={inputRef} type="text" className="text-4xl border-4 focus-visible:ring-0 p-8" placeholder="Start Typing..." onKeyUpCapture={ (e) => handleInputChange(e) }/>
-                            <div className="hints flex items-center justify-center mt-3 text-2xl">
-                                <button className="mx-2 p-2 hover:bg-slate-200 rounded-lg" onClick={ () => handleHintOpen(1) }><GiMagnifyingGlass /></button>
-                                <button className="mx-2 p-2 hover:bg-slate-200 rounded-lg" onClick={ () => handleHintOpen(2) }><GiMagnifyingGlass /></button>
-                                <button className="mx-2 p-2 hover:bg-slate-200 rounded-lg" onClick={ () => handleHintOpen(3) }><GiMagnifyingGlass /></button>
-                            </div>
-                        </div>
-                        <div className="grid grid-cols-8 gap-3 sm:gap-5">
-                            {
-                                gimme5answers.map( (answer, index) => {
-                                    let isCorrect = guesses.includes(answer.toLowerCase()) ? true : false
-                                    return (
-                                        <button
-                                            key={index}
-                                            className={`${index === 2 ? 'col-start-3' : ''} ${isCorrect ? 'border-green-300' : ''} col-span-4 px-5 py-5 border-4 font-bold rounded-2xl text-2xl sm:text-4xl shadow-2xl`} 
-                                        >
-                                            { isCorrect ?  answer : <span className="font-bold">{index + 1}</span>}
-                                        </button>
-                                    )
-                                })
-                            }
-                        </div>
-                    </div>
+                    <Game 
+                        ref={inputRef}
+                        selectedCategory={selectedCategory}
+                        question={gimme5question}
+                        answers={answers}
+                        guesses={guesses}
+                        handleHintOpen={handleHintOpen}
+                        handleInputChange={handleInputChange}
+                    />
                 }
                 {
-                    playState === 'FINISHED' 
-                    &&
-                    <div className="gimme5-result text center">
-                        <p className="font-bold text-2xl sm:text-4xl">TIMES UP!</p>
-                    </div>
+                    playState === 'FINISHED' &&<Results />
                 }
             </div>
         </>

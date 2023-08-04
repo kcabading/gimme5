@@ -1,32 +1,19 @@
-import { useEffect, useRef } from "react"
 import useTimer from "@/hooks/useTimer"
 
-type TTimer = {
-    initialTime: number,
-    handleTimesUp: () => void
-}
-
-const Timer = ( {initialTime, handleTimesUp}: TTimer) => {
-    console.log('TIMER RENDER!')
-    const { timer, startTimer, stopTimer } = useTimer(initialTime, false)
-    const initialized = useRef(false)
-
-    useEffect(() => {
-        if (!initialized.current) {
-            initialized.current = true
-            startTimer()
-        }
-        console.log('start timer')
-    }, [])
-
-    if (timer === '00:00') {
-        stopTimer()
-        handleTimesUp()
-    }
+const Timer = () => {
+    // console.log('Timer RENDER')
+    const { minutes, seconds, milliseconds} = useTimer()
     
     return (
-        <div className="timer font-bold text-4xl">{timer}</div>
+        <>
+            <div className="timer font-bold text-4xl flex justify-center">
+                <span className="w-[50px]">{minutes}</span>:
+                <span className="w-[50px]">{seconds}</span>:
+                <span className="w-[50px]">{milliseconds}</span>
+            </div>
+        </>
     )
 }
+
 
 export default Timer
