@@ -8,15 +8,17 @@
       "isLatestVersionSelected": true
     }
   ],
-  "secretNames": [],
+  "secretNames": [
+    "MONGODB_CONNECTION_STRING"
+  ],
   "environmentVariableList": [
     {
-      "cloudFormationParameterName": "mongodbConnectionString",
-      "environmentVariableName": "MONGODB_CONNECTION_STRING"
+      "cloudFormationParameterName": "dbconPath",
+      "environmentVariableName": "DBCON_PATH"
     },
     {
-      "cloudFormationParameterName": "mongodbConnectionString",
-      "environmentVariableName": "MONGODB_CONNECTION_STRING"
+      "cloudFormationParameterName": "region",
+      "environmentVariableName": "REGION"
     }
   ]
 }

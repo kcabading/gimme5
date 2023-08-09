@@ -19,8 +19,10 @@
       "function": {
         "gimme5Questions": {
           "deploymentBucketName": "amplify-gimme5-dev-15749-deployment",
-          "s3Key": "amplify-builds/gimme5Questions-67515675574d59747676-build.zip",
-          "mongodbConnectionString": "mongodb+srv://admin:Kristi%40n25%21@cluster1.qgclqnk.mongodb.net/?retryWrites=true&w=majority"
+          "s3Key": "amplify-builds/gimme5Questions-326f566e4c3345423643-build.zip",
+          "secretsPathAmplifyAppId": "d3osxefc286uo0",
+          "dbconPath": "/amplify/d3osxefc286uo0/dev/AMPLIFY_gimme5Questions_MONGODB_CONNECTION_STRING",
+          "region": "us-east-1"
         },
         "gimme5layerGimmeDB": {
           "deploymentBucketName": "amplify-gimme5-dev-15749-deployment",

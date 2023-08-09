@@ -63,6 +63,14 @@
     }
   },
   "parameters": {
+    "AMPLIFY_function_gimme5Questions_dbconPath": {
+      "usedBy": [
+        {
+          "category": "function",
+          "resourceName": "gimme5Questions"
+        }
+      ]
+    },
     "AMPLIFY_function_gimme5Questions_deploymentBucketName": {
       "usedBy": [
         {
@@ -71,7 +79,7 @@
         }
       ]
     },
-    "AMPLIFY_function_gimme5Questions_mongodbConnectionString": {
+    "AMPLIFY_function_gimme5Questions_region": {
       "usedBy": [
         {
           "category": "function",
@@ -80,6 +88,14 @@
       ]
     },
     "AMPLIFY_function_gimme5Questions_s3Key": {
+      "usedBy": [
+        {
+          "category": "function",
+          "resourceName": "gimme5Questions"
+        }
+      ]
+    },
+    "AMPLIFY_function_gimme5Questions_secretsPathAmplifyAppId": {
       "usedBy": [
         {
           "category": "function",
