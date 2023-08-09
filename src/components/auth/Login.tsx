@@ -5,8 +5,6 @@ import '@aws-amplify/ui-react/styles.css';
 
 import { useNavigate, useLocation } from 'react-router';
 
-import logo from '@/assets/gimme5-logo.png'
-
 export function Login() {
 	const { route } = useAuthenticator((context) => [context.route]);
 	const location = useLocation();
