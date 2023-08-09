@@ -3,14 +3,15 @@ import { StateCreator } from 'zustand'
 import { PlayStatusEnum, IPlaySlice } from '@/types/play'
 
 const CATEGORIES = ['Tao', 'Bagay', 'Hayop', 'Pagkain', 'Lugar']
-const gimme5answers = ['Switzerland', 'Singapore', 'Spain', 'Samoa', 'Suriname']
 
 const initState = {
     categories: CATEGORIES,
     playState: PlayStatusEnum.SELECT,
     selectedCategory: '',
     question: '',
-    answers: gimme5answers,
+    answers: [],
+    revealAnswers: false,
+    gameLoading: false,
     noOfCorrectAnswer: 0,
     guesses: [],
     hints: [],
@@ -19,14 +20,27 @@ const initState = {
     timer: '',
     initialTime: 0,
     timerMS: 0,
+    timesUp: false,
     timerAscending: false,
     timerIntervalRef: 0
 }
 
 export const createPlaySlice: StateCreator<IPlaySlice> = (set, get) => ({
     ...initState,
+    setPlayState: (playState) => {
+        set({playState: playState})
+    },
     setSelectedQuestion: (question) => {
         set({question: question})
+    },
+    setGameLoading: (loading) => {
+        set({gameLoading: loading})
+    },
+    setSelectedAnswers: (answers) => {
+        set({answers: answers})
+    },
+    setRevealAnswers: () => {
+        set( state => ( {revealAnswers: !state.revealAnswers} ))
     },
     setSelectedCategory: (category) => {
         set({ selectedCategory: category})
@@ -38,9 +52,14 @@ export const createPlaySlice: StateCreator<IPlaySlice> = (set, get) => ({
     setNoOfCorrectAnswer: () => {
         let noOfAnswers = get().answers.length
         let noOfCorrectAnswer = get().noOfCorrectAnswer + 1
+
+        if (noOfAnswers === noOfCorrectAnswer) { 
+            get().stopTimer()
+        }
+
         set({ 
             noOfCorrectAnswer,
-            playState: noOfAnswers === noOfCorrectAnswer ? PlayStatusEnum.FINISHED : get().playState
+            // playState: noOfAnswers === noOfCorrectAnswer ? PlayStatusEnum.FINISHED : get().playState
         })
     },
     resetPlay: () => {
@@ -64,7 +83,8 @@ export const createPlaySlice: StateCreator<IPlaySlice> = (set, get) => ({
         let intervalId = window.setInterval(() => {
             if( get().playState === PlayStatusEnum.PLAY && get().timerMS === 0 ) {
                 get().stopTimer()
-                set({ playState: PlayStatusEnum.FINISHED })
+                set({ timesUp: true })
+                // set({ playState: PlayStatusEnum.FINISHED })
                 return
             } else {
                 set( (state) => ({ timerMS: state.timerAscending ? state.timerMS + 1 : state.timerMS - 1 }))

@@ -1,4 +1,20 @@
 {
+  "api": {
+    "gimme5": {
+      "dependsOn": [
+        {
+          "attributes": [
+            "Name",
+            "Arn"
+          ],
+          "category": "function",
+          "resourceName": "gimme5Questions"
+        }
+      ],
+      "providerPlugin": "awscloudformation",
+      "service": "API Gateway"
+    }
+  },
   "auth": {
     "gimme50fe016aa": {
       "customAuth": false,
@@ -23,6 +39,69 @@
       },
       "providerPlugin": "awscloudformation",
       "service": "Cognito"
+    }
+  },
+  "function": {
+    "gimme5Questions": {
+      "build": true,
+      "dependsOn": [
+        {
+          "attributes": [
+            "Arn"
+          ],
+          "category": "function",
+          "resourceName": "gimme5layerGimmeDB"
+        }
+      ],
+      "providerPlugin": "awscloudformation",
+      "service": "Lambda"
+    },
+    "gimme5layerGimmeDB": {
+      "build": true,
+      "providerPlugin": "awscloudformation",
+      "service": "LambdaLayer"
+    }
+  },
+  "parameters": {
+    "AMPLIFY_function_gimme5Questions_deploymentBucketName": {
+      "usedBy": [
+        {
+          "category": "function",
+          "resourceName": "gimme5Questions"
+        }
+      ]
+    },
+    "AMPLIFY_function_gimme5Questions_mongodbConnectionString": {
+      "usedBy": [
+        {
+          "category": "function",
+          "resourceName": "gimme5Questions"
+        }
+      ]
+    },
+    "AMPLIFY_function_gimme5Questions_s3Key": {
+      "usedBy": [
+        {
+          "category": "function",
+          "resourceName": "gimme5Questions"
+        }
+      ]
+    },
+    "AMPLIFY_function_gimme5layerGimmeDB_deploymentBucketName": {
+      "usedBy": [
+        {
+          "category": "function",
+          "resourceName": "gimme5layerGimmeDB"
+        }
+      ]
+    },
+    "AMPLIFY_function_gimme5layerGimmeDB_s3Key": {
+      "usedBy": [
+        {
+          "category": "function",
+          "resourceName": "gimme5layerGimmeDB"
+        }
+      ]
     }
   }
 }

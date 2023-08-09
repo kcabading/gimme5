@@ -1,0 +1,22 @@
+{
+  "lambdaLayers": [
+    {
+      "type": "ProjectLayer",
+      "resourceName": "gimme5layerGimmeDB",
+      "env": "dev",
+      "version": "Always choose latest version",
+      "isLatestVersionSelected": true
+    }
+  ],
+  "secretNames": [],
+  "environmentVariableList": [
+    {
+      "cloudFormationParameterName": "mongodbConnectionString",
+      "environmentVariableName": "MONGODB_CONNECTION_STRING"
+    },
+    {
+      "cloudFormationParameterName": "mongodbConnectionString",
+      "environmentVariableName": "MONGODB_CONNECTION_STRING"
+    }
+  ]
+}

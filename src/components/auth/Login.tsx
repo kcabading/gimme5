@@ -5,19 +5,21 @@ import '@aws-amplify/ui-react/styles.css';
 
 import { useNavigate, useLocation } from 'react-router';
 
+import logo from '@/assets/gimme5-logo.png'
+
 export function Login() {
-  const { route } = useAuthenticator((context) => [context.route]);
-  const location = useLocation();
-  const navigate = useNavigate();
-  let from = location.state?.from?.pathname || '/';
-  useEffect(() => {
-    if (route === 'authenticated') {
-      navigate(from, { replace: true });
-    }
-  }, [route, navigate, from]);
-  return (
-    <View className="auth-wrapper">
-      <Authenticator></Authenticator>
-    </View>
-  );
+	const { route } = useAuthenticator((context) => [context.route]);
+	const location = useLocation();
+	const navigate = useNavigate();
+	let from = location.state?.from?.pathname || '/';
+	useEffect(() => {
+		if (route === 'authenticated') {
+		navigate(from, { replace: true });
+		}
+	}, [route, navigate, from]);
+	return (
+		<View className="auth-wrapper">
+			<Authenticator socialProviders={['facebook', 'google']}></Authenticator>
+		</View>
+	);
 }

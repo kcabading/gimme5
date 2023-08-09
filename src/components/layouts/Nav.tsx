@@ -46,18 +46,19 @@ const Navigation = function () {
         <>
             <nav className="w-full fixed backdrop-blur border-b border-slate-900/10 dark:border-slate-50/[0.06] bg-white/75 dark:bg-slate-900/75 py-3 max-lg:px-4 z-50">
                 <div className="z-10 lg:z-50 flex items-center justify-between w-full lg:w-3/4 m-auto">
-                    <h1 className="text-black font-bold font-mont text-lg dark:text-white">
-                        <Link to="/">Gimme 5</Link>
+                    <h1 className="text-red-500 font-extrabold text-lg dark:text-white">
+                        <Link to="/">Gimme5</Link>
                     </h1>
                     <div className="flex max-sm:hidden dark:text-white">
+                        <Link className="ml-3" to="/questions">Questions</Link>
                         <Link className="ml-3" to="/play">Play</Link>
                         <Link to="/leaderboards" className="ml-3" >Leaderboards</Link>
                     </div>
                     <div className="flex max-sm:hidden dark:text-white items-center">
                         {route !== 'authenticated' ? (
-                        <Button onClick={() => navigate('/signin')}>Login</Button>
+                        <Button className='bg-amber-500' onClick={() => navigate('/signin')}>Login</Button>
                         ) : (
-                        <Button onClick={() => logOut()}>Logout</Button>
+                        <Button className='bg-amber-500' onClick={() => logOut()}>Logout</Button>
                         )}
                         
                         <Link className="mx-3 text-2xl" to="/settings"><AiFillSetting/></Link>

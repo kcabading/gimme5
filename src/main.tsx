@@ -12,20 +12,22 @@ Amplify.configure(awsExports);
 
 import "./index.css";
 
-
 import { Authenticator } from '@aws-amplify/ui-react';
 import { RequireAuth } from '@/components/auth/RequireAuth.tsx';
 import Auth from './routes/auth.tsx';
 
-
-import './index.css'
 
 import {
   createBrowserRouter,
   RouterProvider,
 } from "react-router-dom";
 import Home from '@/routes/home.tsx';
+import Questions from '@/routes/questions.tsx';
+import QuestionsCreate from '@/routes/questionsCreate.tsx';
 
+import { QueryClientProvider } from '@tanstack/react-query'
+import { queryClient } from '@/lib/query.ts';
+import { ReactQueryDevtools } from '@tanstack/react-query-devtools'
 
 const router = createBrowserRouter([
   {
@@ -42,13 +44,17 @@ const router = createBrowserRouter([
         element: <Auth />
       },
       {
-        path: "play",
-        element: <RequireAuth><Play /></RequireAuth>,
+        path: 'questions',
+        element: <Questions />
       },
-      // {
-      //   path: "play/:id",
-      //   element: <Play />,
-      // },
+      {
+        path: 'questions/create',
+        element: <QuestionsCreate />
+      },
+      {
+        path: "play",
+        element: <RequireAuth><Play /></RequireAuth>
+      },
       {
         path: "leaderboards",
         element: <Leaderboards />
@@ -60,8 +66,11 @@ const router = createBrowserRouter([
 
 ReactDOM.createRoot(document.getElementById('root')!).render(
   <React.StrictMode>
-    <Authenticator.Provider>
-      <RouterProvider router={router} />
-    </Authenticator.Provider>
+    <QueryClientProvider client={queryClient}>
+      <Authenticator.Provider>
+        <RouterProvider router={router} />
+      </Authenticator.Provider>
+      <ReactQueryDevtools initialIsOpen={true} />
+    </QueryClientProvider>
   </React.StrictMode>,
 )

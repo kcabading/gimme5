@@ -9,11 +9,26 @@
       "UnauthRoleName": "amplify-gimme5-dev-15749-unauthRole",
       "StackName": "amplify-gimme5-dev-15749",
       "StackId": "arn:aws:cloudformation:us-east-1:193365704239:stack/amplify-gimme5-dev-15749/f0426440-3094-11ee-aa00-0eae7f17c02d",
-      "AmplifyAppId": "d3osxefc286uo0"
+      "AmplifyAppId": "d3osxefc286uo0",
+      "APIGatewayAuthURL": "https://s3.amazonaws.com/amplify-gimme5-dev-15749-deployment/amplify-cfn-templates/api/APIGatewayAuthStack.json"
     },
     "categories": {
       "auth": {
         "gimme50fe016aa": {}
+      },
+      "function": {
+        "gimme5Questions": {
+          "deploymentBucketName": "amplify-gimme5-dev-15749-deployment",
+          "s3Key": "amplify-builds/gimme5Questions-67515675574d59747676-build.zip",
+          "mongodbConnectionString": "mongodb+srv://admin:Kristi%40n25%21@cluster1.qgclqnk.mongodb.net/?retryWrites=true&w=majority"
+        },
+        "gimme5layerGimmeDB": {
+          "deploymentBucketName": "amplify-gimme5-dev-15749-deployment",
+          "s3Key": "amplify-builds/gimme5layerGimmeDB-LambdaLayerVersionc3e26d9e-build.zip"
+        }
+      },
+      "api": {
+        "gimme5": {}
       }
     }
   }

@@ -14,9 +14,10 @@ import Game from "@/components/game/Game";
 import Results from "@/components/game/Results";
 import { convertMSTimeToString } from "@/lib/utils";
 
+import { getQuestion } from "@/lib/api";
+
 export default function Play() {
 
-    console.log('RENDER')
     const inputRef = useRef<HTMLInputElement>(null)
 
     const playState = useBoundStore((state) => state.playState)
@@ -25,12 +26,18 @@ export default function Play() {
     const selectedCategory = useBoundStore((state) => state.selectedCategory)
     const setSelectedCategory = useBoundStore((state) => state.setSelectedCategory)
 
+    const selectedQuestion = useBoundStore((state) => state.question)
+    const setSelectedQuestion = useBoundStore((state) => state.setSelectedQuestion)
+    const setSelectedAnswers = useBoundStore((state) => state.setSelectedAnswers)
+    const gameLoading = useBoundStore((state) => state.gameLoading)
+    const setGameLoading = useBoundStore((state) => state.setGameLoading)
+    
+
     const answers = useBoundStore((state) => state.answers)
 
     const guesses = useBoundStore((state) => state.guesses)
     const setGuesses = useBoundStore((state) => state.setGuesses)
     const setNoOfCorrectAnswer = useBoundStore((state) => state.setNoOfCorrectAnswer)
-    
 
     const hintText = useBoundStore((state) => state.hintText)
     const setHintText = useBoundStore((state) => state.setHintText)
@@ -43,23 +50,24 @@ export default function Play() {
     const startTimer = useBoundStore((state) => state.startTimer)
     const setTimerSetting = useBoundStore((state) => state.setTimerSetting)
     
-
     const resetGameState = useBoundStore((state) => state.resetPlay)
-    
-    // const gimme5answers = ['Switzerland', 'Singapore', 'Spain', 'Samoa', 'Suriname']
-    const gimme5question = 'Magbigay ng Limang(5) Bansa na nagsisimula sa letter S?'
-    const gimme5hints = ['Ito ay nagsisimula sa letter S','HINT # 2', 'HINT # 3']
+    const gimme5hints = ['HINT# 1','HINT # 2', 'HINT # 3']
 
     const handleHintOpen = (hintNumber: number) => {
         setHintText(gimme5hints[hintNumber-1])
         setHintOpen(true)
     }
 
-    const handleSetCategory = (category: string) => {
+    const handleSetCategory = async (category: string) => {
+        setGameLoading(true)
         setSelectedCategory(category)
+        // get question based on selected category
+        let question = await getQuestion(category)
+        setSelectedQuestion(question.question)
+        setSelectedAnswers(question.answers)
+        setGameLoading(false)
         setTimerSetting(60, false)
         startTimer()
-
         setTimeout( ()=> {
             inputRef.current?.focus()
         }, 500)
@@ -111,7 +119,7 @@ export default function Play() {
                     </DialogHeader>
                 </DialogContent>
             </Dialog>
-            <div className="lg:w-3/4 max-sm:px-5">
+            <div className="lg:w-3/4 max-sm:px-5 w-full">
                 {
                     playState === 'SELECT' 
                     &&
@@ -120,10 +128,11 @@ export default function Play() {
                 {
                     playState === 'PLAY' 
                     &&
-                    <Game 
+                    <Game
                         ref={inputRef}
                         selectedCategory={selectedCategory}
-                        question={gimme5question}
+                        gameLoading={gameLoading}
+                        question={selectedQuestion}
                         answers={answers}
                         guesses={guesses}
                         handleHintOpen={handleHintOpen}
@@ -131,7 +140,7 @@ export default function Play() {
                     />
                 }
                 {
-                    playState === 'FINISHED' &&<Results />
+                    playState === 'FINISHED' && <Results />
                 }
             </div>
         </>

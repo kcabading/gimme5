@@ -22,7 +22,7 @@ const Results = () => {
 	return (
 		<>
 			<div className="gimme5-result text-center w-full">
-				<p className="font-bold text-2xl sm:text-4xl">TIMES UP!</p>
+				<p className="font-bold text-2xl sm:text-4xl">Game Results</p>
 			</div>
 			<div className="guesses text-center">
 				<Table>
