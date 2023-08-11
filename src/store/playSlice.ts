@@ -1,6 +1,11 @@
 
 import { StateCreator } from 'zustand'
-import { PlayStatusEnum, IPlaySlice } from '@/types/play'
+import { PlayStatusEnum, IPlaySlice, TGuessDetail } from '@/types/play'
+
+import { saveGameResult } from '@/lib/api'
+
+import { useBoundStore } from '@/store'
+import { convertMSTimeToString } from '@/lib/utils'
 
 const CATEGORIES = ['Tao', 'Bagay', 'Hayop', 'Pagkain', 'Lugar']
 
@@ -8,7 +13,7 @@ const initState = {
     categories: CATEGORIES,
     playState: PlayStatusEnum.SELECT,
     selectedCategory: '',
-    question: '',
+    question: { id: '', text: ''},
     answers: [],
     revealAnswers: false,
     gameLoading: false,
@@ -28,13 +33,39 @@ const initState = {
 export const createPlaySlice: StateCreator<IPlaySlice> = (set, get) => ({
     ...initState,
     setPlayState: (playState) => {
+        switch (playState) {
+            case PlayStatusEnum.FINISHED:
+                console.log('FINISHED', get().guesses)
+                // save game result
+                get().saveGameResult(get().guesses)
+                break;
+            default:
+                break;
+        }
+
         set({playState: playState})
     },
     setSelectedQuestion: (question) => {
-        set({question: question})
+        set({question: { id: question.id, text: question.text }})
     },
     setGameLoading: (loading) => {
         set({gameLoading: loading})
+    },
+    saveGameResult: (gameResult) => {
+        console.log('saving game result', gameResult)
+        gameResult.find((item: TGuessDetail) => item.isCorrect).time
+
+        let { timerString } = convertMSTimeToString(get().initialTime - get().timerMS)
+
+        let resultDetails = {
+            userName: useBoundStore.getState().userName,
+            questionId : get().question.id,
+            points: gameResult.filter( (item: TGuessDetail) => item.isCorrect).length,
+            firstAnswerTime: gameResult.find((item: TGuessDetail) => item.isCorrect).time,
+            completionTime: timerString
+        }
+
+        saveGameResult(resultDetails)
     },
     setSelectedAnswers: (answers) => {
         set({answers: answers})
@@ -46,8 +77,8 @@ export const createPlaySlice: StateCreator<IPlaySlice> = (set, get) => ({
         set({ selectedCategory: category})
         set({ playState: PlayStatusEnum.PLAY})
     },
-    setGuesses: (guess, time) => {
-        set( (state) => ({ guesses: [...state.guesses, { guess, time}]}))
+    setGuesses: (guess, time, isCorrect) => {
+        set( (state) => ({ guesses: [...state.guesses, { guess, time, isCorrect}]}))
     },
     setNoOfCorrectAnswer: () => {
         let noOfAnswers = get().answers.length
@@ -55,12 +86,10 @@ export const createPlaySlice: StateCreator<IPlaySlice> = (set, get) => ({
 
         if (noOfAnswers === noOfCorrectAnswer) { 
             get().stopTimer()
+            get().setPlayState(PlayStatusEnum.FINISHED)
         }
 
-        set({ 
-            noOfCorrectAnswer,
-            // playState: noOfAnswers === noOfCorrectAnswer ? PlayStatusEnum.FINISHED : get().playState
-        })
+        set({ noOfCorrectAnswer })
     },
     resetPlay: () => {
         get().resetTimer()
@@ -84,7 +113,6 @@ export const createPlaySlice: StateCreator<IPlaySlice> = (set, get) => ({
             if( get().playState === PlayStatusEnum.PLAY && get().timerMS === 0 ) {
                 get().stopTimer()
                 set({ timesUp: true })
-                // set({ playState: PlayStatusEnum.FINISHED })
                 return
             } else {
                 set( (state) => ({ timerMS: state.timerAscending ? state.timerMS + 1 : state.timerMS - 1 }))

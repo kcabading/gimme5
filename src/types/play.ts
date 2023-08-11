@@ -4,6 +4,11 @@ export enum PlayStatusEnum {
     FINISHED = "FINISHED"
 }
 
+export type TQuestion = {
+    id: string,
+    text: string
+}
+
 export type Thint = {
     text: string,
     used: boolean
@@ -11,12 +16,21 @@ export type Thint = {
 
 export type TGuessDetail = {
     guess: string,
-    time: string
+    time: string,
+    isCorrect: boolean
+}
+
+export type TGameResult = {
+    userId: string,
+    questionId: string,
+    points: number,
+    firstAnswerTime: string, 
+    dateTaken: Date
 }
 
 export interface IPlaySlice {
     playState: PlayStatusEnum, // SELECT | PLAY | FINISHED
-    question: string,
+    question: TQuestion,
     guesses: TGuessDetail[],
     answers: string[],
     revealAnswers: boolean,
@@ -27,11 +41,12 @@ export interface IPlaySlice {
     hintOpen: boolean,
     // setPlayState: (state: string) => void,
     setPlayState: (playState:PlayStatusEnum) => void,
-    setSelectedQuestion: (question: string) => void,
+    setSelectedQuestion: (question: TQuestion) => void,
     setSelectedAnswers: (answers: string[]) => void,
     setRevealAnswers: () => void,
     setGameLoading: (loading: boolean) => void,
-    setGuesses: (guess: string, time: string) => void,
+    saveGameResult: (gameResult: any) => void,
+    setGuesses: (guess: string, time: string, isCorrect: boolean) => void,
     setNoOfCorrectAnswer: () => void,
     setHintText: (hint: string) => void,
     setHintOpen: (hint: boolean) => void,

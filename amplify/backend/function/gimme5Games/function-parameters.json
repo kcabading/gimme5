@@ -1,8 +1,5 @@
 {
   "lambdaLayers": [],
-  "secretNames": [
-    "MONGODB_CONNECTION_STRING"
-  ],
   "environmentVariableList": [
     {
       "cloudFormationParameterName": "dbconPath",

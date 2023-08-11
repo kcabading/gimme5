@@ -28,6 +28,7 @@ import QuestionsCreate from '@/routes/questionsCreate.tsx';
 import { QueryClientProvider } from '@tanstack/react-query'
 import { queryClient } from '@/lib/query.ts';
 import { ReactQueryDevtools } from '@tanstack/react-query-devtools'
+import Settings from './routes/settings.tsx';
 
 const router = createBrowserRouter([
   {
@@ -56,13 +57,16 @@ const router = createBrowserRouter([
         element: <RequireAuth><Play /></RequireAuth>
       },
       {
+        path: "settings",
+        element: <RequireAuth><Settings /></RequireAuth>
+      },
+      {
         path: "leaderboards",
         element: <Leaderboards />
       }
     ],
   },
 ]);
-
 
 ReactDOM.createRoot(document.getElementById('root')!).render(
   <React.StrictMode>

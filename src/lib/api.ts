@@ -2,6 +2,8 @@
 import { API } from "aws-amplify";
 import { CreateFormSchema } from "@/routes/questionsCreate";
 
+import { TGameResult } from "@/types/play";
+
 const API_NAME = 'gimme5'
 
 export async function getQuestion(category: string) {
@@ -19,6 +21,37 @@ export async function getQuestions() {
           order: 'byPrice'
         }
     });
+    return items
+}
+
+export async function saveGameResult(gameData: any) {
+	console.log('SAVING TO API', gameData)
+	const postBody = {
+		body: gameData
+	};
+
+	const result =  await API.post(API_NAME, '/games', postBody);
+	return result
+}
+
+export async function getGameResults(userName: string) {
+	const items = await API.get(API_NAME, '/games', {
+        queryStringParameters: {
+          userName: userName
+        }
+    });
+    return items
+}
+
+
+export async function getUserProfile(email: string) {
+
+	const items = await API.get(API_NAME, '/users', {
+        queryStringParameters: {
+          email: email
+        }
+    });
+
     return items
 }
 

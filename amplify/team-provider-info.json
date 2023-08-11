@@ -14,12 +14,13 @@
     },
     "categories": {
       "auth": {
-        "gimme50fe016aa": {}
+        "gimme50fe016aa": {},
+        "userPoolGroups": {}
       },
       "function": {
         "gimme5Questions": {
           "deploymentBucketName": "amplify-gimme5-dev-15749-deployment",
-          "s3Key": "amplify-builds/gimme5Questions-326f566e4c3345423643-build.zip",
+          "s3Key": "amplify-builds/gimme5Questions-61664567787a37432f54-build.zip",
           "secretsPathAmplifyAppId": "d3osxefc286uo0",
           "dbconPath": "/amplify/d3osxefc286uo0/dev/AMPLIFY_gimme5Questions_MONGODB_CONNECTION_STRING",
           "region": "us-east-1"
@@ -27,6 +28,22 @@
         "gimme5layerGimmeDB": {
           "deploymentBucketName": "amplify-gimme5-dev-15749-deployment",
           "s3Key": "amplify-builds/gimme5layerGimmeDB-LambdaLayerVersionc3e26d9e-build.zip"
+        },
+        "gimme5PostSignup": {
+          "dbconPath": "/amplify/d3osxefc286uo0/dev/AMPLIFY_gimme5Questions_MONGODB_CONNECTION_STRING",
+          "region": "us-east-1",
+          "deploymentBucketName": "amplify-gimme5-dev-15749-deployment",
+          "s3Key": "amplify-builds/gimme5PostSignup-676f6e71696c4e616176-build.zip"
+        },
+        "gimme5UserProfiles": {
+          "deploymentBucketName": "amplify-gimme5-dev-15749-deployment",
+          "s3Key": "amplify-builds/gimme5UserProfiles-625442574f5678556b7a-build.zip"
+        },
+        "gimme5Games": {
+          "deploymentBucketName": "amplify-gimme5-dev-15749-deployment",
+          "s3Key": "amplify-builds/gimme5Games-305478447973734a7348-build.zip",
+          "dbconPath": "/amplify/d3osxefc286uo0/dev/AMPLIFY_gimme5Questions_MONGODB_CONNECTION_STRING",
+          "region": "us-east-1"
         }
       },
       "api": {

@@ -9,6 +9,22 @@
           ],
           "category": "function",
           "resourceName": "gimme5Questions"
+        },
+        {
+          "attributes": [
+            "Name",
+            "Arn"
+          ],
+          "category": "function",
+          "resourceName": "gimme5UserProfiles"
+        },
+        {
+          "attributes": [
+            "Name",
+            "Arn"
+          ],
+          "category": "function",
+          "resourceName": "gimme5Games"
         }
       ],
       "providerPlugin": "awscloudformation",
@@ -31,7 +47,9 @@
         "signupAttributes": [
           "EMAIL"
         ],
-        "socialProviders": [],
+        "socialProviders": [
+          "GOOGLE"
+        ],
         "usernameAttributes": [],
         "verificationMechanisms": [
           "EMAIL"
@@ -39,20 +57,43 @@
       },
       "providerPlugin": "awscloudformation",
       "service": "Cognito"
-    }
-  },
-  "function": {
-    "gimme5Questions": {
-      "build": true,
+    },
+    "userPoolGroups": {
       "dependsOn": [
         {
           "attributes": [
-            "Arn"
+            "UserPoolId",
+            "AppClientIDWeb",
+            "AppClientID",
+            "IdentityPoolId"
           ],
-          "category": "function",
-          "resourceName": "gimme5layerGimmeDB"
+          "category": "auth",
+          "resourceName": "gimme50fe016aa"
         }
       ],
+      "providerPlugin": "awscloudformation",
+      "service": "Cognito-UserPool-Groups"
+    }
+  },
+  "function": {
+    "gimme5Games": {
+      "build": true,
+      "providerPlugin": "awscloudformation",
+      "service": "Lambda"
+    },
+    "gimme5PostSignup": {
+      "build": true,
+      "providerPlugin": "awscloudformation",
+      "service": "Lambda"
+    },
+    "gimme5Questions": {
+      "build": true,
+      "dependsOn": [],
+      "providerPlugin": "awscloudformation",
+      "service": "Lambda"
+    },
+    "gimme5UserProfiles": {
+      "build": true,
       "providerPlugin": "awscloudformation",
       "service": "Lambda"
     },
@@ -63,6 +104,70 @@
     }
   },
   "parameters": {
+    "AMPLIFY_function_gimme5Games_dbconPath": {
+      "usedBy": [
+        {
+          "category": "function",
+          "resourceName": "gimme5Games"
+        }
+      ]
+    },
+    "AMPLIFY_function_gimme5Games_deploymentBucketName": {
+      "usedBy": [
+        {
+          "category": "function",
+          "resourceName": "gimme5Games"
+        }
+      ]
+    },
+    "AMPLIFY_function_gimme5Games_region": {
+      "usedBy": [
+        {
+          "category": "function",
+          "resourceName": "gimme5Games"
+        }
+      ]
+    },
+    "AMPLIFY_function_gimme5Games_s3Key": {
+      "usedBy": [
+        {
+          "category": "function",
+          "resourceName": "gimme5Games"
+        }
+      ]
+    },
+    "AMPLIFY_function_gimme5PostSignup_dbconPath": {
+      "usedBy": [
+        {
+          "category": "function",
+          "resourceName": "gimme5PostSignup"
+        }
+      ]
+    },
+    "AMPLIFY_function_gimme5PostSignup_deploymentBucketName": {
+      "usedBy": [
+        {
+          "category": "function",
+          "resourceName": "gimme5PostSignup"
+        }
+      ]
+    },
+    "AMPLIFY_function_gimme5PostSignup_region": {
+      "usedBy": [
+        {
+          "category": "function",
+          "resourceName": "gimme5PostSignup"
+        }
+      ]
+    },
+    "AMPLIFY_function_gimme5PostSignup_s3Key": {
+      "usedBy": [
+        {
+          "category": "function",
+          "resourceName": "gimme5PostSignup"
+        }
+      ]
+    },
     "AMPLIFY_function_gimme5Questions_dbconPath": {
       "usedBy": [
         {
@@ -100,6 +205,22 @@
         {
           "category": "function",
           "resourceName": "gimme5Questions"
+        }
+      ]
+    },
+    "AMPLIFY_function_gimme5UserProfiles_deploymentBucketName": {
+      "usedBy": [
+        {
+          "category": "function",
+          "resourceName": "gimme5UserProfiles"
+        }
+      ]
+    },
+    "AMPLIFY_function_gimme5UserProfiles_s3Key": {
+      "usedBy": [
+        {
+          "category": "function",
+          "resourceName": "gimme5UserProfiles"
         }
       ]
     },

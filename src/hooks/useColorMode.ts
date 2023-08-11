@@ -12,7 +12,7 @@ function useColorMode() {
         colorMode === 'dark' ? bodyClasses.add(darkMode) : bodyClasses.remove(darkMode)
     }, [colorMode])
     
-    return [colorMode, setColorMode]
+    return {colorMode, setColorMode}
 }
 
 export default useColorMode

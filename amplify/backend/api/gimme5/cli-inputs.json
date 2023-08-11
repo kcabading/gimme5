@@ -19,6 +19,20 @@
           "delete"
         ]
       }
+    },
+    "/users": {
+      "name": "/users",
+      "lambdaFunction": "gimme5UserProfiles",
+      "permissions": {
+        "setting": "open"
+      }
+    },
+    "/games": {
+      "name": "/games",
+      "lambdaFunction": "gimme5Games",
+      "permissions": {
+        "setting": "open"
+      }
     }
   }
 }

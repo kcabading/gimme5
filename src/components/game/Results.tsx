@@ -9,6 +9,7 @@ import {
 	TableHeader,
 	TableRow,
   } from "@/components/ui/table"
+import {Fragment} from "react"
   
 
 const Results = () => {
@@ -34,16 +35,17 @@ const Results = () => {
 						</TableRow>
 					</TableHeader>
 					<TableBody>
-						
 							{
-								guesses.map( (record) => {
+								guesses.map( (record, id) => {
 									let guessedAnswer = record.guess.toLowerCase()
 
 									return (
-										<TableRow className={`${answers.map(answer => answer.toLowerCase()).includes(guessedAnswer) ? 'bg-green-300' : 'bg-red-300'}`}>
-											<TableCell>{record.guess}</TableCell>
-											<TableCell>{record.time}</TableCell>
-										</TableRow>
+										<Fragment key={id}>
+											<TableRow className={`${answers.map(answer => answer.toLowerCase()).includes(guessedAnswer) ? 'bg-green-300' : 'bg-red-300'}`}>
+												<TableCell>{record.guess}</TableCell>
+												<TableCell>{record.time}</TableCell>
+											</TableRow>
+										</Fragment>
 									)
 								})
 							}

@@ -11,7 +11,7 @@ const Timer = () => {
             {
                 timesUp 
                 ?
-                <span className="text-red-500 font-bold text-4xl">TIMES UP!</span>
+                <span className="text-red-500 font-bold text-2xl sm:text-4xl">TIMES UP!</span>
                 :
                 <div className="timer font-bold text-4xl flex justify-center">
                     <span className="w-[50px]">{minutes}</span>:

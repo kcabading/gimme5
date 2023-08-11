@@ -1,7 +1,7 @@
 import Timer from "@/components/game/Timer";
 
-import { GiMagnifyingGlass } from "react-icons/gi";
-import { Input } from "@/components/ui/input";
+// import { GiMagnifyingGlass } from "react-icons/gi";
+// import { Input } from "@/components/ui/input";
 import { forwardRef } from "react";
 import { Skeleton } from "@/components/ui/skeleton"
 import { TGuessDetail } from "@/types/play";
@@ -9,9 +9,10 @@ import { useBoundStore } from "@/store";
 import { Button } from "@/components/ui/button";
 
 
-import { Eye, Table } from "lucide-react"
+import { Eye, Table, Undo } from "lucide-react"
 
 import { PlayStatusEnum } from '@/types/play'
+import { Input } from "../ui/input";
 
 
 
@@ -29,8 +30,14 @@ const Game = forwardRef<HTMLInputElement, IGameProps>(({selectedCategory, questi
 
     const timesUp = useBoundStore((state) => state.timesUp)
     const revealAnswers = useBoundStore((state) => state.revealAnswers)
+    const noOfCorrectAnswer = useBoundStore((state) => state.noOfCorrectAnswer)
     const setRevealAnswers = useBoundStore((state) => state.setRevealAnswers)
     const setPlayState = useBoundStore((state) => state.setPlayState)
+    const resetGameState = useBoundStore((state) => state.resetPlay)
+
+    const handleViewResults = () => {
+        setPlayState(PlayStatusEnum.FINISHED)
+    }
 
     return (
         <>
@@ -63,30 +70,37 @@ const Game = forwardRef<HTMLInputElement, IGameProps>(({selectedCategory, questi
                         <p className="text-lg sm:text-2xl"><span className="font-bold mb-5">Category</span>: {selectedCategory}</p>
                         <Timer />
                     </div>
-                    <div className="gimme5-question">
+                    <div className="gimme5-question mb-5">
                         <p className="text-2xl sm:text-4xl">{question}</p>
                     </div>
                     {
                         timesUp 
                         ?
-                        <div className='my-10 flex gap-4 justify-center'>
-                            <Button onClick={setRevealAnswers} variant={"secondary"}>
+                        <div className='my-5 flex gap-4 justify-center'>
+                            <Button onClick={setRevealAnswers} variant={"secondary"} className="text-xs sm:text-sm">
                                 <Eye className="mr-2 h-4 w-4"/>
                                 Reveal Answers
                             </Button>
-                            <Button variant={"secondary"} onClick={() => setPlayState(PlayStatusEnum.FINISHED)}>
-                                <Table className="mr-2 h-4 w-4"/>
-                                See Results
+                            {
+                                noOfCorrectAnswer > 0 && 
+                                <Button variant={"secondary"} onClick={() => handleViewResults()} className="text-xs sm:text-sm">
+                                    <Table className="mr-2 h-4 w-4"/>
+                                    Save &amp; View Results
+                                </Button>
+                            }
+                            <Button onClick={resetGameState} variant={"secondary"} className="text-xs sm:text-sm">
+                                <Undo className="mr-2 h-4 w-4"/>
+                                Try Again?
                             </Button>
                         </div>
                         :
-                        <div className="input-answer my-4 sm:w-1/2 m-auto">
+                        <div className="input-answer sm:w-1/2 m-auto mb-5">
                             <Input ref={inputRef} type="text" className="text-2xl sm:text-4xl border-4 focus-visible:ring-0 sm:p-8 p-6" placeholder="Start Typing..." onKeyUpCapture={ (e) => handleInputChange(e) }/>
-                            <div className="hints flex items-center justify-center mt-3 text-2xl">
+                            {/* <div className="hints flex items-center justify-center mt-3 text-2xl">
                                 <button className="mx-2 p-2 hover:bg-slate-200 rounded-lg" onClick={ () => handleHintOpen(1) }><GiMagnifyingGlass /></button>
                                 <button className="mx-2 p-2 hover:bg-slate-200 rounded-lg" onClick={ () => handleHintOpen(2) }><GiMagnifyingGlass /></button>
                                 <button className="mx-2 p-2 hover:bg-slate-200 rounded-lg" onClick={ () => handleHintOpen(3) }><GiMagnifyingGlass /></button>
-                            </div>
+                            </div> */}
                         </div>
                     }
                     
@@ -98,7 +112,7 @@ const Game = forwardRef<HTMLInputElement, IGameProps>(({selectedCategory, questi
                                 return (
                                     <button
                                         key={index}
-                                        className={`${index === 2 ? 'col-start-3' : ''} ${isCorrect ? 'border-green-300' : ''} ${!isCorrect && revealAnswers ? 'border-yellow-300' : ''} col-span-4 px-5 py-5 border-4 font-bold rounded-2xl text-2xl sm:text-4xl shadow-2xl`} 
+                                        className={`${index === 2 ? 'col-start-3' : ''} ${isCorrect ? 'border-green-300' : ''} ${!isCorrect && revealAnswers ? 'border-yellow-300 animate-in' : ''} col-span-4 px-5 py-5 border-4 font-bold rounded-2xl text-2xl sm:text-4xl shadow-2xl`} 
                                     >
                                         { isCorrect || revealAnswers ?  answer : <span className="font-bold">{index + 1}</span>}
                                     </button>

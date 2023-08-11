@@ -12,12 +12,12 @@ export function Login() {
 	let from = location.state?.from?.pathname || '/';
 	useEffect(() => {
 		if (route === 'authenticated') {
-		navigate(from, { replace: true });
+			navigate(from, { replace: true });
 		}
 	}, [route, navigate, from]);
 	return (
 		<View className="auth-wrapper">
-			<Authenticator socialProviders={['facebook', 'google']}></Authenticator>
+			<Authenticator></Authenticator>
 		</View>
 	);
 }

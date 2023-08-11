@@ -7,6 +7,8 @@ import { createQuestion } from "@/lib/api";
 
 import { Button } from "@/components/ui/button"
 import { FaSpinner } from "react-icons/fa"
+import { Loader } from 'lucide-react';
+
 
 import {
   Form,
@@ -56,7 +58,7 @@ export default function questionsCreate() {
 				duration: 5000
 			})
 			// ✅ refetch our questions
-			queryClient.invalidateQueries({ queryKey: ['questions'] })
+			queryClient.invalidateQueries({ queryKey: ['questions', 'gameResults'] })
 			console.log('invalidating question queries')
 		},
 	})
@@ -141,7 +143,7 @@ export default function questionsCreate() {
 						)}
 					/>
 					<Button type="submit">
-						<FaSpinner className={`${!mutation.isLoading && 'hidden'} animate-spin mr-2`} />Submit
+						<Loader className={`${!mutation.isLoading && 'hidden'} animate-spin mr-2`} />Submit
 					</Button>
 				</form>
 			</Form>

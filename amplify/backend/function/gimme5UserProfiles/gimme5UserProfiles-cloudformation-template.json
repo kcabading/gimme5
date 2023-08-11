@@ -1,6 +1,6 @@
 {
   "AWSTemplateFormatVersion": "2010-09-09",
-  "Description": "{\"createdOn\":\"Mac\",\"createdBy\":\"Amplify\",\"createdWith\":\"12.2.3\",\"stackType\":\"function-Lambda\",\"metadata\":{}}",
+  "Description": "{\"createdOn\":\"Mac\",\"createdBy\":\"Amplify\",\"createdWith\":\"12.2.4\",\"stackType\":\"function-Lambda\",\"metadata\":{}}",
   "Parameters": {
     "CloudWatchRule": {
       "Type": "String",
@@ -14,19 +14,6 @@
       "Type": "String"
     },
     "s3Key": {
-      "Type": "String"
-    },
-    "functiongimme5layerGimmeDBArn": {
-      "Type": "String",
-      "Default": "functiongimme5layerGimmeDBArn"
-    },
-    "secretsPathAmplifyAppId": {
-      "Type": "String"
-    },
-    "dbconPath": {
-      "Type": "String"
-    },
-    "region": {
       "Type": "String"
     }
   },
@@ -60,12 +47,12 @@
         "FunctionName": {
           "Fn::If": [
             "ShouldNotCreateEnvResources",
-            "gimme5Questions",
+            "gimme5UserProfiles",
             {
               "Fn::Join": [
                 "",
                 [
-                  "gimme5Questions",
+                  "gimme5UserProfiles",
                   "-",
                   {
                     "Ref": "env"
@@ -80,33 +67,8 @@
             "ENV": {
               "Ref": "env"
             },
-            "MONGODB_CONNECTION_STRING": {
-              "Fn::Join": [
-                "",
-                [
-                  {
-                    "Fn::Sub": [
-                      "/amplify/${appId}/${env}/AMPLIFY_${functionName}_",
-                      {
-                        "appId": {
-                          "Ref": "secretsPathAmplifyAppId"
-                        },
-                        "env": {
-                          "Ref": "env"
-                        },
-                        "functionName": "gimme5Questions"
-                      }
-                    ]
-                  },
-                  "MONGODB_CONNECTION_STRING"
-                ]
-              ]
-            },
-            "DBCON_PATH": {
-              "Ref": "dbconPath"
-            },
             "REGION": {
-              "Ref": "region"
+              "Ref": "AWS::Region"
             }
           }
         },
@@ -127,12 +89,12 @@
         "RoleName": {
           "Fn::If": [
             "ShouldNotCreateEnvResources",
-            "gimme5LambdaRole2421aa72",
+            "gimme5LambdaRolecd25d61f",
             {
               "Fn::Join": [
                 "",
                 [
-                  "gimme5LambdaRole2421aa72",
+                  "gimme5LambdaRolecd25d61f",
                   "-",
                   {
                     "Ref": "env"
@@ -202,63 +164,6 @@
           ]
         }
       }
-    },
-    "AmplifyFunctionSecretsPolicy": {
-      "Type": "AWS::IAM::Policy",
-      "Properties": {
-        "PolicyName": "amplify-function-secrets-policy",
-        "Roles": [
-          {
-            "Ref": "LambdaExecutionRole"
-          }
-        ],
-        "PolicyDocument": {
-          "Version": "2012-10-17",
-          "Statement": [
-            {
-              "Effect": "Allow",
-              "Action": [
-                "ssm:GetParameter",
-                "ssm:GetParameters"
-              ],
-              "Resource": {
-                "Fn::Join": [
-                  "",
-                  [
-                    "arn:aws:ssm:",
-                    {
-                      "Ref": "AWS::Region"
-                    },
-                    ":",
-                    {
-                      "Ref": "AWS::AccountId"
-                    },
-                    ":parameter",
-                    {
-                      "Fn::Sub": [
-                        "/amplify/${appId}/${env}/AMPLIFY_${functionName}_",
-                        {
-                          "appId": {
-                            "Ref": "secretsPathAmplifyAppId"
-                          },
-                          "env": {
-                            "Ref": "env"
-                          },
-                          "functionName": "gimme5Questions"
-                        }
-                      ]
-                    },
-                    "*"
-                  ]
-                ]
-              }
-            }
-          ]
-        }
-      },
-      "DependsOn": [
-        "LambdaExecutionRole"
-      ]
     }
   },
   "Outputs": {

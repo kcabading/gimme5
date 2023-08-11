@@ -2,7 +2,7 @@ import { useState, useEffect } from 'react'
 import useColorMode from "@/hooks/useColorMode"
 import { Link } from 'react-router-dom'
 
-import { AiOutlineMenu, AiOutlineClose, AiFillSetting, AiFillFacebook, AiFillInstagram}  from "react-icons/ai";
+import { AiOutlineMenu, AiOutlineClose, AiFillFacebook, AiFillInstagram}  from "react-icons/ai";
 
 import { BsSun, BsMoon } from "react-icons/bs";
 
@@ -11,12 +11,17 @@ import { useNavigate } from 'react-router-dom';
 import { useAuthenticator } from '@aws-amplify/ui-react';
 import { Button } from '@/components/ui/button';
 
+import { Cog, Loader, LogIn, LogOut, Moon, Sun } from 'lucide-react';
+
 const Navigation = function () {
 
     const { route, signOut } = useAuthenticator((context) => [
-        context.route,
+        context.user,
         context.signOut,
     ]);
+
+    console.log('ROUTE', route)
+
     const navigate = useNavigate();
 
     function logOut() {
@@ -26,8 +31,7 @@ const Navigation = function () {
 
     const [switcheEnabled, setSwitchEnabled] = useState(false)
     const [mobileNavEnabled, setMobileNavEnabled] = useState(false)
-    const [colorMode, setColorMode] = useColorMode()
-    console.log(colorMode)
+    const {setColorMode} = useColorMode()
 
     const handleNavClick = function(link: string) {
         setMobileNavEnabled(false)
@@ -56,14 +60,16 @@ const Navigation = function () {
                     </div>
                     <div className="flex max-sm:hidden dark:text-white items-center">
                         {route !== 'authenticated' ? (
-                        <Button className='bg-amber-500' onClick={() => navigate('/signin')}>Login</Button>
+                        <Button onClick={() => navigate('/signin')} variant={'secondary'}>
+                            { route === 'idle' ? <><Loader className='animate-spin'/>&nbsp; Logging in</> : <><LogIn />&nbsp; Login</>}                            
+                        </Button>
                         ) : (
-                        <Button className='bg-amber-500' onClick={() => logOut()}>Logout</Button>
+                        <Button onClick={() => logOut()} variant={'secondary'}><LogOut/> &nbsp; Logout</Button>
                         )}
                         
-                        <Link className="mx-3 text-2xl" to="/settings"><AiFillSetting/></Link>
+                        <Link className="mx-3 text-2xl" to="/settings"><Cog/></Link>
                         <button className="p-3 rounded-md hover:text-black hover:bg-slate-100" onClick={toggleTheme}>
-                           { switcheEnabled ? <BsMoon /> : <BsSun /> }
+                           { switcheEnabled ? <Moon /> : <Sun /> }
                         </button>
                     </div>
                     {
@@ -79,13 +85,14 @@ const Navigation = function () {
                 <div className="flex flex-col">
                     <div className="w-full flex text-xl">
                         {route !== 'authenticated' ? (
-                        <Button onClick={() => navigate('/signin')}>Login</Button>
+                        <Button onClick={() => handleNavClick('/signin')} variant={'secondary'}><LogIn/>&nbsp;Login</Button>
                         ) : (
-                        <Button onClick={() => logOut()}>Logout</Button>
+                        <Button onClick={() => logOut()} variant={'secondary'}><LogOut/>&nbsp;Logout</Button>
                         )}
                     </div>
                     <button onClick={ () => handleNavClick('/play')} className="text-xl my-3 text-left">Play</button>
                     <button onClick={ () => handleNavClick('/leaderboards')} className="text-xl my-3 text-left">Leaderboards</button>
+                    <button onClick={ () => handleNavClick('/settings')} className="text-xl my-3 text-left">Settings</button>
                     <div className="text-xl flex justify-between my-3">
                         <label htmlFor="">Dark Mode</label>
                         <button className="ml-3 px-3 rounded-md hover:text-black hover:bg-slate-100" onClick={toggleTheme}>
