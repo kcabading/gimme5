@@ -2,8 +2,6 @@
 import { API } from "aws-amplify";
 import { CreateFormSchema } from "@/routes/questionsCreate";
 
-import { TGameResult } from "@/types/play";
-
 const API_NAME = 'gimme5'
 
 export async function getQuestion(category: string) {

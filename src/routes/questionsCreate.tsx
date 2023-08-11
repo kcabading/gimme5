@@ -6,7 +6,6 @@ import { queryClient } from "@/lib/query"
 import { createQuestion } from "@/lib/api";
 
 import { Button } from "@/components/ui/button"
-import { FaSpinner } from "react-icons/fa"
 import { Loader } from 'lucide-react';
 
 

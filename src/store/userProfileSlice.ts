@@ -23,7 +23,7 @@ const initState = {
     friends: []
 }
 
-export const createUserProfileSlice:StateCreator<IUserProfileSlice> = (set, get) => ({
+export const createUserProfileSlice:StateCreator<IUserProfileSlice> = (set) => ({
     ...initState,
     updateProfile: (user) => {
         set(user)

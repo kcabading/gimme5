@@ -26,7 +26,7 @@ type IGameProps = {
     handleHintOpen: (hint: number) => void,
 }
 
-const Game = forwardRef<HTMLInputElement, IGameProps>(({selectedCategory, question, answers, gameLoading, guesses, handleInputChange, handleHintOpen}: IGameProps, inputRef) => {
+const Game = forwardRef<HTMLInputElement, IGameProps>(({selectedCategory, question, answers, gameLoading, guesses, handleInputChange}: IGameProps, inputRef) => {
 
     const timesUp = useBoundStore((state) => state.timesUp)
     const revealAnswers = useBoundStore((state) => state.revealAnswers)
