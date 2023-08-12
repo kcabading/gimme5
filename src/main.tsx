@@ -46,7 +46,7 @@ const router = createBrowserRouter([
       },
       {
         path: 'questions',
-        element: <Questions />
+        element: <RequireAuth><Questions /></RequireAuth>
       },
       {
         path: 'questions/create',

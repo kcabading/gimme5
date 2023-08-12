@@ -80,6 +80,7 @@ export default function Play() {
             if (inputRef.current !== null) {
                 let guessedAnswer = (inputRef.current?.value).toLowerCase()
                 if (!guesses.map(r => r.guess).includes(guessedAnswer)) {
+
                     let {timerString} = convertMSTimeToString(initialTime - timerMS)
                     
                     if (answers.map(answer => answer.toLowerCase()).includes(guessedAnswer)) {
@@ -121,7 +122,7 @@ export default function Play() {
                     </DialogHeader>
                 </DialogContent>
             </Dialog>
-            <div className="lg:w-3/4 max-sm:px-5 w-full">
+            <div className="w-full">
                 {
                     playState === 'SELECT' 
                     &&

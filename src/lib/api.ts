@@ -7,17 +7,26 @@ const API_NAME = 'gimme5'
 export async function getQuestion(category: string) {
 	const item = await API.get(API_NAME, '/questions', {
         queryStringParameters: {
-          category: category
+			play: true,
+          	category: category
         }
     });
     return item
 }
 
-export async function getQuestions() {
+export async function getQuestions(userName? : string) {
+
+	console.log('API get questions', userName)
+	let params = {}
+
+	if (userName) {
+		params = {
+			userName: userName
+		}
+	}
+
     const items = await API.get(API_NAME, '/questions', {
-        queryStringParameters: {
-          order: 'byPrice'
-        }
+        queryStringParameters: params
     });
     return items
 }

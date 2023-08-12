@@ -12,16 +12,16 @@ export default function Root() {
 	
     const userName =  useBoundStore.getState().userName
 	const updateProfile = useBoundStore((state) => state.updateProfile)
-	
+	console.log('user', user)
 	if (!userName && user) {
 		console.log('updating user')
-		updateProfile({ userName : user.username!})
+		updateProfile({ userName : user.username!, email: user.attributes?.email!})
 	}	
 
     return (
       <>
         <Nav />
-        <main className="flex flex-col items-center w-full m-auto dark:bg-slate-900 dark:text-white pt-24 sm:pt-28">
+        <main className="sm:w-3/4 max-lg:px-4 items-center w-full m-auto pt-24 sm:pt-28">
             <Outlet />
         </main>
         <Toaster />

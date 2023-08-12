@@ -4,7 +4,7 @@ import { Link } from 'react-router-dom'
 
 function Home() {
 	return (
-		<div className='lg:w-3/4 max-lg:px-4'>
+		<>
 			<div className="intro flex flex-col sm:flex-row mb-20">
 				<div className="max-sm:pb-10 text-center">
 					<img src={logo} alt="logo" width={200} className='m-auto mb-5' />
@@ -27,7 +27,7 @@ function Home() {
 					</div>
 				</div>
 			</div>
-		</div>
+		</>
 	)
 }
 

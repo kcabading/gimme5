@@ -1,11 +1,11 @@
-import { GiPerson, GiPoloShirt, GiSittingDog, GiCakeSlice, GiTreasureMap   } from "react-icons/gi";
+import { Apple, Cat, MapPin, PersonStanding, Shirt } from 'lucide-react';
 
 type ICategorySelectProps = {
     categories: string[],
     handleCategorySelect: (category: string) => void
 }
 
-let categoryImage = [<GiPerson />, <GiPoloShirt/>, <GiSittingDog/>, <GiCakeSlice/>, <GiTreasureMap/>]
+let categoryImage = [<PersonStanding className='w-full h-12' />, <Shirt className='w-full h-12'/>, <Cat className='w-full h-12'/>, <Apple className='w-full h-12'/>, <MapPin className='w-full h-12'/>]
 
 const CategorySelect = ({categories, handleCategorySelect}: ICategorySelectProps ) => {
     return (

@@ -41,38 +41,35 @@ function Settings() {
 				? ('Loading...')
 				:
 				<>
-					<div className="lg:w-3/4 max-sm:px-5 w-full">
-						<Table>
-							<TableCaption>A list of your recent games.</TableCaption>
-							<TableHeader>
-								<TableRow>
-								<TableHead className="w-[100px]">QuestionId</TableHead>
-								<TableHead className="text-center">Points</TableHead>
-								<TableHead>First Answer Time</TableHead>
-								<TableHead>Completion Time</TableHead>
-								<TableHead className="text-right">Date Taken</TableHead>
+					<Table>
+						<TableCaption>A list of your recent games.</TableCaption>
+						<TableHeader>
+							<TableRow>
+							<TableHead className="w-[100px]">QuestionId</TableHead>
+							<TableHead className="text-center">Points</TableHead>
+							<TableHead>First Answer Time</TableHead>
+							<TableHead>Completion Time</TableHead>
+							<TableHead className="text-right">Date Taken</TableHead>
+							</TableRow>
+						</TableHeader>
+						<TableBody>
+						{
+							games?.map( (game, index) => {
+								let formattedDate = new Date(game.dateEntered).toLocaleString()
+							return (
+								<TableRow key={index}>
+									<TableCell className="font-medium">{game.questionId}</TableCell>
+									<TableCell className="text-center">{game.points}</TableCell>
+									<TableCell>{game.firstAnswerTime}</TableCell>
+									<TableCell>{game.completionTime}</TableCell>
+									<TableCell className="text-right">{formattedDate}</TableCell>
 								</TableRow>
-							</TableHeader>
-							<TableBody>
-							{
-								games?.map( (game, index) => {
-									let formattedDate = new Date(game.dateEntered).toLocaleString()
-								return (
-									<TableRow key={index}>
-										<TableCell className="font-medium">{game.questionId}</TableCell>
-										<TableCell className="text-center">{game.points}</TableCell>
-										<TableCell>{game.firstAnswerTime}</TableCell>
-										<TableCell>{game.completionTime}</TableCell>
-										<TableCell className="text-right">{formattedDate}</TableCell>
-									</TableRow>
-								)})
-							}
-							</TableBody>
-						</Table>
-					</div>
+							)})
+						}
+						</TableBody>
+					</Table>
 				</>
 			}
-			<div>Settings page</div>
 		</>
 	)
 }
