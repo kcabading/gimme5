@@ -75,7 +75,6 @@ export const createPlaySlice: StateCreator<IPlaySlice> = (set, get) => ({
     },
     setSelectedCategory: (category) => {
         set({ selectedCategory: category})
-        set({ playState: PlayStatusEnum.PLAY})
     },
     setGuesses: (guess, time, isCorrect) => {
         set( (state) => ({ guesses: [...state.guesses, { guess, time, isCorrect}]}))

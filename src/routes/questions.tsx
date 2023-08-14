@@ -1,6 +1,6 @@
 import { getQuestions } from "@/lib/api";
 import { useQuery } from "@tanstack/react-query";
-import { Link } from "react-router-dom";
+import { Link, useNavigate} from "react-router-dom";
 import {
 	Table,
 	TableBody,
@@ -13,6 +13,7 @@ import {
 
 import { useAuthenticator } from "@aws-amplify/ui-react";
 import { Button } from "@/components/ui/button";
+import { Skeleton } from "@/components/ui/skeleton";
 
 type Question = {
     _id: string,
@@ -26,7 +27,9 @@ type Question = {
 
 const Questions = () => {
     const { user } = useAuthenticator((context) => [context.user])
-    
+
+    const navigate = useNavigate();
+
     const { data: questions, isLoading } = useQuery<Question[]>({
         queryKey: ['questions', user.username],
         queryFn: async () => getQuestions(user.username)
@@ -34,6 +37,19 @@ const Questions = () => {
 
     console.log('questions', questions)
     console.log('IS LOADING', isLoading)
+
+    const handlePlayButton = (questionId: string) => {
+        navigate(`/play?questionId=${questionId}`)
+    }
+
+    const handleShareButton = (questionId: string) => {
+        navigate(`/play/${questionId}`)
+    }
+
+    const handleDeleteButton = (questionId: string) => {
+        navigate(`/play/${questionId}`)
+    }
+
     return (
         <>
             <div className="flex justify-between items-center mb-5">
@@ -48,7 +64,28 @@ const Questions = () => {
             
             {
                 isLoading 
-                ? <>Loading...</>
+                ? 
+                <>
+                    <div className="gimme5-game-loading w-full">
+                        <div className="grid grid-cols-7 gap-4">
+                            {
+                            [1,2,3,4,5,6,7].map( () => {
+                                return (
+                                    <>
+                                        <Skeleton className="s:w-[200px] w-[250px] h-[50px] rounded-md" />
+                                        <Skeleton className="s:w-[200px] w-[150px] h-[50px] rounded-md" />
+                                        <Skeleton className="s:w-[200px] w-[150px] h-[50px] rounded-md" />
+                                        <Skeleton className="s:w-[200px] w-[150px] h-[50px] rounded-md" />
+                                        <Skeleton className="s:w-[200px] w-[150px] h-[50px] rounded-md" />
+                                        <Skeleton className="s:w-[200px] w-[150px] h-[50px] rounded-md" />
+                                        <Skeleton className="s:w-[200px] w-[150px] h-[50px] rounded-md" />
+                                    </>
+                                )
+                            })
+                            }
+                        </div>
+                    </div>
+                </>
                 : <ul>
                 {
                     <>
@@ -67,7 +104,7 @@ const Questions = () => {
                             </TableHeader>
                             <TableBody>
                             {
-                                questions?.length && questions.map( (item, index) => {
+                                questions?.map( (item, index) => {
                                     // let formattedDate = new Date(game.dateEntered).toLocaleString()
                                 return (
                                     <TableRow key={index}>
@@ -78,9 +115,9 @@ const Questions = () => {
                                         <TableCell className="text-center">{item.noOfTimesCompleted}</TableCell>
                                         <TableCell>{item.bestTimeCompleted}</TableCell>
                                         <TableCell className="text-right flex">
-                                            <Button variant={"default"}>Play</Button>
-                                            <Button variant={'secondary'}>Share</Button>
-                                            <Button variant={"destructive"}>Delete</Button>
+                                            <Button variant={"default"} onClick={ () => handlePlayButton(item._id)}>Play</Button>
+                                            <Button className="mx-2" variant={'secondary'} onClick={ () =>handleShareButton(item._id)}>Share</Button>
+                                            <Button variant={"destructive"} onClick={ () =>handleDeleteButton(item._id)}>Delete</Button>
                                         </TableCell>
                                     </TableRow>
                                 )})

@@ -14,12 +14,19 @@ import Game from "@/components/game/Game";
 import Results from "@/components/game/Results";
 import { convertMSTimeToString } from "@/lib/utils";
 import { getQuestion } from "@/lib/api";
+import { useSearchParams } from "react-router-dom";
+import { PlayStatusEnum } from "@/types/play";
 
 export default function Play() {
 
+    console.log('PLAY RENDER')
+
     const inputRef = useRef<HTMLInputElement>(null)
 
+    const [searchParams] = useSearchParams();
+
     const playState = useBoundStore((state) => state.playState)
+    const setPlayState = useBoundStore((state) => state.setPlayState)
     const playCategories= useBoundStore((state) => state.categories)
 
     const selectedCategory = useBoundStore((state) => state.selectedCategory)
@@ -52,27 +59,34 @@ export default function Play() {
     const resetGameState = useBoundStore((state) => state.resetPlay)
     const gimme5hints = ['HINT# 1','HINT # 2', 'HINT # 3']
 
-
-
     const handleHintOpen = (hintNumber: number) => {
         setHintText(gimme5hints[hintNumber-1])
         setHintOpen(true)
     }
 
-    const handleSetCategory = async (category: string) => {
+    const handleSetCategory = async (category: string, questionId?: string) => {
+        let question
         setGameLoading(true)
-        setSelectedCategory(category)
-        // get question based on selected category
-        let question = await getQuestion(category)
+        setPlayState(PlayStatusEnum.PLAY)
+        // get question based on selected category and question id
+        if (category || questionId) {
+            question = await getQuestion(category, questionId)
+        } else if (category) {
+            question = await getQuestion(category)
+        }
 
-        setSelectedQuestion({id: question._id, text: question.question})
-        setSelectedAnswers(question.answers)
+        if (question?.data) {
+            setSelectedQuestion({id: question.data._id, text: question.data.question})
+            setSelectedAnswers(question.data.answers)
+            setSelectedCategory(question.data.category)
+            setTimerSetting(60, false)
+            startTimer()
+            setTimeout( ()=> {
+                inputRef.current?.focus()
+            }, 500)
+        }
+
         setGameLoading(false)
-        setTimerSetting(60, false)
-        startTimer()
-        setTimeout( ()=> {
-            inputRef.current?.focus()
-        }, 500)
     }
 
     const handleInputChange = (e:React.KeyboardEvent<HTMLInputElement>) => {
@@ -105,6 +119,18 @@ export default function Play() {
 
     useEffect(() => {
         resetGameState()
+        console.log(searchParams)
+
+        if (searchParams.has('questionId') || searchParams.has('category')) {
+            let qQuestionId = searchParams.get('questionId') as string
+            let qCategory = searchParams.get('category') as string
+            
+            if (qQuestionId || qCategory) {
+                console.log('setting category')
+                handleSetCategory(qCategory, qQuestionId)
+            }
+        }
+        
         return () => {
             resetGameState()
         }
@@ -122,7 +148,7 @@ export default function Play() {
                     </DialogHeader>
                 </DialogContent>
             </Dialog>
-            <div className="w-full">
+            <div className="w-full mb-10">
                 {
                     playState === 'SELECT' 
                     &&

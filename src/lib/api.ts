@@ -1,15 +1,24 @@
 
 import { API } from "aws-amplify";
 import { CreateFormSchema } from "@/routes/questionsCreate";
+import { queryClient } from "./query";
 
 const API_NAME = 'gimme5'
 
-export async function getQuestion(category: string) {
+export async function getQuestion(category: string, questionId? : string) {
+
+	const queryStrings: Record<string, any> = {
+		play: true,
+		category
+	}
+
+	if (questionId) {
+		queryStrings.questionId = questionId
+	}
+	console.log('query params', queryStrings)
+
 	const item = await API.get(API_NAME, '/questions', {
-        queryStringParameters: {
-			play: true,
-          	category: category
-        }
+        queryStringParameters: queryStrings
     });
     return item
 }
@@ -28,7 +37,8 @@ export async function getQuestions(userName? : string) {
     const items = await API.get(API_NAME, '/questions', {
         queryStringParameters: params
     });
-    return items
+
+    return items.data
 }
 
 export async function saveGameResult(gameData: any) {
@@ -38,6 +48,7 @@ export async function saveGameResult(gameData: any) {
 	};
 
 	const result =  await API.post(API_NAME, '/games', postBody);
+	queryClient.invalidateQueries({ queryKey: ['gameResults'] })
 	return result
 }
 

@@ -1,4 +1,3 @@
-import React from 'react'
 import ReactDOM from 'react-dom/client'
 
 import Root from "./routes/root";
@@ -69,12 +68,12 @@ const router = createBrowserRouter([
 ]);
 
 ReactDOM.createRoot(document.getElementById('root')!).render(
-  <React.StrictMode>
+  // <React.StrictMode>
     <QueryClientProvider client={queryClient}>
       <Authenticator.Provider>
         <RouterProvider router={router} />
       </Authenticator.Provider>
       <ReactQueryDevtools initialIsOpen={true} />
     </QueryClientProvider>
-  </React.StrictMode>,
+  // </React.StrictMode>,
 )

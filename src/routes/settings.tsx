@@ -1,6 +1,5 @@
 import { useQuery } from "@tanstack/react-query"
 import { getGameResults } from "@/lib/api"
-import { useBoundStore } from "@/store"
 
 import {
 	Table,
@@ -11,6 +10,7 @@ import {
 	TableHeader,
 	TableRow,
   } from "@/components/ui/table"
+import { useAuthenticator } from "@aws-amplify/ui-react"
 
 type TGame = {
     _id: string,
@@ -29,8 +29,9 @@ const gameListQuery = (userName: string) => ({
 })
 
 function Settings() {
-	const userName = useBoundStore.getState().userName
-	const { data: games, isLoading } = useQuery<TGame[]>(gameListQuery(userName))
+	const { user } = useAuthenticator((context) => [context.user])
+
+	const { data: games, isLoading } = useQuery<TGame[]>(gameListQuery(user.username!))
 
 	console.log(games)
 

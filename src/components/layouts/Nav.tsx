@@ -11,16 +11,14 @@ import { useNavigate } from 'react-router-dom';
 import { useAuthenticator } from '@aws-amplify/ui-react';
 import { Button } from '@/components/ui/button';
 
-import { Cog, Loader, LogIn, LogOut, Moon, Sun } from 'lucide-react';
+import { Cog, LogIn, LogOut, Moon, Sun } from 'lucide-react';
 
 const Navigation = function () {
 
-    const { route, signOut } = useAuthenticator((context) => [
+    const { authStatus, signOut } = useAuthenticator((context) => [
         context.user,
-        context.signOut,
+        context.signOut
     ]);
-
-    console.log('ROUTE', route)
 
     const navigate = useNavigate();
 
@@ -59,9 +57,9 @@ const Navigation = function () {
                         <Link to="/leaderboards" className="ml-3" >Leaderboards</Link>
                     </div>
                     <div className="flex max-sm:hidden dark:text-white items-center">
-                        {route !== 'authenticated' ? (
+                        {authStatus === 'unauthenticated' ? (
                         <Button onClick={() => navigate('/signin')} variant={'secondary'}>
-                            { route === 'idle' ? <><Loader className='animate-spin'/>&nbsp; Logging in</> : <><LogIn />&nbsp; Login</>}                            
+                            <><LogIn />&nbsp; Login</>
                         </Button>
                         ) : (
                         <Button onClick={() => logOut()} variant={'secondary'}><LogOut/> &nbsp; Logout</Button>
@@ -84,7 +82,7 @@ const Navigation = function () {
                 mt-[50px] w-full h-full fixed bg-slate-800/90 transition-right ease-in-out duration-200 sm:hidden p-5 text-white z-50`}>
                 <div className="flex flex-col">
                     <div className="w-full flex text-xl">
-                        {route !== 'authenticated' ? (
+                        {authStatus === 'unauthenticated' ? (
                         <Button onClick={() => handleNavClick('/signin')} variant={'secondary'}><LogIn/>&nbsp;Login</Button>
                         ) : (
                         <Button onClick={() => logOut()} variant={'secondary'}><LogOut/>&nbsp;Logout</Button>

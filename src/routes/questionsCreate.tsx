@@ -6,7 +6,7 @@ import { queryClient } from "@/lib/query"
 import { createQuestion } from "@/lib/api";
 
 import { Button } from "@/components/ui/button"
-import { Apple, Cat, Loader, MapPin, PersonStanding, Shirt } from 'lucide-react';
+import { Apple, ArrowLeft, Cat, Loader, MapPin, PersonStanding, Shirt } from 'lucide-react';
 
 import {
   Form,
@@ -30,7 +30,7 @@ import { Textarea } from "@/components/ui/textarea"
 import { useMutation } from "@tanstack/react-query"
 import { useToast } from "@/components/ui/use-toast";
 import { useAuthenticator } from "@aws-amplify/ui-react";
-
+import { Link } from "react-router-dom";
 
 export const CreateFormSchema = z.object({
 	question: z.string().min(10, {
@@ -85,8 +85,9 @@ export default function questionsCreate() {
 
 	return (
 		<>
+			<Link to={'/questions'}><Button variant={'secondary'} className="mb-5"><ArrowLeft />&nbsp;Go Back to your Questions</Button></Link>
 			<Form {...form}>
-				<form onSubmit={form.handleSubmit(onSubmit)} className="space-y-2 sm:w-1/2 w-full sm:p-0">
+				<form onSubmit={form.handleSubmit(onSubmit)} className="space-y-2 sm:w-1/2 w-full sm:p-0 mb-10">
 					<FormField
 						control={form.control}
 						name="question"
