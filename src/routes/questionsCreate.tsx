@@ -41,6 +41,7 @@ export const CreateFormSchema = z.object({
     }),
 	answers: z.string().refine( (inputAnswers) => {
 		let allAnswers = [...new Set(inputAnswers.split('\n').filter(answer => answer !== '')) ]
+		console.log('ALL ANSWERS', allAnswers)
 		return allAnswers.length === 5
 	}, {
 		message: "The possible answers should be at least 5 and each answer must be unique",
@@ -52,6 +53,17 @@ export default function questionsCreate() {
 	const { user } = useAuthenticator((context) => [context.user])
 
 	const { toast } = useToast()
+
+	const form = useForm<z.infer<typeof CreateFormSchema>>({
+		resolver: zodResolver(CreateFormSchema),
+		defaultValues: {
+			question: "Magbigay ng 5 ...",
+			category: "",
+			answers: ""
+		},
+	})
+
+
 	const mutation = useMutation({
 		mutationFn: (payload: any) => createQuestion(payload),
 		onSuccess: () => {
@@ -63,15 +75,7 @@ export default function questionsCreate() {
 			// ✅ refetch our questions
 			queryClient.invalidateQueries({ queryKey: ['questions', user.username] })
 			console.log('invalidating question queries')
-		},
-	})
-
-	const form = useForm<z.infer<typeof CreateFormSchema>>({
-		resolver: zodResolver(CreateFormSchema),
-		defaultValues: {
-			question: "Magbigay ng 5 ...",
-			category: "",
-			answers: ""
+			form.reset()
 		},
 	})
 

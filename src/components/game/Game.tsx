@@ -5,10 +5,7 @@ import { Skeleton } from "@/components/ui/skeleton"
 import { TGuessDetail } from "@/types/play";
 import { useBoundStore } from "@/store";
 import { Button } from "@/components/ui/button";
-
-
 import { ArrowLeft, Eye, Table, Undo } from "lucide-react"
-
 import { PlayStatusEnum } from '@/types/play'
 import { Input } from "../ui/input";
 import { useNavigate, useSearchParams } from "react-router-dom";
@@ -26,9 +23,8 @@ type IGameProps = {
 
 const Game = forwardRef<HTMLInputElement, IGameProps>(({selectedCategory, question, answers, gameLoading, guesses, handleInputChange}: IGameProps, inputRef) => {
 
-    const [searchParams, setSearchParams] = useSearchParams();
+    const [, setSearchParams] = useSearchParams();
     const navigate = useNavigate()
-    console.log(searchParams)
     const timesUp = useBoundStore((state) => state.timesUp)
     const revealAnswers = useBoundStore((state) => state.revealAnswers)
     const noOfCorrectAnswer = useBoundStore((state) => state.noOfCorrectAnswer)

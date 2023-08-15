@@ -12,5 +12,7 @@ export function RequireAuth({ children }: any) {
             return children
         case 'unauthenticated':
             return <Navigate to="/signin" state={{ from: location }} replace />;
+        default:
+            return 'loading'
     }
 }

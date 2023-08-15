@@ -10,15 +10,25 @@ import {
 	TableRow,
   } from "@/components/ui/table"
 import {Fragment} from "react"
+import { useNavigate, useSearchParams } from "react-router-dom"
   
 
 const Results = () => {
+
+	const [,setSearchParams] = useSearchParams()
+	const navigate = useNavigate()
 
 	const resetGameState = useBoundStore((state) => state.resetPlay)
 
 	const guesses = useBoundStore((state) => state.guesses)
 	const answers = useBoundStore((state) => state.answers)
 	console.log(guesses)
+
+	const handleResetGame = () => {
+        setSearchParams({})
+        navigate('/play')
+        resetGameState()
+    }
 	
 	return (
 		<>
@@ -54,7 +64,7 @@ const Results = () => {
 				</Table>
 			</div>
 			<div className="flex justify-center my-5">
-				<Button variant={'secondary'} onClick={resetGameState}>Try Again?</Button>
+				<Button variant={'secondary'} onClick={() => handleResetGame()}>Try Again?</Button>
 			</div>
 		</>
 	)

@@ -4,6 +4,21 @@ import { CreateFormSchema } from "@/routes/questionsCreate";
 
 const API_NAME = 'gimme5'
 
+
+export async function deleteQuestion (questionId: string) {
+	console.log('deleting question')
+
+	const queryStrings = {
+		questionId: questionId
+	};
+
+	const item = await API.del(API_NAME, '/questions', {
+        queryStringParameters: queryStrings
+    });
+	console.log('deleted', item)
+    return item
+}
+
 export async function getQuestion(category: string, questionId? : string) {
 
 	const queryStrings: Record<string, any> = {

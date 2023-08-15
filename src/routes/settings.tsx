@@ -42,7 +42,7 @@ function Settings() {
 				? ('Loading...')
 				:
 				<>
-					<Table>
+					<Table className="bg-slate-200 dark:bg-stone-700 rounded-lg">
 						<TableCaption>A list of your recent games.</TableCaption>
 						<TableHeader>
 							<TableRow>

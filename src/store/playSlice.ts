@@ -55,7 +55,8 @@ export const createPlaySlice: StateCreator<IPlaySlice> = (set, get) => ({
         console.log('saving game result', gameResult)
         gameResult.find((item: TGuessDetail) => item.isCorrect).time
 
-        let { timerString } = convertMSTimeToString(get().initialTime - get().timerMS)
+        let completedTime = get().initialTime - get().timerMS
+        let { timerString } = convertMSTimeToString(completedTime)
         // do we have username?
         let submittedBy = useBoundStore.getState().userName ? useBoundStore.getState().userName : getGuestUsername()
 
@@ -64,7 +65,8 @@ export const createPlaySlice: StateCreator<IPlaySlice> = (set, get) => ({
             questionId : get().question.id,
             points: gameResult.filter( (item: TGuessDetail) => item.isCorrect).length,
             firstAnswerTime: gameResult.find((item: TGuessDetail) => item.isCorrect).time,
-            completionTime: timerString
+            completionTime: timerString,
+            completionTimeInt: completedTime
         }
 
         saveGameResult(resultDetails)

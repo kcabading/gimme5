@@ -12,13 +12,21 @@ import { useAuthenticator } from '@aws-amplify/ui-react';
 import { Button } from '@/components/ui/button';
 
 import { Cog, LogIn, LogOut, Moon, Sun } from 'lucide-react';
+import { getGuestUsername } from '@/lib/utils';
+import { useBoundStore } from '@/store';
 
 const Navigation = function () {
 
-    const { authStatus, signOut } = useAuthenticator((context) => [
+    const { authStatus, signOut, user } = useAuthenticator((context) => [
         context.user,
-        context.signOut
+        context.signOut,
+        context.authStatus
     ]);
+
+    console.log('NAV USER', authStatus, user)
+
+    const username = useBoundStore((state) => state.userName)
+    console.log('Username', username)
 
     const navigate = useNavigate();
 
@@ -30,6 +38,7 @@ const Navigation = function () {
     const [switcheEnabled, setSwitchEnabled] = useState(false)
     const [mobileNavEnabled, setMobileNavEnabled] = useState(false)
     const {setColorMode} = useColorMode()
+    
 
     const handleNavClick = function(link: string) {
         setMobileNavEnabled(false)
@@ -57,24 +66,33 @@ const Navigation = function () {
                         <Link to="/leaderboards" className="ml-3" >Leaderboards</Link>
                     </div>
                     <div className="flex max-sm:hidden dark:text-white items-center">
-                        {authStatus === 'unauthenticated' ? (
-                        <Button onClick={() => navigate('/signin')} variant={'secondary'}>
-                            <><LogIn />&nbsp; Login</>
-                        </Button>
-                        ) : (
-                        <Button onClick={() => logOut()} variant={'secondary'}><LogOut/> &nbsp; Logout</Button>
-                        )}
-                        
+                        {
+                        authStatus === 'authenticated' && user ?
+                            <>
+                                <span>Hi, <strong>{user.username?.substring(0,20)}</strong></span>
+                                <Button onClick={() => logOut()} variant={'link'}><LogOut/> &nbsp; Logout</Button>
+                            </>
+                        :
+                            <>
+                                <span>Hi, <strong>{getGuestUsername()}</strong></span>
+                                <Button onClick={() => navigate('/signin')} variant={'link'}>
+                                    <><LogIn />&nbsp; Login</>
+                                </Button>
+                            </>
+                        }
                         { authStatus === 'authenticated' && <Link className="mx-3 text-2xl" to="/settings"><Cog/></Link> }
                         <button className="p-3 rounded-md hover:text-black hover:bg-slate-100" onClick={toggleTheme}>
                            { switcheEnabled ? <Moon /> : <Sun /> }
                         </button>
                     </div>
+                    <div className='flex gap-3 items-center sm:hidden'>
+                        <span>Hi, <strong>{ authStatus === 'authenticated' && user ? user.username?.substring(0,20) : getGuestUsername()}</strong></span>
                     {
                         mobileNavEnabled
-                        ? <AiOutlineClose className="sm:hidden text-lg cursor-pointer dark:text-white" onClick={ () => setMobileNavEnabled(!mobileNavEnabled)} />
-                        : <AiOutlineMenu className="sm:hidden text-lg cursor-pointer dark:text-white" onClick={ () => setMobileNavEnabled(!mobileNavEnabled)}/>
+                        ? <AiOutlineClose className="text-lg cursor-pointer dark:text-white" onClick={ () => setMobileNavEnabled(!mobileNavEnabled)} />
+                        : <AiOutlineMenu className="text-lg cursor-pointer dark:text-white" onClick={ () => setMobileNavEnabled(!mobileNavEnabled)}/>
                     }
+                    </div>
                 </div>
             </nav>
             <nav className={`
