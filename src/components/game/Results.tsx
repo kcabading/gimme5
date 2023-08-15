@@ -54,7 +54,7 @@ const Results = () => {
 				</Table>
 			</div>
 			<div className="flex justify-center my-5">
-				<Button onClick={resetGameState}>Try Again?</Button>
+				<Button variant={'secondary'} onClick={resetGameState}>Try Again?</Button>
 			</div>
 		</>
 	)

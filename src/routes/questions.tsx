@@ -15,6 +15,7 @@ import { useAuthenticator } from "@aws-amplify/ui-react";
 import { Button } from "@/components/ui/button";
 import { Skeleton } from "@/components/ui/skeleton";
 import React from "react";
+import { Copy } from "lucide-react";
 
 type Question = {
     _id: string,
@@ -44,7 +45,10 @@ const Questions = () => {
     }
 
     const handleShareButton = (questionId: string) => {
-        navigate(`/play/${questionId}`)
+        // navigate(`/play/${questionId}`)
+
+        let shareURL = `${window.location.origin}/play?questionId=${questionId}`
+        window.navigator.clipboard.writeText(shareURL);
     }
 
     const handleDeleteButton = (questionId: string) => {
@@ -117,7 +121,7 @@ const Questions = () => {
                                         <TableCell>{item.bestTimeCompleted}</TableCell>
                                         <TableCell className="text-right flex">
                                             <Button variant={"default"} onClick={ () => handlePlayButton(item._id)}>Play</Button>
-                                            <Button className="mx-2" variant={'secondary'} onClick={ () =>handleShareButton(item._id)}>Share</Button>
+                                            <Button className="mx-2" variant={'secondary'} onClick={ () =>handleShareButton(item._id)}><Copy />&nbsp;Share</Button>
                                             <Button variant={"destructive"} onClick={ () =>handleDeleteButton(item._id)}>Delete</Button>
                                         </TableCell>
                                     </TableRow>
