@@ -14,6 +14,7 @@ import {
 import { useAuthenticator } from "@aws-amplify/ui-react";
 import { Button } from "@/components/ui/button";
 import { Skeleton } from "@/components/ui/skeleton";
+import React from "react";
 
 type Question = {
     _id: string,
@@ -69,9 +70,9 @@ const Questions = () => {
                     <div className="gimme5-game-loading w-full">
                         <div className="grid grid-cols-7 gap-4">
                             {
-                            [1,2,3,4,5,6,7].map( () => {
+                            [1,2,3,4,5,6,7].map( (number) => {
                                 return (
-                                    <>
+                                    <React.Fragment key={number}>
                                         <Skeleton className="s:w-[200px] w-[250px] h-[50px] rounded-md" />
                                         <Skeleton className="s:w-[200px] w-[150px] h-[50px] rounded-md" />
                                         <Skeleton className="s:w-[200px] w-[150px] h-[50px] rounded-md" />
@@ -79,7 +80,7 @@ const Questions = () => {
                                         <Skeleton className="s:w-[200px] w-[150px] h-[50px] rounded-md" />
                                         <Skeleton className="s:w-[200px] w-[150px] h-[50px] rounded-md" />
                                         <Skeleton className="s:w-[200px] w-[150px] h-[50px] rounded-md" />
-                                    </>
+                                    </React.Fragment>
                                 )
                             })
                             }

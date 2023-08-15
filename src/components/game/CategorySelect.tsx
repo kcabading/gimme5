@@ -18,7 +18,7 @@ const CategorySelect = ({categories, handleCategorySelect}: ICategorySelectProps
                         return (
                             <button
                                 key={index}
-                                className={`${index === 2 ? 'col-start-3' : ''} col-span-4 px-5 py-5 text-black dark:bg-white font-bold dark:hover:bg-amber-300 hover:bg-amber-300 rounded-2xl text-2xl sm:text-4xl shadow-2xl relative`}
+                                className={`${index === 2 ? 'col-start-3' : ''} col-span-4 px-5 py-5 bg-white text-black font-bold dark:hover:bg-amber-300 hover:bg-amber-300 rounded-2xl text-2xl sm:text-4xl shadow-2xl relative`}
                                 onClick={() => handleCategorySelect(cat)} 
                             >
                                 {cat}

@@ -53,7 +53,7 @@ const Navigation = function () {
                     </h1>
                     <div className="flex max-sm:hidden dark:text-white">
                         <Link className="ml-3" to="/play">Play</Link>
-                        <Link className="ml-3" to="/questions">Submit Questions</Link>
+                        { authStatus === 'authenticated' && <Link className="ml-3" to="/questions">Submit Questions</Link>}
                         <Link to="/leaderboards" className="ml-3" >Leaderboards</Link>
                     </div>
                     <div className="flex max-sm:hidden dark:text-white items-center">
@@ -65,7 +65,7 @@ const Navigation = function () {
                         <Button onClick={() => logOut()} variant={'secondary'}><LogOut/> &nbsp; Logout</Button>
                         )}
                         
-                        <Link className="mx-3 text-2xl" to="/settings"><Cog/></Link>
+                        { authStatus === 'authenticated' && <Link className="mx-3 text-2xl" to="/settings"><Cog/></Link> }
                         <button className="p-3 rounded-md hover:text-black hover:bg-slate-100" onClick={toggleTheme}>
                            { switcheEnabled ? <Moon /> : <Sun /> }
                         </button>

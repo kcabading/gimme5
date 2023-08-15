@@ -37,18 +37,22 @@ export const handler = async (event) => {
     
     switch(method){
         case 'GET':
-            if (queryParams.hasOwnProperty('username')) {
-                let query = {username: queryParams.username};
+            if (queryParams.hasOwnProperty('category')) {
+                let query = {category: queryParams.category};
+                console.log('query', query)
                 let results = await collection.find(query).toArray()
-                response.body = results
+
+                let randQuestion = Math.floor(Math.random() * results.length)
+                response.body = results[randQuestion]
                 console.log('RESULT', response.body)
+                
             } else {
-                response.body = await collection.find().limit(50).toArray()
+                response.body = await collection.find().limit(20).toArray()
             }
             break
         case 'POST':
             let newDocument = JSON.parse(event.body)
-            newDocument.dateEntered = new Date()
+            newDocument.date = new Date()
             console.log('new document', event)
             response.body = await collection.insertOne(newDocument);
             break

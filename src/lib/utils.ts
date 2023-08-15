@@ -27,3 +27,18 @@ export const convertMSTimeToString = (ms: number) => {
 		timerString
 	}
 }
+
+export const getGuestUsername = () => {
+	let guessUsername = window.localStorage.getItem('guestUsername')
+
+	if (!guessUsername) {
+		guessUsername = generateGuestUsername()
+		window.localStorage.setItem('guestUsername', guessUsername)
+	}
+	
+	return guessUsername
+}
+
+export const generateGuestUsername = () => {
+	return  `GuestUser${Math.floor(Math.random() * 100000)}`
+}

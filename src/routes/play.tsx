@@ -18,9 +18,6 @@ import { useSearchParams } from "react-router-dom";
 import { PlayStatusEnum } from "@/types/play";
 
 export default function Play() {
-
-    console.log('PLAY RENDER')
-
     const inputRef = useRef<HTMLInputElement>(null)
 
     const [searchParams] = useSearchParams();

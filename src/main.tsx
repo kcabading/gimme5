@@ -53,7 +53,7 @@ const router = createBrowserRouter([
       },
       {
         path: "play",
-        element: <RequireAuth><Play /></RequireAuth>
+        element: <Play />
       },
       {
         path: "settings",
@@ -69,11 +69,11 @@ const router = createBrowserRouter([
 
 ReactDOM.createRoot(document.getElementById('root')!).render(
   // <React.StrictMode>
-    <QueryClientProvider client={queryClient}>
-      <Authenticator.Provider>
-        <RouterProvider router={router} />
-      </Authenticator.Provider>
-      <ReactQueryDevtools initialIsOpen={true} />
-    </QueryClientProvider>
+    <Authenticator.Provider>
+      <QueryClientProvider client={queryClient}>
+          <RouterProvider router={router} />    
+        <ReactQueryDevtools initialIsOpen={true} />
+      </QueryClientProvider>
+    </Authenticator.Provider>
   // </React.StrictMode>,
 )

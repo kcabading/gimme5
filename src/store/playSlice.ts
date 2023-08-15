@@ -5,7 +5,7 @@ import { PlayStatusEnum, IPlaySlice, TGuessDetail } from '@/types/play'
 import { saveGameResult } from '@/lib/api'
 
 import { useBoundStore } from '@/store'
-import { convertMSTimeToString } from '@/lib/utils'
+import { convertMSTimeToString, getGuestUsername } from '@/lib/utils'
 
 const CATEGORIES = ['Tao', 'Bagay', 'Hayop', 'Pagkain', 'Lugar']
 
@@ -56,9 +56,11 @@ export const createPlaySlice: StateCreator<IPlaySlice> = (set, get) => ({
         gameResult.find((item: TGuessDetail) => item.isCorrect).time
 
         let { timerString } = convertMSTimeToString(get().initialTime - get().timerMS)
+        // do we have username?
+        let submittedBy = useBoundStore.getState().userName ? useBoundStore.getState().userName : getGuestUsername()
 
         let resultDetails = {
-            userName: useBoundStore.getState().userName,
+            userName: submittedBy,
             questionId : get().question.id,
             points: gameResult.filter( (item: TGuessDetail) => item.isCorrect).length,
             firstAnswerTime: gameResult.find((item: TGuessDetail) => item.isCorrect).time,

@@ -7,11 +7,11 @@ import { useBoundStore } from "@/store";
 import { Button } from "@/components/ui/button";
 
 
-import { Eye, Table, Undo } from "lucide-react"
+import { ArrowLeft, Eye, Table, Undo } from "lucide-react"
 
 import { PlayStatusEnum } from '@/types/play'
 import { Input } from "../ui/input";
-import { useNavigate, useSearchParams } from "react-router-dom";
+import { Link, useNavigate, useSearchParams } from "react-router-dom";
 
 
 type IGameProps = {
@@ -83,8 +83,13 @@ const Game = forwardRef<HTMLInputElement, IGameProps>(({selectedCategory, questi
                         </>
                         :
                         <>
+                            <div className="flex">
+                                <Button onClick={handleResetGame} variant={'link'} className="text-xs sm:text-sm">
+                                    <ArrowLeft className="mr-2 h-4 w-4"/>Back to Category
+                                </Button>
+                            </div>
                             <div className="flex justify-between items-center mb-5">
-                            <p className="text-lg sm:text-2xl"><span className="font-bold mb-5">Category</span>: {selectedCategory}</p>
+                                <p className="text-lg sm:text-2xl"><span className="font-bold mb-5">Category</span>: {selectedCategory}</p>
                                 <Timer />
                             </div>
                             <div className="gimme5-question mb-5">
@@ -129,7 +134,7 @@ const Game = forwardRef<HTMLInputElement, IGameProps>(({selectedCategory, questi
                                         return (
                                             <button
                                                 key={index}
-                                                className={`${index === 2 ? 'col-start-3' : ''} ${isCorrect ? 'border-green-300' : ''} ${!isCorrect && revealAnswers ? 'border-yellow-300 animate-in' : ''} col-span-4 px-5 py-5 border-4 font-bold rounded-2xl text-2xl sm:text-4xl shadow-2xl`} 
+                                                className={`${index === 2 ? 'col-start-3' : ''} ${isCorrect ? 'border-green-300' : ''} ${!isCorrect && revealAnswers ? 'border-yellow-300 animate-in' : ''} col-span-4 px-5 py-5 border-4 font-bold rounded-2xl text-2xl sm:text-4xl shadow-2xl bg-white`} 
                                             >
                                                 { isCorrect || revealAnswers ?  answer : <span className="font-bold">{index + 1}</span>}
                                             </button>

@@ -3,7 +3,8 @@ import { StateCreator } from 'zustand'
 
 export interface UserProfile {
     userName: string,
-    email: string,
+    guessUserName?: string,
+    email?: string,
     isLoggedIn?: boolean,
     isOnline?: boolean,
     rank?: number,
@@ -17,6 +18,7 @@ export interface IUserProfileSlice extends UserProfile{
 
 const initState = {
     userName: '',
+    guessUserName: '',
     email: '',
     isLoggedIn: false,
     isOnline: false,
