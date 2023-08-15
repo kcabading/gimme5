@@ -1,7 +1,6 @@
 
 import { API } from "aws-amplify";
 import { CreateFormSchema } from "@/routes/questionsCreate";
-import { queryClient } from "./query";
 
 const API_NAME = 'gimme5'
 

@@ -11,7 +11,7 @@ import { ArrowLeft, Eye, Table, Undo } from "lucide-react"
 
 import { PlayStatusEnum } from '@/types/play'
 import { Input } from "../ui/input";
-import { Link, useNavigate, useSearchParams } from "react-router-dom";
+import { useNavigate, useSearchParams } from "react-router-dom";
 
 
 type IGameProps = {
