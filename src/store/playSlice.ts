@@ -4,7 +4,6 @@ import { PlayStatusEnum, IPlaySlice, TGuessDetail } from '@/types/play'
 
 import { saveGameResult } from '@/lib/api'
 
-import { useBoundStore } from '@/store'
 import { convertMSTimeToString, getCurrentUser, getGuestUsername } from '@/lib/utils'
 
 const CATEGORIES = ['Tao', 'Bagay', 'Hayop', 'Pagkain', 'Lugar']

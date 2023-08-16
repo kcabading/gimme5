@@ -3,12 +3,9 @@
 @tailwind utilities;
 
 
-
 body {
     background: url('@/assets/gimme5-bg.svg');
     background-size: cover;
-    //background: rgb(247,232,5);
-    //background: radial-gradient(circle, rgba(247,232,5,1) 0%, rgba(249,242,6,1) 35%, rgba(249,111,11,1) 100%);
 }
  
 @layer base {
