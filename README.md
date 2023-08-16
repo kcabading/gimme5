@@ -3,15 +3,16 @@ This project bootstrapped with [`vite`](https://vitejs.dev/) and is deployed usi
 
 # Gimme5
 
-Gimme5 is a charade guessing game inspired by a game portion on a local noontime TV Show.
-https://main.d3osxefc286uo0.amplifyapp.com/
+Gimme5 is a charade guessing game inspired by a game portion on a local noontime TV Show(E.A.T).
+https://d1hzxelx7q8pzd.cloudfront.net
 
 ## Features
+- Pick a category and play the game
 - Play the game in different mode and difficulty levels.
 - Use clues to help you in the game.
-- Finish different challenges.
-- Play with your friends.
-- Battle other players ( in-progress).
+- Finish different challenges. 
+- Play with your friends. 
+- Battle other players.
 - Leaderboards.
 
 ## Tech
@@ -24,28 +25,18 @@ https://main.d3osxefc286uo0.amplifyapp.com/
 - Shadcdn (React Component Library)
 - AWS Cognito (Authentication)
 - AWS Lambda (Other Data Processing)
-- AWS DynamoDB (Game Data)
+- MongoDB (Data Store)
 - Upstash Redis (Leaderboards data)
 
 ## Roadmap
 - [x] Home and Basic Layout pages
-- [ ] Game Components (Select Category, Enter Guesses, Use hints, Timer)
-- [ ] Play Page
-- [ ] Leaderboards page
+- [x] Game Components (Select Category, Enter Guesses, Use hints, Timer)
+- [x] Play Page
+- [x] Questions Page (Add, Delete)
+- [x] Leaderboards page
+- [ ] Challenges page
 - [ ] Settings page
 - [ ] Multiplayer page
-
-## Installation
-
-First, run the development server:
-
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-```
 
 ## License
 MIT
