@@ -14,9 +14,11 @@ export const convertTimeToString = (counter: number) => {
 
 export const convertMSTimeToString = (ms: number) => {
 
-	const minutes = String(Math.floor( ms / 100 / 60)).padStart(2, '0')
-	const seconds = String(Math.floor( (ms / 100) % 60 )).padStart(2, '0')
-	const milliseconds = String(Math.floor(ms % 100)).padStart(2, '0')
+	let timeInMs = ms ? ms : 0
+
+	const minutes = String(Math.floor( timeInMs / 100 / 60)).padStart(2, '0')
+	const seconds = String(Math.floor( (timeInMs / 100) % 60 )).padStart(2, '0')
+	const milliseconds = String(Math.floor(timeInMs % 100)).padStart(2, '0')
 
 	const timerString = `${minutes}:${seconds}:${milliseconds}`
 
@@ -64,7 +66,6 @@ export const getCurrentUser = async () => {
     const user = await Auth.currentAuthenticatedUser();
     return user;
   } catch (error) {
-    console.error('Error fetching user:', error);
     return null;
   }
 }

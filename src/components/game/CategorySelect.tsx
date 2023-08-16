@@ -5,7 +5,13 @@ type ICategorySelectProps = {
     handleCategorySelect: (category: string) => void
 }
 
-let categoryImage = [<PersonStanding className='w-full h-12' />, <Shirt className='w-full h-12'/>, <Cat className='w-full h-12'/>, <Apple className='w-full h-12'/>, <MapPin className='w-full h-12'/>]
+let categoryImage = [
+    <PersonStanding className='h-12 w-10 inline -mt-2' />, 
+    <Shirt className='h-12 w-10 inline -mt-2'/>, 
+    <Cat className='h-12 w-10 inline -mt-2'/>, 
+    <Apple className='h-12 w-10 inline -mt-2'/>, 
+    <MapPin className='h-12 w-10 inline -mt-2'/>
+]
 
 const CategorySelect = ({categories, handleCategorySelect}: ICategorySelectProps ) => {
     return (
@@ -18,11 +24,11 @@ const CategorySelect = ({categories, handleCategorySelect}: ICategorySelectProps
                         return (
                             <button
                                 key={index}
-                                className={`${index === 2 ? 'col-start-3' : ''} col-span-4 px-5 py-5 bg-white text-black font-bold dark:hover:bg-amber-300 hover:bg-amber-300 rounded-2xl text-2xl sm:text-4xl shadow-2xl relative`}
+                                className={`${index === 2 ? 'col-start-3' : ''} col-span-4 px-5 py-8 sm:py-5 bg-white text-black font-bold dark:hover:bg-amber-300 hover:bg-amber-300 rounded-2xl text-2xl sm:text-4xl shadow-2xl relative`}
                                 onClick={() => handleCategorySelect(cat)} 
                             >
+                                {categoryImage[index]} &nbsp;
                                 {cat}
-                                <span className="absolute left-5 top-3">{categoryImage[index]}</span>
                             </button>
                         )
                     })

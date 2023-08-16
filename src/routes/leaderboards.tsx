@@ -11,7 +11,7 @@ import {
 	TableRow,
   } from "@/components/ui/table"
 import { rankToText } from "@/lib/utils"
-import React from "react"
+// import React from "react"
 import { Skeleton } from "@/components/ui/skeleton"
 
 
@@ -37,15 +37,11 @@ function Leaderboards() {
 				? 
 				<>
 					<div className="gimme5-game-loading w-full">
-                        <div className="grid grid-cols-3 gap-2">
+                        <div className="grid grid-cols-1 gap-2">
                             {
-                            [1,2,3,4,5,6,7].map( (number) => {
+                            [1,2,3,4,5,6,7,8,9,10].map( (number) => {
                                 return (
-                                    <React.Fragment key={number}>
-                                        <Skeleton className="h-[50px] rounded-md" />
-                                        <Skeleton className="h-[50px] rounded-md" />
-                                        <Skeleton className="h-[50px] rounded-md" />
-                                    </React.Fragment>
+                                    <Skeleton className="h-[50px] rounded-md" key={number}/>
                                 )
                             })
                             }

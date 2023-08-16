@@ -11,7 +11,6 @@ import {
 	TableRow,
   } from "@/components/ui/table"
 import { useAuthenticator } from "@aws-amplify/ui-react"
-import React from "react"
 import { Skeleton } from "@/components/ui/skeleton"
 
 type TGame = {
@@ -32,11 +31,7 @@ const gameListQuery = (userName: string) => ({
 
 function Settings() {
 	const { user } = useAuthenticator((context) => [context.user])
-
 	const { data: games, isLoading } = useQuery<TGame[]>(gameListQuery(user.username!))
-
-	console.log(games)
-
 	return (
 		<>
 			<h1 className="text-center text-lg font-bold mb-5">Recent Games</h1>
@@ -45,17 +40,11 @@ function Settings() {
 				?
 				<>
 					<div className="gimme5-game-loading w-full">
-                        <div className="grid grid-cols-5 gap-2">
+                        <div className="grid grid-cols-1 gap-2">
                             {
-                            [1,2,3,4,5,6,7].map( (number) => {
+                            [1,2,3,4,5,6,7,8,9,10].map( (number) => {
                                 return (
-                                    <React.Fragment key={number}>
-                                        <Skeleton className="h-[50px] rounded-md" />
-                                        <Skeleton className="h-[50px] rounded-md" />
-                                        <Skeleton className="h-[50px] rounded-md" />
-										<Skeleton className="h-[50px] rounded-md" />
-										<Skeleton className="h-[50px] rounded-md" />
-                                    </React.Fragment>
+                                    <Skeleton className="h-[50px] rounded-md" key={number}/>
                                 )
                             })
                             }

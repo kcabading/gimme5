@@ -29,6 +29,8 @@ const Navigation = function () {
     console.log('Username', username)
 
     const navigate = useNavigate();
+    // const location = useLocation()
+    // console.log('LOCATION:', location)
 
     function logOut() {
         signOut();
@@ -55,15 +57,15 @@ const Navigation = function () {
 
     return (
         <>
-            <nav className="w-full fixed backdrop-blur border-b border-slate-900/10 dark:border-slate-50/[0.06] bg-white/75 dark:bg-slate-900/75 py-3 max-lg:px-4 z-50">
-                <div className="z-10 lg:z-50 flex items-center justify-between w-full lg:w-3/4 m-auto">
+            <nav className="w-full fixed backdrop-blur border-b border-slate-900/10 dark:border-slate-50/[0.06] bg-white/75 dark:bg-slate-900/75 max-lg:px-4 z-50">
+                <div className="z-10 lg:z-50 flex items-center justify-between w-full lg:w-3/4 m-auto py-3 max-sm:py-5">
                     <h1 className="text-red-500 font-extrabold text-lg dark:text-white">
                         <Link to="/">Gimme5</Link>
                     </h1>
-                    <div className="flex max-sm:hidden dark:text-white">
-                        <Link className="ml-3" to="/play">Play</Link>
-                        { authStatus === 'authenticated' && <Link className="ml-3" to="/questions">Submit Questions</Link>}
-                        <Link to="/leaderboards" className="ml-3" >Leaderboards</Link>
+                    <div className="flex max-sm:hidden dark:text-white font-semibold">
+                        <Link className="ml-3 hover:text-amber-500" to="/play">Play</Link>
+                        { authStatus === 'authenticated' && <Link className="ml-3 hover:text-amber-500" to="/questions">Submit Questions</Link>}
+                        <Link to="/leaderboards" className="ml-3 hover:text-amber-500" >Leaderboards</Link>
                     </div>
                     <div className="flex max-sm:hidden dark:text-white items-center">
                         {
@@ -97,7 +99,7 @@ const Navigation = function () {
             </nav>
             <nav className={`
                 ${mobileNavEnabled ? 'right-0' : 'right-[100%]'}
-                mt-[50px] w-full h-full fixed bg-slate-800/90 transition-right ease-in-out duration-200 sm:hidden p-5 text-white z-50`}>
+                mt-[70px] w-full h-full fixed bg-slate-800/90 transition-right ease-in-out duration-200 sm:hidden p-5 text-white z-50`}>
                 <div className="flex flex-col">
                     <div className="w-full flex text-xl">
                         {authStatus === 'unauthenticated' ? (
@@ -107,7 +109,7 @@ const Navigation = function () {
                         )}
                     </div>
                     <button onClick={ () => handleNavClick('/play')} className="text-xl my-3 text-left">Play</button>
-                    <button onClick={ () => handleNavClick('/questions')} className="text-xl my-3 text-left">Submit Questions</button>
+                    {authStatus === 'authenticated' && <button onClick={ () => handleNavClick('/questions')} className="text-xl my-3 text-left">Submit Questions</button>}
                     <button onClick={ () => handleNavClick('/leaderboards')} className="text-xl my-3 text-left">Leaderboards</button>
                     <button onClick={ () => handleNavClick('/settings')} className="text-xl my-3 text-left">Settings</button>
                     <div className="text-xl flex justify-between my-3">

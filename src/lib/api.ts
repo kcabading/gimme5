@@ -63,8 +63,8 @@ export async function saveGameResult(gameData: any) {
 	};
 
 	const result =  await API.post(API_NAME, '/games', postBody);
-	// queryClient.invalidateQueries({ queryKey: ['gameResults'] })
-	// queryClient.invalidateQueries({ queryKey: ['questions', gameData.userName] })
+	queryClient.invalidateQueries({ queryKey: ['gameResults'] })
+	queryClient.invalidateQueries({ queryKey: ['questions', gameData.userName] })
 	queryClient.invalidateQueries({ queryKey: ['leaderboard'] })
 	return result
 }

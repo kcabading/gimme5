@@ -41,17 +41,20 @@
         },
         "gimme5Games": {
           "deploymentBucketName": "amplify-gimme5-dev-15749-deployment",
-          "s3Key": "amplify-builds/gimme5Games-784548507a5737684b6e-build.zip",
+          "s3Key": "amplify-builds/gimme5Games-5063776d7a6b77773964-build.zip",
           "dbconPath": "/amplify/d3osxefc286uo0/dev/AMPLIFY_gimme5Questions_MONGODB_CONNECTION_STRING",
           "region": "us-east-1"
         },
         "gimme5Leaderboards": {
           "deploymentBucketName": "amplify-gimme5-dev-15749-deployment",
-          "s3Key": "amplify-builds/gimme5Leaderboards-64515a347135314a7973-build.zip"
+          "s3Key": "amplify-builds/gimme5Leaderboards-39435136637147745476-build.zip"
         }
       },
       "api": {
         "gimme5": {}
+      },
+      "hosting": {
+        "S3AndCloudFront": {}
       }
     }
   }

@@ -25,7 +25,7 @@ function Home() {
 			</div>
 			<div className="mt-5">
 				<div className="w-full sm:pl-10 max-sm:mt-5">
-					<h2 className='font-bold text-3xl mb-5 text-cyan-500'>How to Play</h2>
+					<h2 className='font-bold text-3xl mb-5'>How to Play</h2>
 					<ol className="list-decimal ml-4 space-y-5">
 						<li>Pick a Category: Start by selecting a category from our list. From Tao (People), Bagay(Things), Hayop(Animals), Pagkain(Food) and Lugar(Places)</li>
 						<li>Type in 5 Answers: Once you've chosen a category, you'll be presented with a clue related to that category. Your task is to type in not just one, but five correct answers that match the clue. Each answer must be unique and accurate to score points.</li>

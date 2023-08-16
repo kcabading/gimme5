@@ -25,7 +25,7 @@ import {
 import { useAuthenticator } from "@aws-amplify/ui-react";
 import { Button } from "@/components/ui/button";
 import { Skeleton } from "@/components/ui/skeleton";
-import React, { useState } from "react";
+import { useState } from "react";
 import { Copy } from "lucide-react";
 import { toast } from "@/components/ui/use-toast";
 import { queryClient } from "@/lib/query";
@@ -85,13 +85,13 @@ const Questions = () => {
     }
 
     const handleDeleteButton = (question: Question) => {
+        setConfirmDelete(true)
         setQuestionToDelete( (prev) => { 
             return {
                 ...prev, 
                 ...question
             }
-         })
-        setConfirmDelete(true)
+        })
     }
 
     const handleConfirmDelete = () => {
@@ -126,7 +126,7 @@ const Questions = () => {
                         Here&apos;s a list of questions you have submitted and their stats!
                     </p>
                 </div>
-                <Link to={'/questions/create'} className="bg-green-500 hover:bg-green-400 text-white rounded-md px-4 py-2">Submit New</Link>
+                <Link to={'/questions/create'} > <Button className="rounded-md px-4 py-2" variant={'secondary'}>Submit New</Button></Link>
             </div>
             
             {
@@ -134,19 +134,11 @@ const Questions = () => {
                 ? 
                 <>
                     <div className="gimme5-game-loading w-full">
-                        <div className="grid grid-cols-7 gap-4">
+                        <div className="grid grid-cols-1 gap-4">
                             {
-                            [1,2,3,4,5,6,7].map( (number) => {
+                            [1,2,3,4,5,6,7,8,9,10].map( (number) => {
                                 return (
-                                    <React.Fragment key={number}>
-                                        <Skeleton className="s:w-[200px] w-[250px] h-[50px] rounded-md" />
-                                        <Skeleton className="s:w-[200px] w-[150px] h-[50px] rounded-md" />
-                                        <Skeleton className="s:w-[200px] w-[150px] h-[50px] rounded-md" />
-                                        <Skeleton className="s:w-[200px] w-[150px] h-[50px] rounded-md" />
-                                        <Skeleton className="s:w-[200px] w-[150px] h-[50px] rounded-md" />
-                                        <Skeleton className="s:w-[200px] w-[150px] h-[50px] rounded-md" />
-                                        <Skeleton className="s:w-[200px] w-[150px] h-[50px] rounded-md" />
-                                    </React.Fragment>
+                                    <Skeleton className="h-[50px] rounded-md" key={number}/>
                                 )
                             })
                             }

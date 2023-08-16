@@ -1,25 +1,6 @@
 {
   "version": 1,
   "paths": {
-    "/questions": {
-      "name": "/questions",
-      "lambdaFunction": "gimme5Questions",
-      "permissions": {
-        "setting": "protected",
-        "auth": [
-          "create",
-          "read",
-          "update",
-          "delete"
-        ],
-        "guest": [
-          "create",
-          "read",
-          "update",
-          "delete"
-        ]
-      }
-    },
     "/users": {
       "name": "/users",
       "lambdaFunction": "gimme5UserProfiles",
@@ -37,6 +18,13 @@
     "/leaderboard": {
       "name": "/leaderboard",
       "lambdaFunction": "gimme5Leaderboards",
+      "permissions": {
+        "setting": "open"
+      }
+    },
+    "/questions": {
+      "name": "/questions",
+      "lambdaFunction": "gimme5Questions",
       "permissions": {
         "setting": "open"
       }

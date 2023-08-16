@@ -58,7 +58,6 @@ export const createPlaySlice: StateCreator<IPlaySlice> = (set, get) => ({
         let { timerString } = convertMSTimeToString(completedTime)
         // do we have username?
         let currentUser = await getCurrentUser()
-        console.log('CURRENT USER: ', currentUser)
         let submittedBy = currentUser ? currentUser.username : getGuestUsername()
 
         let resultDetails = {

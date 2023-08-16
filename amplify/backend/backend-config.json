@@ -8,14 +8,6 @@
             "Arn"
           ],
           "category": "function",
-          "resourceName": "gimme5Questions"
-        },
-        {
-          "attributes": [
-            "Name",
-            "Arn"
-          ],
-          "category": "function",
           "resourceName": "gimme5UserProfiles"
         },
         {
@@ -33,6 +25,14 @@
           ],
           "category": "function",
           "resourceName": "gimme5Leaderboards"
+        },
+        {
+          "attributes": [
+            "Name",
+            "Arn"
+          ],
+          "category": "function",
+          "resourceName": "gimme5Questions"
         }
       ],
       "providerPlugin": "awscloudformation",
@@ -114,6 +114,12 @@
       "build": true,
       "providerPlugin": "awscloudformation",
       "service": "LambdaLayer"
+    }
+  },
+  "hosting": {
+    "S3AndCloudFront": {
+      "providerPlugin": "awscloudformation",
+      "service": "S3AndCloudFront"
     }
   },
   "parameters": {
