@@ -1,8 +1,19 @@
 import logo from '@/assets/gimme5-logo.png'
+import { getCurrentUser } from '@/lib/utils'
 
 import { Link } from 'react-router-dom'
 
 function Home() {
+
+
+	
+
+	(async () => {
+		const user = await getCurrentUser();
+		console.log('USER', user)
+	})();
+
+
 	return (
 		<>
 			<div className="intro flex flex-col sm:flex-row mb-20">

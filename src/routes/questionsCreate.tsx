@@ -113,12 +113,11 @@ export default function questionsCreate() {
 							<FormLabel>Select a Category</FormLabel>
 							<Select onValueChange={field.onChange} defaultValue={field.value} disabled={mutation.isLoading}>
 								<FormControl>
-								<SelectTrigger>
+								<SelectTrigger className="bg-white dark:bg-black">
 									<SelectValue placeholder="Select a Category" />
 								</SelectTrigger>
 								</FormControl>
 								<SelectContent>
-								{/* let categoryImage = [, <GiPoloShirt/>, <GiSittingDog/>, <GiCakeSlice/>, <GiTreasureMap/>] */}
 									<SelectItem value="Tao"><PersonStanding className="inline"/>&nbsp;Tao</SelectItem>
 									<SelectItem value="Bagay"><Shirt className="inline"/>&nbsp;Bagay</SelectItem>
 									<SelectItem value="Hayop"><Cat className="inline"/>&nbsp;Hayop</SelectItem>
@@ -135,19 +134,19 @@ export default function questionsCreate() {
 						name="answers"
 						render={({ field }) => (
 							<FormItem>
-							<FormLabel>Enter 5 possible answers</FormLabel>
-							<FormControl>
-								<Textarea
-								placeholder="Enter 5 possible answers"
-								className="resize-none"
-								{...field}
-								disabled={mutation.isLoading}
-								/>
-							</FormControl>
-							<FormDescription>
-								Separate answers by new line(press enter after every answer) in the text area
-							</FormDescription>
-							<FormMessage />
+								<FormLabel>Enter 5 possible answers</FormLabel>
+								<FormControl>
+									<Textarea
+									placeholder="Enter 5 possible answers"
+									className="resize-none bg-white dark:bg-black"
+									{...field}
+									disabled={mutation.isLoading}
+									/>
+								</FormControl>
+								<FormDescription className="dark:text-white">
+									Separate answers by new line(press enter after every answer) in the text area
+								</FormDescription>
+								<FormMessage />
 							</FormItem>
 						)}
 					/>

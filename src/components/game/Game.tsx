@@ -95,7 +95,7 @@ const Game = forwardRef<HTMLInputElement, IGameProps>(({selectedCategory, questi
                                 timesUp 
                                 ?
                                 <div className='my-5 flex gap-4 justify-center'>
-                                    <Button onClick={setRevealAnswers} variant={"secondary"} className="text-xs sm:text-sm">
+                                    <Button disabled={revealAnswers} onClick={setRevealAnswers} variant={"secondary"} className="text-xs sm:text-sm">
                                         <Eye className="mr-2 h-4 w-4"/>
                                         Reveal Answers
                                     </Button>
@@ -130,7 +130,7 @@ const Game = forwardRef<HTMLInputElement, IGameProps>(({selectedCategory, questi
                                         return (
                                             <button
                                                 key={index}
-                                                className={`${index === 2 ? 'col-start-3' : ''} ${isCorrect ? 'border-green-300' : ''} ${!isCorrect && revealAnswers ? 'border-yellow-300 animate-in' : ''} col-span-4 px-5 py-5 border-4 font-bold rounded-2xl text-2xl sm:text-4xl shadow-2xl bg-white`} 
+                                                className={`${index === 2 ? 'col-start-3' : ''} ${isCorrect ? 'border-green-500' : ''} ${!isCorrect && revealAnswers ? 'border-red-500 animate-in' : ''} col-span-4 px-5 py-5 border-4 font-bold rounded-2xl text-2xl sm:text-4xl shadow-2xl text-black bg-white`} 
                                             >
                                                 { isCorrect || revealAnswers ?  answer : <span className="font-bold">{index + 1}</span>}
                                             </button>

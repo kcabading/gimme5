@@ -42,3 +42,29 @@ export const getGuestUsername = () => {
 export const generateGuestUsername = () => {
 	return  `GuestUser${Math.floor(Math.random() * 100000)}`
 }
+
+export const rankToText = (rank: number): string => {
+        
+    let ranking = (rank + 1) % 10
+
+    if ( ranking === 1 ) return `${ranking}st`
+    if ( ranking === 2 ) return `${ranking}nd`
+    if ( ranking === 3 ) return `${ranking}rd`
+
+    return `${ranking}th`
+}
+
+
+
+import { Auth } from 'aws-amplify';
+
+// To get the current authenticated user
+export const getCurrentUser = async () => {
+  try {
+    const user = await Auth.currentAuthenticatedUser();
+    return user;
+  } catch (error) {
+    console.error('Error fetching user:', error);
+    return null;
+  }
+}

@@ -156,7 +156,7 @@ const Questions = () => {
                 : <ul>
                 {
                     <>
-                        <Table className="bg-slate-200 dark:bg-stone-700 rounded-lg">
+                        <Table className="bg-slate-200 dark:bg-stone-700 rounded-lg bg-opacity-80">
                             <TableCaption>A list of your recent games.</TableCaption>
                             <TableHeader>
                                 <TableRow>
@@ -173,7 +173,6 @@ const Questions = () => {
                             {
                                 questions?.map( (item, index) => {
                                     // let formattedDate = new Date(game.dateEntered).toLocaleString()
-
                                     const { timerString: bestTime } = convertMSTimeToString(item.bestTimeInt)
 
                                     return (

@@ -5,7 +5,7 @@ import { PlayStatusEnum, IPlaySlice, TGuessDetail } from '@/types/play'
 import { saveGameResult } from '@/lib/api'
 
 import { useBoundStore } from '@/store'
-import { convertMSTimeToString, getGuestUsername } from '@/lib/utils'
+import { convertMSTimeToString, getCurrentUser, getGuestUsername } from '@/lib/utils'
 
 const CATEGORIES = ['Tao', 'Bagay', 'Hayop', 'Pagkain', 'Lugar']
 
@@ -51,14 +51,16 @@ export const createPlaySlice: StateCreator<IPlaySlice> = (set, get) => ({
     setGameLoading: (loading) => {
         set({gameLoading: loading})
     },
-    saveGameResult: (gameResult) => {
+    saveGameResult: async (gameResult) => {
         console.log('saving game result', gameResult)
         gameResult.find((item: TGuessDetail) => item.isCorrect).time
 
         let completedTime = get().initialTime - get().timerMS
         let { timerString } = convertMSTimeToString(completedTime)
         // do we have username?
-        let submittedBy = useBoundStore.getState().userName ? useBoundStore.getState().userName : getGuestUsername()
+        let currentUser = await getCurrentUser()
+        console.log('CURRENT USER: ', currentUser)
+        let submittedBy = currentUser ? currentUser.username : getGuestUsername()
 
         let resultDetails = {
             userName: submittedBy,

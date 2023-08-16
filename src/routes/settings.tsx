@@ -11,6 +11,8 @@ import {
 	TableRow,
   } from "@/components/ui/table"
 import { useAuthenticator } from "@aws-amplify/ui-react"
+import React from "react"
+import { Skeleton } from "@/components/ui/skeleton"
 
 type TGame = {
     _id: string,
@@ -37,9 +39,29 @@ function Settings() {
 
 	return (
 		<>
+			<h1 className="text-center text-lg font-bold mb-5">Recent Games</h1>
 			{
 				isLoading
-				? ('Loading...')
+				?
+				<>
+					<div className="gimme5-game-loading w-full">
+                        <div className="grid grid-cols-5 gap-2">
+                            {
+                            [1,2,3,4,5,6,7].map( (number) => {
+                                return (
+                                    <React.Fragment key={number}>
+                                        <Skeleton className="h-[50px] rounded-md" />
+                                        <Skeleton className="h-[50px] rounded-md" />
+                                        <Skeleton className="h-[50px] rounded-md" />
+										<Skeleton className="h-[50px] rounded-md" />
+										<Skeleton className="h-[50px] rounded-md" />
+                                    </React.Fragment>
+                                )
+                            })
+                            }
+                        </div>
+                    </div>
+				</>
 				:
 				<>
 					<Table className="bg-slate-200 dark:bg-stone-700 rounded-lg">

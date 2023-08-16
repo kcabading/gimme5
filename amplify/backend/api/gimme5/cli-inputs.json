@@ -33,6 +33,13 @@
       "permissions": {
         "setting": "open"
       }
+    },
+    "/leaderboard": {
+      "name": "/leaderboard",
+      "lambdaFunction": "gimme5Leaderboards",
+      "permissions": {
+        "setting": "open"
+      }
     }
   }
 }

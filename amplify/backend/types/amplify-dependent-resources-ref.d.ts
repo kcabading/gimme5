@@ -31,6 +31,13 @@ export type AmplifyDependentResourcesAttributes = {
       "Name": "string",
       "Region": "string"
     },
+    "gimme5Leaderboards": {
+      "Arn": "string",
+      "LambdaExecutionRole": "string",
+      "LambdaExecutionRoleArn": "string",
+      "Name": "string",
+      "Region": "string"
+    },
     "gimme5PostSignup": {
       "Arn": "string",
       "LambdaExecutionRole": "string",

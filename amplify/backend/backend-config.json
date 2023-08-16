@@ -25,6 +25,14 @@
           ],
           "category": "function",
           "resourceName": "gimme5Games"
+        },
+        {
+          "attributes": [
+            "Name",
+            "Arn"
+          ],
+          "category": "function",
+          "resourceName": "gimme5Leaderboards"
         }
       ],
       "providerPlugin": "awscloudformation",
@@ -81,6 +89,11 @@
       "providerPlugin": "awscloudformation",
       "service": "Lambda"
     },
+    "gimme5Leaderboards": {
+      "build": true,
+      "providerPlugin": "awscloudformation",
+      "service": "Lambda"
+    },
     "gimme5PostSignup": {
       "build": true,
       "providerPlugin": "awscloudformation",
@@ -133,6 +146,22 @@
         {
           "category": "function",
           "resourceName": "gimme5Games"
+        }
+      ]
+    },
+    "AMPLIFY_function_gimme5Leaderboards_deploymentBucketName": {
+      "usedBy": [
+        {
+          "category": "function",
+          "resourceName": "gimme5Leaderboards"
+        }
+      ]
+    },
+    "AMPLIFY_function_gimme5Leaderboards_s3Key": {
+      "usedBy": [
+        {
+          "category": "function",
+          "resourceName": "gimme5Leaderboards"
         }
       ]
     },
