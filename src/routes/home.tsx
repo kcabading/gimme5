@@ -1,31 +1,19 @@
 import logo from '@/assets/gimme5-logo.png'
-import { getCurrentUser } from '@/lib/utils'
-
 import { Link } from 'react-router-dom'
 
 function Home() {
-
-
-	
-
-	(async () => {
-		const user = await getCurrentUser();
-		console.log('USER', user)
-	})();
-
-
 	return (
 		<>
 			<div className="intro flex flex-col sm:flex-row mb-20">
 				<div className="max-sm:pb-10 text-center">
 					<img src={logo} alt="logo" width={200} className='m-auto mb-5' />
-					<h1 className='font-bold text-4xl mb-5'>Welcome to Gimme 5 - Laro ng mga Henyo!</h1>
+					<h1 className='font-bold text-4xl mb-5 font-mono'>Welcome to Gimme 5 - Laro ng mga Henyo!</h1>
 					<p className='text-xl leading-loose'>Get ready to take charades to a whole new level with Gimme 5, the most thrilling and creative word-guessing game around! Can you guess not one, not two, but five correct answers to the given clue? Prepare for a brain-teasing, high-energy, and laughter-filled experience that will leave you and your friends begging for more!</p>
 				</div>
 			</div>
 			<div className="mt-5">
 				<div className="w-full sm:pl-10 max-sm:mt-5">
-					<h2 className='font-bold text-3xl mb-5'>How to Play</h2>
+					<h2 className='font-bold text-3xl mb-5 font-mono'>How to Play</h2>
 					<ol className="list-decimal ml-4 space-y-5">
 						<li>Pick a Category: Start by selecting a category from our list. From Tao (People), Bagay(Things), Hayop(Animals), Pagkain(Food) and Lugar(Places)</li>
 						<li>Type in 5 Answers: Once you've chosen a category, you'll be presented with a clue related to that category. Your task is to type in not just one, but five correct answers that match the clue. Each answer must be unique and accurate to score points.</li>

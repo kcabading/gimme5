@@ -17,6 +17,7 @@ type TGame = {
     _id: string,
     userName: string,
     questionId: string,
+	question: string,
 	points: number,
 	firstAnswerTime: string,
 	completionTime: string,
@@ -57,7 +58,7 @@ function Settings() {
 						<TableCaption>A list of your recent games.</TableCaption>
 						<TableHeader>
 							<TableRow>
-							<TableHead className="w-[100px]">QuestionId</TableHead>
+							<TableHead className="w-[100px]">Question</TableHead>
 							<TableHead className="text-center">Points</TableHead>
 							<TableHead>First Answer Time</TableHead>
 							<TableHead>Completion Time</TableHead>
@@ -68,15 +69,16 @@ function Settings() {
 						{
 							games?.map( (game, index) => {
 								let formattedDate = new Date(game.dateEntered).toLocaleString()
-							return (
-								<TableRow key={index}>
-									<TableCell className="font-medium">{game.questionId}</TableCell>
-									<TableCell className="text-center">{game.points}</TableCell>
-									<TableCell>{game.firstAnswerTime}</TableCell>
-									<TableCell>{game.completionTime}</TableCell>
-									<TableCell className="text-right">{formattedDate}</TableCell>
-								</TableRow>
-							)})
+								return (
+									<TableRow key={index}>
+										<TableCell className="w-[300px] font-medium">{game.question}</TableCell>
+										<TableCell className="text-center">{game.points}</TableCell>
+										<TableCell>{game.firstAnswerTime}</TableCell>
+										<TableCell>{game.completionTime}</TableCell>
+										<TableCell className="text-right">{formattedDate}</TableCell>
+									</TableRow>
+								)
+							})
 						}
 						</TableBody>
 					</Table>

@@ -31,6 +31,9 @@ const Game = forwardRef<HTMLInputElement, IGameProps>(({selectedCategory, questi
     const setRevealAnswers = useBoundStore((state) => state.setRevealAnswers)
     const setPlayState = useBoundStore((state) => state.setPlayState)
     const resetGameState = useBoundStore((state) => state.resetPlay)
+    const errorMessage = useBoundStore((state) => state.errorMessage)
+
+    console.log('error message, ', errorMessage)
 
     const handleViewResults = () => {
         setPlayState(PlayStatusEnum.FINISHED)
@@ -71,11 +74,11 @@ const Game = forwardRef<HTMLInputElement, IGameProps>(({selectedCategory, questi
                 <div className="gimme5-game text-center relative">
 
                     {
-                        !question 
+                        errorMessage
                         ?
                         <>
-                            <p className="mb-5">Invalid Category or Question Id</p>
-                            <Button variant={'default'} onClick={ () => handleResetGame() }>Play new game?</Button>
+                            <p className="my-10 font-mono text-2xl"> {errorMessage}</p>
+                            <Button variant={'default'} onClick={ () => handleResetGame() }>Play new game</Button>
                         </>
                         :
                         <>
@@ -85,11 +88,11 @@ const Game = forwardRef<HTMLInputElement, IGameProps>(({selectedCategory, questi
                                 </Button>
                             </div>
                             <div className="flex justify-between items-center mb-5">
-                                <p className="text-lg sm:text-2xl"><span className="font-bold mb-5">Category</span>: {selectedCategory}</p>
+                                <p className="text-lg sm:text-2xl font-mono"><span className="font-bold mb-5">Category</span>: {selectedCategory}</p>
                                 <Timer />
                             </div>
                             <div className="gimme5-question mb-5">
-                                <p className="text-2xl sm:text-4xl">{question}</p>
+                                <p className="text-2xl sm:text-4xl font-mono">{question}</p>
                             </div>
                             {
                                 timesUp 

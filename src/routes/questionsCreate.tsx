@@ -80,8 +80,6 @@ export default function questionsCreate() {
 	})
 
 	function onSubmit(values: z.infer<typeof CreateFormSchema>) {
-		// Do something with the form values.
-		// ✅ This will be type-safe and validated.
 		console.log(values)
 		// submit
 		mutation.mutate({...values, submittedBy: user.username})

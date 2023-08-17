@@ -7,7 +7,23 @@ export default defineConfig({
   plugins: [
     react(), 
     VitePWA({ 
+      injectRegister: 'auto',
       registerType: 'autoUpdate',
+      workbox: {
+        globPatterns: ['**/*.{js,css,html,ico,png,svg}'],
+        runtimeCaching:[{
+            urlPattern: ({url}) => {
+              return url.pathname.startsWith("/")
+            },
+            handler: "CacheFirst" as const,
+            options: {
+              cacheName: "api-cache",
+              cacheableResponse: {
+                statuses: [0, 200]
+              }
+            }
+        }]
+      },
       devOptions: {
         enabled: true
       },

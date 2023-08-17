@@ -31,7 +31,7 @@ function Leaderboards() {
   
     return (
 		<>
-			<h1 className="text-center text-2xl font-bold mb-5">Top 20 Users with Highest Accumulated Points</h1>
+			<h1 className="text-center text-2xl font-bold mb-5 font-mono">Top 20 Users with Highest Points</h1>
 			{
 				isLoading 
 				? 

@@ -39,6 +39,7 @@ export interface IPlaySlice {
     hints: Thint[],
     hintText: string,
     hintOpen: boolean,
+    errorMessage: string,
     // setPlayState: (state: string) => void,
     setPlayState: (playState:PlayStatusEnum) => void,
     setSelectedQuestion: (question: TQuestion) => void,
@@ -67,4 +68,5 @@ export interface IPlaySlice {
     resetTimer: () => void,
     //
     resetPlay: () => void,
+    setErrorMessage: (error: string) => void
 }

@@ -52,6 +52,8 @@ export default function Play() {
     const timesUp = useBoundStore((state) => state.timesUp)
     const startTimer = useBoundStore((state) => state.startTimer)
     const setTimerSetting = useBoundStore((state) => state.setTimerSetting)
+
+    const setErrorMessage = useBoundStore((state) => state.setErrorMessage)
     
     const resetGameState = useBoundStore((state) => state.resetPlay)
     const gimme5hints = ['HINT# 1','HINT # 2', 'HINT # 3']
@@ -70,6 +72,11 @@ export default function Play() {
             question = await getQuestion(category, questionId)
         } else if (category) {
             question = await getQuestion(category)
+        }
+
+        if (question?.error) {
+            console.log('MAY ERROR', question.error)
+            setErrorMessage(question.error)
         }
 
         if (question?.data) {

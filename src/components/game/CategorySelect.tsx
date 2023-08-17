@@ -17,7 +17,7 @@ const CategorySelect = ({categories, handleCategorySelect}: ICategorySelectProps
     return (
         <>
             <div className="gimme5-categories">
-                <p className="text-2xl sm:text-4xl text-center mb-10 font-bold">SELECT YOUR CATEGORY</p>
+                <p className="text-2xl sm:text-4xl text-center mb-10 font-bold font-mono">Select your Category</p>
                 <div className="sm:grid sm:grid-cols-8 gap-5 flex flex-col">
                 {
                     categories.map( (cat, index) => {

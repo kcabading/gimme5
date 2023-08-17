@@ -26,7 +26,8 @@ const initState = {
     timerMS: 0,
     timesUp: false,
     timerAscending: false,
-    timerIntervalRef: 0
+    timerIntervalRef: 0,
+    errorMessage: ''
 }
 
 export const createPlaySlice: StateCreator<IPlaySlice> = (set, get) => ({
@@ -63,6 +64,7 @@ export const createPlaySlice: StateCreator<IPlaySlice> = (set, get) => ({
         let resultDetails = {
             userName: submittedBy,
             questionId : get().question.id,
+            question: get().question.text,
             points: gameResult.filter( (item: TGuessDetail) => item.isCorrect).length,
             firstAnswerTime: gameResult.find((item: TGuessDetail) => item.isCorrect).time,
             completionTime: timerString,
@@ -132,5 +134,9 @@ export const createPlaySlice: StateCreator<IPlaySlice> = (set, get) => ({
             timerMS: get().timerMS,
             timerAscending: get().timerAscending
         })
+    },
+    setErrorMessage: (error) => {
+        console.log('setting error', error)
+        set({errorMessage: error})
     }
 })

@@ -62,7 +62,7 @@ const Questions = () => {
 				duration: 3000
 			})
 			// ✅ refetch our questions
-			queryClient.invalidateQueries({ queryKey: ['questions', user.username] })
+			queryClient.invalidateQueries({ queryKey: ['questions'] })
             setConfirmDelete(false)
 		},
 	})
@@ -126,7 +126,7 @@ const Questions = () => {
                         Here&apos;s a list of questions you have submitted and their stats!
                     </p>
                 </div>
-                <Link to={'/questions/create'} > <Button className="rounded-md px-4 py-2" variant={'secondary'}>Submit New</Button></Link>
+                <Link to={'/questions/create'} > <Button className="rounded-md sm-px-4 sm:py-2 max-sm:w-[120px]" variant={'secondary'}>Create New</Button></Link>
             </div>
             
             {

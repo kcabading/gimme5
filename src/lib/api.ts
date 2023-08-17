@@ -2,6 +2,7 @@
 import { API } from "aws-amplify";
 import { CreateFormSchema } from "@/routes/questionsCreate";
 import { queryClient } from "@/lib/query";
+import { getCurrentUser, getGuestUsername } from "./utils";
 
 const API_NAME = 'gimme5'
 
@@ -22,10 +23,14 @@ export async function deleteQuestion (questionId: string) {
 
 export async function getQuestion(category: string, questionId? : string) {
 
+	let currentUser = await getCurrentUser()
+    let username = currentUser ? currentUser.username : getGuestUsername()
+
 	const queryStrings: Record<string, any> = {
-		play: true,
+		username: username,
 		category
 	}
+	
 
 	if (questionId) {
 		queryStrings.questionId = questionId
