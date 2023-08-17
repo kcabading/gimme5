@@ -2,8 +2,7 @@ import { useState, useEffect } from 'react'
 import useColorMode from "@/hooks/useColorMode"
 import { Link } from 'react-router-dom'
 
-import { AiOutlineMenu, AiOutlineClose, AiFillFacebook, AiFillInstagram}  from "react-icons/ai";
-import { BsSun, BsMoon } from "react-icons/bs";
+import { AiFillFacebook, AiFillInstagram}  from "react-icons/ai";
 import { useNavigate } from 'react-router-dom';
 
 import { useAuthenticator } from '@aws-amplify/ui-react';
@@ -107,7 +106,7 @@ const Navigation = function () {
                     <div className="text-xl flex justify-between my-3">
                         <label htmlFor="">Dark Mode</label>
                         <button className="ml-3 px-3 rounded-md hover:text-black hover:bg-slate-100" onClick={toggleTheme}>
-                           { switcheEnabled ? <BsMoon /> : <BsSun /> }
+                           { switcheEnabled ? <Moon /> : <Sun /> }
                         </button>
                     </div>
                     <div className="social-icons flex justify-start text-4xl mt-3">
