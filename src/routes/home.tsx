@@ -22,7 +22,7 @@ function Home() {
 						<li>Climb the Rankings: The more you play, the more points you'll earn. Climb the ranks on our global leaderboard and prove you're the ultimate word guru in Gimme 5!</li>
 					</ol>
 					<div className='text-center mt-10'>
-						<Link to={'/play'} className='font-bold hover:bg-red-500 bg-red-400 px-5 py-2 rounded-lg text-white'>PLAY NOW!</Link>
+						<Link to={'/play'} className='font-bold hover:bg-red-400 bg-red-500 px-7 py-3 rounded-lg text-white'>PLAY NOW!</Link>
 					</div>
 				</div>
 			</div>

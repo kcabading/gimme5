@@ -33,8 +33,6 @@ const Game = forwardRef<HTMLInputElement, IGameProps>(({selectedCategory, questi
     const resetGameState = useBoundStore((state) => state.resetPlay)
     const errorMessage = useBoundStore((state) => state.errorMessage)
 
-    console.log('error message, ', errorMessage)
-
     const handleViewResults = () => {
         setPlayState(PlayStatusEnum.FINISHED)
     }

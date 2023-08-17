@@ -20,7 +20,7 @@
       "function": {
         "gimme5Questions": {
           "deploymentBucketName": "amplify-gimme5-dev-15749-deployment",
-          "s3Key": "amplify-builds/gimme5Questions-61664567787a37432f54-build.zip",
+          "s3Key": "amplify-builds/gimme5Questions-346949546c47682f3733-build.zip",
           "secretsPathAmplifyAppId": "d3osxefc286uo0",
           "dbconPath": "/amplify/d3osxefc286uo0/dev/AMPLIFY_gimme5Questions_MONGODB_CONNECTION_STRING",
           "region": "us-east-1"

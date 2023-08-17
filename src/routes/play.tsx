@@ -17,6 +17,10 @@ import { getQuestion } from "@/lib/api";
 import { useSearchParams } from "react-router-dom";
 import { PlayStatusEnum } from "@/types/play";
 
+import useAudio from '@/hooks/useAudio';
+import correctSound from '@/assets/sounds/correct.mp3'
+import incorrectSound from '@/assets/sounds/incorrect.mp3'
+
 export default function Play() {
     const inputRef = useRef<HTMLInputElement>(null)
 
@@ -57,6 +61,9 @@ export default function Play() {
     
     const resetGameState = useBoundStore((state) => state.resetPlay)
     const gimme5hints = ['HINT# 1','HINT # 2', 'HINT # 3']
+
+    const correctAudio = useAudio(correctSound, { volume: 0.5, playbackRate: 1.2 });
+    const incorrectAudio = useAudio(incorrectSound, { volume: 0.8, playbackRate: 1.2 });
 
     const handleHintOpen = (hintNumber: number) => {
         setHintText(gimme5hints[hintNumber-1])
@@ -99,9 +106,11 @@ export default function Play() {
                 let guessedAnswer = (inputRef.current?.value).toLowerCase()
                 if (!guesses.map(r => r.guess).includes(guessedAnswer)) {
 
+                    
                     let {timerString} = convertMSTimeToString(initialTime - timerMS)
                     
                     if (answers.map(answer => answer.toLowerCase()).includes(guessedAnswer)) {
+                        correctAudio.play()
                         inputRef.current?.classList.add('border-green-300')
                         setTimeout(() => {
                             inputRef.current?.classList.remove('border-green-300')
@@ -109,6 +118,7 @@ export default function Play() {
                         setGuesses(guessedAnswer,timerString, true)
                         setNoOfCorrectAnswer()
                     } else {
+                        incorrectAudio.play()
                         inputRef.current?.classList.add('border-red-300')
                         setTimeout(() => {
                             inputRef.current?.classList.remove('border-red-300')
