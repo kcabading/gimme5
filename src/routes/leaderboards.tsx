@@ -65,9 +65,9 @@ function Leaderboards() {
 							let rank = rankToText(index)
 							return (
 								<TableRow key={index}>
-									<TableCell className="text-center"><span className={`${index == 0 ? 'text-red-500 text-4xl' : ''} font-medium`}>{rank}</span></TableCell>
-									<TableCell className="text-center">{leader.username}</TableCell>
-									<TableCell className="text-center">{leader.points}</TableCell>
+									<TableCell className={`${index == 0 ? 'text-red-500 text-4xl' : ''} font-medium text-center`}>{rank}</TableCell>
+									<TableCell className={`${index == 0 ? 'font-bold text-lg' : ''} text-center`}>{leader.username}</TableCell>
+									<TableCell className={`${index == 0 ? 'font-bold text-lg' : ''} text-center`}>{leader.points}</TableCell>
 								</TableRow>
 							)
 						})

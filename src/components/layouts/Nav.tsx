@@ -64,7 +64,7 @@ const Navigation = function () {
                     </h1>
                     <div className="flex max-sm:hidden dark:text-white font-semibold">
                         <Link className="ml-3 hover:text-amber-500" to="/play">Play</Link>
-                        { authStatus === 'authenticated' && <Link className="ml-3 hover:text-amber-500" to="/questions">Submit Questions</Link>}
+                        <Link className="ml-3 hover:text-amber-500" to="/questions">Submit Questions</Link>
                         <Link to="/leaderboards" className="ml-3 hover:text-amber-500" >Leaderboards</Link>
                     </div>
                     <div className="flex max-sm:hidden dark:text-white items-center">
@@ -109,7 +109,7 @@ const Navigation = function () {
                         )}
                     </div>
                     <button onClick={ () => handleNavClick('/play')} className="text-xl my-3 text-left">Play</button>
-                    {authStatus === 'authenticated' && <button onClick={ () => handleNavClick('/questions')} className="text-xl my-3 text-left">Submit Questions</button>}
+                    <button onClick={ () => handleNavClick('/questions')} className="text-xl my-3 text-left">Submit Questions</button>
                     <button onClick={ () => handleNavClick('/leaderboards')} className="text-xl my-3 text-left">Leaderboards</button>
                     <button onClick={ () => handleNavClick('/settings')} className="text-xl my-3 text-left">Settings</button>
                     <div className="text-xl flex justify-between my-3">
