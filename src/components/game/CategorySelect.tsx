@@ -1,4 +1,6 @@
 import { Apple, Cat, MapPin, PersonStanding, Shirt } from 'lucide-react';
+import useAudio from '@/hooks/useAudio';
+import selectSound from '@/assets/sounds/select.wav'
 
 type ICategorySelectProps = {
     categories: string[],
@@ -13,18 +15,12 @@ let categoryImage = [
     <MapPin className='h-12 w-10 inline -mt-2'/>
 ]
 
-import useAudio from '@/hooks/useAudio';
-
-import selectSound from '@/assets/sounds/select.wav'
-
-
 const CategorySelect = ({categories, handleCategorySelect}: ICategorySelectProps ) => {
 
-    const audio = useAudio(selectSound, { volume: 0.5, playbackRate: 1.2 });
+    const categoryAudio = useAudio(selectSound, { volume: 0.5, playbackRate: 1.2 });
 
     const categorySelect = (cat: string) => {
-        console.log('CATEGORY SELECT')
-        audio.play()
+        categoryAudio.play()
         handleCategorySelect(cat)
     }
 

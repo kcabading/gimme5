@@ -12,7 +12,7 @@ import {
 import CategorySelect from "@/components/game/CategorySelect";
 import Game from "@/components/game/Game";
 import Results from "@/components/game/Results";
-import { convertMSTimeToString } from "@/lib/utils";
+
 import { getQuestion } from "@/lib/api";
 import { useSearchParams } from "react-router-dom";
 import { PlayStatusEnum } from "@/types/play";
@@ -23,8 +23,9 @@ import incorrectSound from '@/assets/sounds/incorrect.mp3'
 import timesupSound from '@/assets/sounds/timeout.mp3'
 
 export default function Play() {
-    const inputRef = useRef<HTMLInputElement>(null)
 
+    console.log('PLAY RENDER')
+    const inputRef = useRef<HTMLInputElement>(null)
     const [searchParams] = useSearchParams();
 
     const playState = useBoundStore((state) => state.playState)
@@ -52,8 +53,8 @@ export default function Play() {
     const hintOpen = useBoundStore((state) => state.hintOpen)
     const setHintOpen = useBoundStore((state) => state.setHintOpen)
 
-    const timerMS = useBoundStore((state) => state.timerMS)
-    const initialTime = useBoundStore((state) => state.initialTime)
+    // const timerMS = useBoundStore((state) => state.timerMS)
+    // const initialTime = useBoundStore((state) => state.initialTime)
     const timesUp = useBoundStore((state) => state.timesUp)
 
     const startTimer = useBoundStore((state) => state.startTimer)
@@ -103,39 +104,38 @@ export default function Play() {
         setGameLoading(false)
     }
 
-    const playAudio = (audio:HTMLAudioElement) => {
-        audio.play()
-        audio.remove()
-        audio.srcObject = null;
-    }
+    // const playAudio = (audio:any) => {
+    //     console.log('play audio')
+    //     audio.play()
+    //     audio.remove()
+    //     audio.srcObject = null;
+    // }
 
 
     const handleInputChange = (e:React.KeyboardEvent<HTMLInputElement>) => {
         if(e.code === 'Enter') {
             if (inputRef.current !== null) {
                 let guessedAnswer = (inputRef.current?.value).toLowerCase()
-                if (!guesses.map(r => r.guess).includes(guessedAnswer)) {
-                    let {timerString} = convertMSTimeToString(initialTime - timerMS)
-                    
+                if (!guesses.map(r => r.guess).includes(guessedAnswer)) {                    
                     if (answers.map(answer => answer.toLowerCase()).includes(guessedAnswer)) {
-                        playAudio(correctAudio)
+                        correctAudio.play()
                         inputRef.current?.classList.add('border-green-300')
                         setTimeout(() => {
                             inputRef.current?.classList.remove('border-green-300')
                         }, 2000);
-                        setGuesses(guessedAnswer,timerString, true)
+                        setGuesses(guessedAnswer, true)
                         setNoOfCorrectAnswer()
                     } else {
-                        playAudio(incorrectAudio)
+                        incorrectAudio.play()
                         inputRef.current?.classList.add('border-red-300')
                         setTimeout(() => {
                             inputRef.current?.classList.remove('border-red-300')
                         }, 2000);
-                        setGuesses(guessedAnswer,timerString, false)
+                        setGuesses(guessedAnswer, false)
                     }
                 } else {
                     // same answer
-                    playAudio(incorrectAudio)
+                    incorrectAudio.play()
                     inputRef.current?.classList.add('border-red-300')
                     setTimeout(() => {
                         inputRef.current?.classList.remove('border-red-300')
@@ -148,8 +148,6 @@ export default function Play() {
 
     useEffect(() => {
         resetGameState()
-        console.log(searchParams)
-
         if (searchParams.has('questionId') || searchParams.has('category')) {
             let qQuestionId = searchParams.get('questionId') as string
             let qCategory = searchParams.get('category') as string
@@ -166,7 +164,7 @@ export default function Play() {
     }, [])
 
     if (playState === 'FINISHED' && timesUp) {
-        playAudio(timesUpAudio)
+        timesUpAudio.play()
     }
     
     return (

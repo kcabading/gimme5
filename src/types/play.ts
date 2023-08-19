@@ -47,7 +47,7 @@ export interface IPlaySlice {
     setRevealAnswers: () => void,
     setGameLoading: (loading: boolean) => void,
     saveGameResult: (gameResult: any) => void,
-    setGuesses: (guess: string, time: string, isCorrect: boolean) => void,
+    setGuesses: (guess: string, isCorrect: boolean) => void,
     setNoOfCorrectAnswer: () => void,
     setHintText: (hint: string) => void,
     setHintOpen: (hint: boolean) => void,

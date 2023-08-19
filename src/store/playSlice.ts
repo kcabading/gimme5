@@ -85,8 +85,10 @@ export const createPlaySlice: StateCreator<IPlaySlice> = (set, get) => ({
     setSelectedCategory: (category) => {
         set({ selectedCategory: category})
     },
-    setGuesses: (guess, time, isCorrect) => {
-        set( (state) => ({ guesses: [...state.guesses, { guess, time, isCorrect}]}))
+    setGuesses: (guess, isCorrect) => {
+        // get time guessed
+        let {timerString} = convertMSTimeToString(get().initialTime - get().timerMS)
+        set( (state) => ({ guesses: [...state.guesses, { guess, time: timerString, isCorrect}]}))
     },
     setNoOfCorrectAnswer: () => {
         let noOfAnswers = get().answers.length
