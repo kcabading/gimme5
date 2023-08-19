@@ -1,19 +1,10 @@
 import useTimer from "@/hooks/useTimer"
 import { useBoundStore } from "@/store"
 
-import useAudio from '@/hooks/useAudio';
-import timesupSound from '@/assets/sounds/timeout.mp3'
-
 const Timer = () => {
     // console.log('Timer RENDER')
     const { minutes, seconds, milliseconds} = useTimer()
     const timesUp = useBoundStore(state => state.timesUp)
-
-    const timesUpAudio = useAudio(timesupSound, { volume: 0.5, playbackRate: 1.2 });
-
-    if (timesUp) {
-        timesUpAudio.play()
-    }
     
     return (
         <>

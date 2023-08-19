@@ -15,16 +15,16 @@
         "setting": "open"
       }
     },
-    "/leaderboard": {
-      "name": "/leaderboard",
-      "lambdaFunction": "gimme5Leaderboards",
+    "/questions": {
+      "name": "/questions",
+      "lambdaFunction": "gimme5Questions",
       "permissions": {
         "setting": "open"
       }
     },
-    "/questions": {
-      "name": "/questions",
-      "lambdaFunction": "gimme5Questions",
+    "/leaderboard": {
+      "name": "/leaderboard",
+      "lambdaFunction": "gimme5Leaderboards",
       "permissions": {
         "setting": "open"
       }

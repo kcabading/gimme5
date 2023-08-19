@@ -1,4 +1,4 @@
-import logo from '@/assets/gimme5-logo.png'
+import logo from '@/assets/gimme5-logo.webp'
 import { Link } from 'react-router-dom'
 
 function Home() {
@@ -7,7 +7,7 @@ function Home() {
 			<div className="intro flex flex-col sm:flex-row mb-20">
 				<div className="max-sm:pb-10 text-center">
 					<img src={logo} alt="logo" width={200} className='m-auto mb-5' />
-					<h1 className='font-bold text-4xl mb-5 font-mono'>Welcome to Gimme 5 - Laro ng mga Henyo!</h1>
+					<h1 className='font-bold text-4xl mb-5 font-mono'>Sino ang <span className='text-white dark:text-red-500'>HEN</span>yo?</h1>
 					<p className='text-xl leading-loose'>Get ready to take charades to a whole new level with Gimme 5, the most thrilling and creative word-guessing game around! Can you guess not one, not two, but five correct answers to the given clue? Prepare for a brain-teasing, high-energy, and laughter-filled experience that will leave you and your friends begging for more!</p>
 				</div>
 			</div>

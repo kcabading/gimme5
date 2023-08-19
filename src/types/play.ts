@@ -51,6 +51,7 @@ export interface IPlaySlice {
     setNoOfCorrectAnswer: () => void,
     setHintText: (hint: string) => void,
     setHintOpen: (hint: boolean) => void,
+    setTimesUp: (isTimeUp: boolean) => void,
     // CATEGORY STATES AND ACTIONS
     categories: string[],
     selectedCategory: string,

@@ -6,7 +6,6 @@ import { TGuessDetail } from "@/types/play";
 import { useBoundStore } from "@/store";
 import { Button } from "@/components/ui/button";
 import { ArrowLeft, Eye, Table, Undo } from "lucide-react"
-import { PlayStatusEnum } from '@/types/play'
 import { Input } from "../ui/input";
 import { useNavigate, useSearchParams } from "react-router-dom";
 
@@ -29,12 +28,12 @@ const Game = forwardRef<HTMLInputElement, IGameProps>(({selectedCategory, questi
     const revealAnswers = useBoundStore((state) => state.revealAnswers)
     const noOfCorrectAnswer = useBoundStore((state) => state.noOfCorrectAnswer)
     const setRevealAnswers = useBoundStore((state) => state.setRevealAnswers)
-    const setPlayState = useBoundStore((state) => state.setPlayState)
+    const setTimesUp = useBoundStore((state) => state.setTimesUp)
     const resetGameState = useBoundStore((state) => state.resetPlay)
     const errorMessage = useBoundStore((state) => state.errorMessage)
 
-    const handleViewResults = () => {
-        setPlayState(PlayStatusEnum.FINISHED)
+    const handleViewResultsOnTimesUp = () => {
+        setTimesUp(false)
     }
 
     const handleResetGame = () => {
@@ -102,14 +101,14 @@ const Game = forwardRef<HTMLInputElement, IGameProps>(({selectedCategory, questi
                                     </Button>
                                     {
                                         noOfCorrectAnswer > 0 && 
-                                        <Button variant={"secondary"} onClick={() => handleViewResults()} className="text-xs sm:text-sm">
+                                        <Button variant={"secondary"} onClick={() => handleViewResultsOnTimesUp()} className="text-xs sm:text-sm">
                                             <Table className="mr-2 h-4 w-4"/>
                                             Save &amp; View Results
                                         </Button>
                                     }
                                     <Button onClick={handleResetGame} variant={"secondary"} className="text-xs sm:text-sm">
                                         <Undo className="mr-2 h-4 w-4"/>
-                                        Try Again?
+                                        New Game?
                                     </Button>
                                 </div>
                                 :

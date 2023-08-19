@@ -20,6 +20,7 @@ import { PlayStatusEnum } from "@/types/play";
 import useAudio from '@/hooks/useAudio';
 import correctSound from '@/assets/sounds/correct.mp3'
 import incorrectSound from '@/assets/sounds/incorrect.mp3'
+import timesupSound from '@/assets/sounds/timeout.mp3'
 
 export default function Play() {
     const inputRef = useRef<HTMLInputElement>(null)
@@ -54,6 +55,7 @@ export default function Play() {
     const timerMS = useBoundStore((state) => state.timerMS)
     const initialTime = useBoundStore((state) => state.initialTime)
     const timesUp = useBoundStore((state) => state.timesUp)
+
     const startTimer = useBoundStore((state) => state.startTimer)
     const setTimerSetting = useBoundStore((state) => state.setTimerSetting)
 
@@ -62,8 +64,9 @@ export default function Play() {
     const resetGameState = useBoundStore((state) => state.resetPlay)
     const gimme5hints = ['HINT# 1','HINT # 2', 'HINT # 3']
 
-    const correctAudio = useAudio(correctSound, { volume: 0.5, playbackRate: 1.2 });
-    const incorrectAudio = useAudio(incorrectSound, { volume: 0.8, playbackRate: 1.2 });
+    const correctAudio = useAudio(correctSound, { volume: 0.4, playbackRate: 1.2 });
+    const incorrectAudio = useAudio(incorrectSound, { volume: 0.6, playbackRate: 1.2 });
+    const timesUpAudio = useAudio(timesupSound, { volume: 0.4, playbackRate: 1.2 });
 
     const handleHintOpen = (hintNumber: number) => {
         setHintText(gimme5hints[hintNumber-1])
@@ -105,8 +108,6 @@ export default function Play() {
             if (inputRef.current !== null) {
                 let guessedAnswer = (inputRef.current?.value).toLowerCase()
                 if (!guesses.map(r => r.guess).includes(guessedAnswer)) {
-
-                    
                     let {timerString} = convertMSTimeToString(initialTime - timerMS)
                     
                     if (answers.map(answer => answer.toLowerCase()).includes(guessedAnswer)) {
@@ -125,6 +126,13 @@ export default function Play() {
                         }, 2000);
                         setGuesses(guessedAnswer,timerString, false)
                     }
+                } else {
+                    // same answer
+                    incorrectAudio.play()
+                    inputRef.current?.classList.add('border-red-300')
+                    setTimeout(() => {
+                        inputRef.current?.classList.remove('border-red-300')
+                    }, 2000);
                 }
                 inputRef.current.value = ''
             }   
@@ -149,6 +157,10 @@ export default function Play() {
             resetGameState()
         }
     }, [])
+
+    if (playState === 'FINISHED' && timesUp) {
+        timesUpAudio.play()
+    }
     
     return (
         <>
@@ -169,7 +181,7 @@ export default function Play() {
                     <CategorySelect categories={playCategories} handleCategorySelect={handleSetCategory} />
                 }                
                 {
-                    ((playState === 'PLAY' && timesUp) || (playState === 'PLAY'))
+                    (timesUp || playState === 'PLAY')
                     &&
                     <Game
                         ref={inputRef}
@@ -183,7 +195,7 @@ export default function Play() {
                     />
                 }
                 {
-                    playState === 'FINISHED' && <Results />
+                    (!timesUp && playState === 'FINISHED') && <Results />
                 }
             </div>
         </>

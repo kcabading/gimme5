@@ -36,6 +36,8 @@ export const createPlaySlice: StateCreator<IPlaySlice> = (set, get) => ({
         switch (playState) {
             case PlayStatusEnum.FINISHED:
                 console.log('FINISHED', get().guesses)
+                // do we have guesses?
+
                 // save game result
                 get().saveGameResult(get().guesses)
                 break;
@@ -53,8 +55,9 @@ export const createPlaySlice: StateCreator<IPlaySlice> = (set, get) => ({
     },
     saveGameResult: async (gameResult) => {
         console.log('saving game result', gameResult)
-        gameResult.find((item: TGuessDetail) => item.isCorrect).time
 
+        let firstAnswer = gameResult.find((item: TGuessDetail) => item.isCorrect)
+        let allCorrectAnswer = gameResult.filter( (item: TGuessDetail) => item.isCorrect)
         let completedTime = get().initialTime - get().timerMS
         let { timerString } = convertMSTimeToString(completedTime)
         // do we have username?
@@ -65,8 +68,8 @@ export const createPlaySlice: StateCreator<IPlaySlice> = (set, get) => ({
             userName: submittedBy,
             questionId : get().question.id,
             question: get().question.text,
-            points: gameResult.filter( (item: TGuessDetail) => item.isCorrect).length,
-            firstAnswerTime: gameResult.find((item: TGuessDetail) => item.isCorrect).time,
+            points:  allCorrectAnswer.length > 0 ? allCorrectAnswer.length : 0,
+            firstAnswerTime: firstAnswer !== undefined ? firstAnswer.time: 'None',
             completionTime: timerString,
             completionTimeInt: completedTime
         }
@@ -117,7 +120,8 @@ export const createPlaySlice: StateCreator<IPlaySlice> = (set, get) => ({
         let intervalId = window.setInterval(() => {
             if( get().playState === PlayStatusEnum.PLAY && get().timerMS === 0 ) {
                 get().stopTimer()
-                set({ timesUp: true })
+                get().setPlayState(PlayStatusEnum.FINISHED)
+                set({ timesUp: true})
                 return
             } else {
                 set( (state) => ({ timerMS: state.timerAscending ? state.timerMS + 1 : state.timerMS - 1 }))
@@ -138,5 +142,8 @@ export const createPlaySlice: StateCreator<IPlaySlice> = (set, get) => ({
     setErrorMessage: (error) => {
         console.log('setting error', error)
         set({errorMessage: error})
+    },
+    setTimesUp: (isTimeUp) => {
+        set({ timesUp: isTimeUp})
     }
 })

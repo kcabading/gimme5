@@ -1,4 +1,4 @@
-import { useEffect, useRef } from 'react';
+import { useRef } from 'react';
 
 type Options = {
     volume: number;
@@ -7,14 +7,8 @@ type Options = {
 
 const useAudio = (src: string, { volume = 1, playbackRate = 1 }: Options) => {
     const sound = useRef(new Audio(src));
-
-    useEffect(() => {
-        sound.current.playbackRate = playbackRate;
-    }, [playbackRate]);
-
-    useEffect(() => {
-        sound.current.volume = volume;
-    }, [volume]);
+    sound.current.playbackRate = playbackRate;
+    sound.current.volume = volume;
 
     return sound.current;
 };

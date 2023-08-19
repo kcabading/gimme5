@@ -24,7 +24,7 @@
             "Arn"
           ],
           "category": "function",
-          "resourceName": "gimme5Leaderboards"
+          "resourceName": "gimme5Questions"
         },
         {
           "attributes": [
@@ -32,7 +32,7 @@
             "Arn"
           ],
           "category": "function",
-          "resourceName": "gimme5Questions"
+          "resourceName": "gimme5Leaderboards"
         }
       ],
       "providerPlugin": "awscloudformation",
