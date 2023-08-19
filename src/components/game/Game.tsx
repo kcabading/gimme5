@@ -103,7 +103,7 @@ const Game = forwardRef<HTMLInputElement, IGameProps>(({selectedCategory, questi
                                         noOfCorrectAnswer > 0 && 
                                         <Button variant={"secondary"} onClick={() => handleViewResultsOnTimesUp()} className="text-xs sm:text-sm">
                                             <Table className="mr-2 h-4 w-4"/>
-                                            Save &amp; View Results
+                                            View Results
                                         </Button>
                                     }
                                     <Button onClick={handleResetGame} variant={"secondary"} className="text-xs sm:text-sm">

@@ -103,6 +103,13 @@ export default function Play() {
         setGameLoading(false)
     }
 
+    const playAudio = (audio:HTMLAudioElement) => {
+        audio.play()
+        audio.remove()
+        audio.srcObject = null;
+    }
+
+
     const handleInputChange = (e:React.KeyboardEvent<HTMLInputElement>) => {
         if(e.code === 'Enter') {
             if (inputRef.current !== null) {
@@ -111,7 +118,7 @@ export default function Play() {
                     let {timerString} = convertMSTimeToString(initialTime - timerMS)
                     
                     if (answers.map(answer => answer.toLowerCase()).includes(guessedAnswer)) {
-                        correctAudio.play()
+                        playAudio(correctAudio)
                         inputRef.current?.classList.add('border-green-300')
                         setTimeout(() => {
                             inputRef.current?.classList.remove('border-green-300')
@@ -119,7 +126,7 @@ export default function Play() {
                         setGuesses(guessedAnswer,timerString, true)
                         setNoOfCorrectAnswer()
                     } else {
-                        incorrectAudio.play()
+                        playAudio(incorrectAudio)
                         inputRef.current?.classList.add('border-red-300')
                         setTimeout(() => {
                             inputRef.current?.classList.remove('border-red-300')
@@ -128,7 +135,7 @@ export default function Play() {
                     }
                 } else {
                     // same answer
-                    incorrectAudio.play()
+                    playAudio(incorrectAudio)
                     inputRef.current?.classList.add('border-red-300')
                     setTimeout(() => {
                         inputRef.current?.classList.remove('border-red-300')
@@ -159,7 +166,7 @@ export default function Play() {
     }, [])
 
     if (playState === 'FINISHED' && timesUp) {
-        timesUpAudio.play()
+        playAudio(timesUpAudio)
     }
     
     return (
