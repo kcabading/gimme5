@@ -29,6 +29,7 @@ const Play = lazy(() => import('@/routes/play.tsx'))
 const ErrorPage = lazy(() => import('@/error-page.tsx'))
 const Questions = lazy(() => import('@/routes/questions.tsx'))
 const QuestionsCreate = lazy(() => import('@/routes/questionsCreate.tsx'))
+const QuestionsEdit = lazy(() => import('@/routes/questionsEdit.tsx'))
 const Leaderboards = lazy(() => import('@/routes/leaderboards.tsx'))
 const Settings = lazy(() => import('@/routes/settings.tsx'))
 
@@ -68,6 +69,10 @@ const router = createBrowserRouter([
       {
         path: 'questions/create',
         element: <QuestionsCreate />
+      },
+      {
+        path: 'questions/edit/:id',
+        element: <QuestionsEdit />
       },
       {
         path: "play",

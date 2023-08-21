@@ -7,6 +7,7 @@ export const CategoryTypeSchema = z.enum(CategoryTypes)
 
 
 export const CreateFormSchema = z.object({
+    _id: z.string().optional(),
 	question: z.string().min(10, {
 		message: "Question must be at least 10 characters.",
 	}),
@@ -20,3 +21,14 @@ export const CreateFormSchema = z.object({
 		message: "The possible answers should be at least 5 and each answer must be unique",
 	})
 })
+
+export type TQuestion = {
+    _id: string,
+    question: string,
+    category: string,
+    language: string,
+    answers: string[],
+    noOfTimesUsed: number,
+    noOfTimesCompleted: number,
+    bestTimeInt: number
+}

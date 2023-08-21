@@ -6,46 +6,53 @@ import { getCurrentUser, getGuestUsername } from "./utils";
 
 const API_NAME = 'gimme5'
 
-
 export async function deleteQuestion (questionId: string) {
-	console.log('deleting question')
-
 	const queryStrings = {
-		questionId: questionId
+		questionId
 	};
 
 	const item = await API.del(API_NAME, '/questions', {
-        queryStringParameters: queryStrings
+        queryStringParameters: queryStrings,
+		headers: { 'x-api-key': import.meta.env.VITE_APIG_KEY}
     });
-	console.log('deleted', item)
     return item
 }
 
-export async function getQuestion(category: string, questionId? : string) {
+type QuestionParams = {
+	category?: string, 
+	questionId? : string,
+	play?: boolean,
+}
+
+export async function getQuestion(params: QuestionParams) {
 
 	let currentUser = await getCurrentUser()
     let username = currentUser ? currentUser.username : getGuestUsername()
 
 	const queryStrings: Record<string, any> = {
 		username: username,
-		category
 	}
-	
 
-	if (questionId) {
-		queryStrings.questionId = questionId
+	if (params.play) {
+		queryStrings.play = params.play
 	}
-	console.log('query params', queryStrings)
+
+	if (params.category) {
+		queryStrings.category = params.category
+	}
+
+	if (params.questionId) {
+		queryStrings.questionId = params.questionId
+	}
 
 	const item = await API.get(API_NAME, '/questions', {
-        queryStringParameters: queryStrings
+        queryStringParameters: queryStrings,
+		headers: { 'x-api-key': import.meta.env.VITE_APIG_KEY}
     });
     return item
 }
 
 export async function getQuestions(userName? : string) {
-
-	console.log('API get questions', userName)
 	let params = {}
 
 	if (userName) {
@@ -55,16 +62,17 @@ export async function getQuestions(userName? : string) {
 	}
 
     const items = await API.get(API_NAME, '/questions', {
-        queryStringParameters: params
+        queryStringParameters: params,
+		headers: { 'x-api-key': import.meta.env.VITE_APIG_KEY}
     });
 
     return items.data
 }
 
 export async function saveGameResult(gameData: any) {
-	console.log('SAVING TO API', gameData)
 	const postBody = {
-		body: gameData
+		body: gameData,
+		headers: { 'x-api-key': import.meta.env.VITE_APIG_KEY}
 	};
 
 	const result =  await API.post(API_NAME, '/games', postBody);
@@ -77,8 +85,9 @@ export async function saveGameResult(gameData: any) {
 export async function getGameResults(userName: string) {
 	const items = await API.get(API_NAME, '/games', {
         queryStringParameters: {
-          userName: userName
-        }
+          userName: userName,
+        },
+		headers: { 'x-api-key': import.meta.env.VITE_APIG_KEY}
     });
     return items
 }
@@ -88,8 +97,9 @@ export async function getUserProfile(email: string) {
 
 	const items = await API.get(API_NAME, '/users', {
         queryStringParameters: {
-          email: email
-        }
+          email
+        },
+		headers: { 'x-api-key': import.meta.env.VITE_APIG_KEY}
     });
 
     return items
@@ -99,7 +109,8 @@ export async function getLeaderboardData() {
 	const items = await API.get(API_NAME, '/leaderboard', {
         queryStringParameters: {
 			dataBy: 'userPoints'
-        }
+        },
+		headers: { 'x-api-key': import.meta.env.VITE_APIG_KEY}
     });
 
 	return items
@@ -107,15 +118,12 @@ export async function getLeaderboardData() {
 
 
 export async function createQuestion(question: typeof CreateFormSchema) {
-	console.log('creating question', question)
-
 	const myInit = {
 		body: question,
-		headers: {} // OPTIONAL
+		headers: { 'x-api-key': import.meta.env.VITE_APIG_KEY}
 	};
 
 	const items = await API.post(API_NAME, '/questions', myInit);
-	console.log('RESULT', items)
     return items
 
 }

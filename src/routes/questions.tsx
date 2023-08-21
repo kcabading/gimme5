@@ -26,31 +26,22 @@ import { useAuthenticator } from "@aws-amplify/ui-react";
 import { Button } from "@/components/ui/button";
 import { Skeleton } from "@/components/ui/skeleton";
 import { useState } from "react";
-import { Play, Share, Trash2 } from "lucide-react";
+import { Edit2, Play, Share, Trash2 } from "lucide-react";
 import { toast } from "@/components/ui/use-toast";
 import { queryClient } from "@/lib/query";
 import { convertMSTimeToString } from "@/lib/utils";
 
-type Question = {
-    _id: string,
-    question: string,
-    category: string,
-    language: string,
-    answers: string[],
-    noOfTimesUsed: number,
-    noOfTimesCompleted: number,
-    bestTimeInt: number
-}
+import { TQuestion } from "@/types/question";
 
 const Questions = () => {
     const { user } = useAuthenticator((context) => [context.user])
 
     const [confirmDelete, setConfirmDelete] = useState<boolean>(false)
-    const [questionToDelete, setQuestionToDelete] = useState<Question | null>(null)
+    const [questionToDelete, setQuestionToDelete] = useState<TQuestion | null>(null)
 
     const navigate = useNavigate();
 
-    const { data: questions, isLoading } = useQuery<Question[]>({
+    const { data: questions, isLoading } = useQuery<TQuestion[]>({
         queryKey: ['questions', user.username],
         queryFn: async () => getQuestions(user.username)
     })
@@ -72,8 +63,11 @@ const Questions = () => {
         navigate(`/play?questionId=${questionId}`)
     }
 
+    const handleEditButton = (questionId: string) => {
+        navigate(`/questions/edit/${questionId}`)
+    }
+
     const handleShareButton = (questionId: string) => {
-        // navigate(`/play/${questionId}`)
 
         let shareURL = `${window.location.origin}/play?questionId=${questionId}`
         window.navigator.clipboard.writeText(shareURL);
@@ -85,7 +79,7 @@ const Questions = () => {
 
     }
 
-    const handleDeleteButton = (question: Question) => {
+    const handleDeleteButton = (question: TQuestion) => {
         setConfirmDelete(true)
         setQuestionToDelete( (prev) => { 
             return {
@@ -178,9 +172,10 @@ const Questions = () => {
                                             <TableCell className="text-center">{item.noOfTimesUsed}</TableCell>
                                             <TableCell className="text-center">{item.noOfTimesCompleted}</TableCell>
                                             <TableCell>{bestTime}</TableCell>
-                                            <TableCell className="text-right flex">
+                                            <TableCell className="text-right flex gap-x-2">
                                                 <Button variant={"default"} onClick={ () => handlePlayButton(item._id)} title="Play"><Play /></Button>
-                                                <Button className="mx-2" variant={'secondary'} onClick={ () =>handleShareButton(item._id)} title="Share"><Share /></Button>
+                                                <Button variant={"secondary"} onClick={ () => handleEditButton(item._id)} title="Edit"><Edit2 /></Button>
+                                                <Button variant={'secondary'} onClick={ () =>handleShareButton(item._id)} title="Share"><Share /></Button>
                                                 <Button variant={"destructive"} onClick={ () =>handleDeleteButton(item)} title="Delete"><Trash2 /></Button>
                                             </TableCell>
                                         </TableRow>

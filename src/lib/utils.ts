@@ -46,14 +46,14 @@ export const generateGuestUsername = () => {
 }
 
 export const rankToText = (rank: number): string => {
-        
+    
+	let by10 = Math.floor((rank + 1) / 10)
     let ranking = (rank + 1) % 10
+    if ( by10 !== 1 && ranking === 1 ) return `${ranking}st`
+    if ( by10 !== 1 && ranking === 2 ) return `${ranking}nd`
+    if ( by10 !== 1 && ranking === 3 ) return `${ranking}rd`
 
-    if ( ranking === 1 ) return `${ranking}st`
-    if ( ranking === 2 ) return `${ranking}nd`
-    if ( ranking === 3 ) return `${ranking}rd`
-
-    return `${ranking}th`
+    return by10 > 0 ? `${by10}${ranking}th` :  `${ranking}th`
 }
 
 

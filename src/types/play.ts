@@ -5,9 +5,13 @@ export enum PlayStatusEnum {
 }
 
 export type TQuestion = {
-    id: string,
-    text: string,
+    _id: string,
+    question: string,
     language: string
+    category: string,
+    answers: string[],
+    submittedBy: string,
+    date: string
 }
 
 export type Thint = {
@@ -33,7 +37,6 @@ export interface IPlaySlice {
     playState: PlayStatusEnum, // SELECT | PLAY | FINISHED
     question: TQuestion,
     guesses: TGuessDetail[],
-    answers: string[],
     revealAnswers: boolean,
     gameLoading: boolean,
     noOfCorrectAnswer: number,
@@ -44,7 +47,6 @@ export interface IPlaySlice {
     // setPlayState: (state: string) => void,
     setPlayState: (playState:PlayStatusEnum) => void,
     setSelectedQuestion: (question: TQuestion) => void,
-    setSelectedAnswers: (answers: string[]) => void,
     setRevealAnswers: () => void,
     setGameLoading: (loading: boolean) => void,
     saveGameResult: (gameResult: any) => void,

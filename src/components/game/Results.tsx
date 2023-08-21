@@ -21,8 +21,7 @@ const Results = () => {
 	const resetGameState = useBoundStore((state) => state.resetPlay)
 
 	const guesses = useBoundStore((state) => state.guesses)
-	const answers = useBoundStore((state) => state.answers)
-	console.log(guesses)
+	const question = useBoundStore((state) => state.question)
 
 	const handleResetGame = () => {
         setSearchParams({})
@@ -51,7 +50,7 @@ const Results = () => {
 
 									return (
 										<Fragment key={id}>
-											<TableRow className={`${answers.map(answer => answer.toLowerCase()).includes(guessedAnswer) ? 'bg-green-300' : 'bg-red-300'}`}>
+											<TableRow className={`${question.answers.map(answer => answer.toLowerCase()).includes(guessedAnswer) ? 'bg-green-300' : 'bg-red-300'}`}>
 												<TableCell>{record.guess}</TableCell>
 												<TableCell>{record.time}</TableCell>
 											</TableRow>
@@ -64,7 +63,7 @@ const Results = () => {
 				</Table>
 			</div>
 			<div className="flex justify-center my-5">
-				<Button variant={'secondary'} onClick={() => handleResetGame()}>Try Again?</Button>
+				<Button variant={'secondary'} onClick={() => handleResetGame()}>New Game?</Button>
 			</div>
 		</>
 	)

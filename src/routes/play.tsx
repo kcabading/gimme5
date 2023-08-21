@@ -24,7 +24,6 @@ import timesupSound from '@/assets/sounds/timeout.mp3'
 
 export default function Play() {
 
-    console.log('PLAY RENDER')
     const inputRef = useRef<HTMLInputElement>(null)
     const [searchParams] = useSearchParams();
 
@@ -32,16 +31,14 @@ export default function Play() {
     const setPlayState = useBoundStore((state) => state.setPlayState)
     const playCategories= useBoundStore((state) => state.categories)
 
-    const selectedCategory = useBoundStore((state) => state.selectedCategory)
     const setSelectedCategory = useBoundStore((state) => state.setSelectedCategory)
 
     const selectedQuestion = useBoundStore((state) => state.question)
     const setSelectedQuestion = useBoundStore((state) => state.setSelectedQuestion)
-    const setSelectedAnswers = useBoundStore((state) => state.setSelectedAnswers)
     const gameLoading = useBoundStore((state) => state.gameLoading)
     const setGameLoading = useBoundStore((state) => state.setGameLoading)
     
-    const answers = useBoundStore((state) => state.answers)
+    // const answers = useBoundStore((state) => state.answers)
 
     const guesses = useBoundStore((state) => state.guesses)
     const setGuesses = useBoundStore((state) => state.setGuesses)
@@ -53,8 +50,6 @@ export default function Play() {
     const hintOpen = useBoundStore((state) => state.hintOpen)
     const setHintOpen = useBoundStore((state) => state.setHintOpen)
 
-    // const timerMS = useBoundStore((state) => state.timerMS)
-    // const initialTime = useBoundStore((state) => state.initialTime)
     const timesUp = useBoundStore((state) => state.timesUp)
 
     const startTimer = useBoundStore((state) => state.startTimer)
@@ -80,9 +75,9 @@ export default function Play() {
         setPlayState(PlayStatusEnum.PLAY)
         // get question based on selected category and question id
         if (category || questionId) {
-            question = await getQuestion(category, questionId)
+            question = await getQuestion({play: true,category, questionId})
         } else if (category) {
-            question = await getQuestion(category)
+            question = await getQuestion({play: true,category})
         }
 
         if (question?.error) {
@@ -90,8 +85,7 @@ export default function Play() {
         }
 
         if (question?.data) {
-            setSelectedQuestion({id: question.data._id, text: question.data.question, language: question.language})
-            setSelectedAnswers(question.data.answers)
+            setSelectedQuestion(question.data)
             setSelectedCategory(question.data.category)
             setTimerSetting(60, false)
             startTimer()
@@ -108,29 +102,32 @@ export default function Play() {
             if (inputRef.current !== null) {
                 let guessedAnswer = (inputRef.current?.value).toLowerCase()
                 if (!guesses.map(r => r.guess).includes(guessedAnswer)) {                    
-                    if (answers.map(answer => answer.toLowerCase()).includes(guessedAnswer)) {
+                    if (selectedQuestion.answers.map(answer => answer.toLowerCase()).includes(guessedAnswer)) {
+                        console.log('Correct answer')
                         correctAudio.play()
                         inputRef.current?.classList.add('border-green-300')
                         setTimeout(() => {
                             inputRef.current?.classList.remove('border-green-300')
-                        }, 2000);
+                        }, 1000);
                         setGuesses(guessedAnswer, true)
                         setNoOfCorrectAnswer()
                     } else {
+                        console.log('incorrect answer')
                         incorrectAudio.play()
                         inputRef.current?.classList.add('border-red-300')
                         setTimeout(() => {
                             inputRef.current?.classList.remove('border-red-300')
-                        }, 2000);
+                        }, 1000);
                         setGuesses(guessedAnswer, false)
                     }
                 } else {
+                    console.log('incorrect answer!')
                     // same answer
                     incorrectAudio.play()
                     inputRef.current?.classList.add('border-red-300')
                     setTimeout(() => {
                         inputRef.current?.classList.remove('border-red-300')
-                    }, 2000);
+                    }, 1000);
                 }
                 inputRef.current.value = ''
             }   
@@ -144,7 +141,6 @@ export default function Play() {
             let qCategory = searchParams.get('category') as string
             
             if (qQuestionId || qCategory) {
-                console.log('setting category')
                 handleSetCategory(qCategory, qQuestionId)
             }
         }
@@ -181,10 +177,10 @@ export default function Play() {
                     &&
                     <Game
                         ref={inputRef}
-                        selectedCategory={selectedCategory}
+                        // selectedCategory={selectedCategory}
                         gameLoading={gameLoading}
-                        question={selectedQuestion.text}
-                        answers={answers}
+                        question={selectedQuestion}
+                        // answers={answers}
                         guesses={guesses}
                         handleHintOpen={handleHintOpen}
                         handleInputChange={handleInputChange}

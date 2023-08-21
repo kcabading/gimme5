@@ -12,8 +12,15 @@ const initState = {
     categories: CATEGORIES,
     playState: PlayStatusEnum.SELECT,
     selectedCategory: '',
-    question: { id: '', text: '', language: ''},
-    answers: [],
+    question: { 
+        _id: "",
+        question: "",
+        language: "",
+        category: "",
+        answers: [],
+        submittedBy: "",
+        date: ""
+    },
     revealAnswers: false,
     gameLoading: false,
     noOfCorrectAnswer: 0,
@@ -36,8 +43,6 @@ export const createPlaySlice: StateCreator<IPlaySlice> = (set, get) => ({
         switch (playState) {
             case PlayStatusEnum.FINISHED:
                 console.log('FINISHED', get().guesses)
-                // do we have guesses?
-
                 // save game result
                 get().saveGameResult(get().guesses)
                 break;
@@ -48,7 +53,7 @@ export const createPlaySlice: StateCreator<IPlaySlice> = (set, get) => ({
         set({playState: playState})
     },
     setSelectedQuestion: (question) => {
-        set({question: { id: question.id, text: question.text, language: question.language }})
+        set({question: question})
     },
     setGameLoading: (loading) => {
         set({gameLoading: loading})
@@ -66,8 +71,8 @@ export const createPlaySlice: StateCreator<IPlaySlice> = (set, get) => ({
 
         let resultDetails = {
             userName: submittedBy,
-            questionId : get().question.id,
-            question: get().question.text,
+            questionId : get().question._id,
+            question: get().question.question,
             points:  allCorrectAnswer.length > 0 ? allCorrectAnswer.length : 0,
             firstAnswerTime: firstAnswer !== undefined ? firstAnswer.time: 'None',
             completionTime: timerString,
@@ -75,9 +80,6 @@ export const createPlaySlice: StateCreator<IPlaySlice> = (set, get) => ({
         }
 
         saveGameResult(resultDetails)
-    },
-    setSelectedAnswers: (answers) => {
-        set({answers: answers})
     },
     setRevealAnswers: () => {
         set( state => ( {revealAnswers: !state.revealAnswers} ))
@@ -91,7 +93,7 @@ export const createPlaySlice: StateCreator<IPlaySlice> = (set, get) => ({
         set( (state) => ({ guesses: [...state.guesses, { guess, time: timerString, isCorrect}]}))
     },
     setNoOfCorrectAnswer: () => {
-        let noOfAnswers = get().answers.length
+        let noOfAnswers = get().question.answers.length
         let noOfCorrectAnswer = get().noOfCorrectAnswer + 1
 
         if (noOfAnswers === noOfCorrectAnswer) { 

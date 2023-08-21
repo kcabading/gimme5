@@ -7,8 +7,9 @@ function Home() {
 			<div className="intro flex flex-col sm:flex-row mb-20">
 				<div className="max-sm:pb-10 text-center">
 					<img src={logo} alt="logo" width={200} className='m-auto mb-5' />
-					<h1 className='font-bold text-4xl mb-5 font-mono'>Sino ang <span className='text-white dark:text-red-500'>HEN</span>yo?</h1>
-					<p className='text-xl leading-loose'>Get ready to take charades to a whole new level with Gimme 5, the most thrilling and creative word-guessing game around! Can you guess not one, not two, but five correct answers to the given clue? Prepare for a brain-teasing, high-energy, and laughter-filled experience that will leave you and your friends begging for more!</p>
+					<h1 className='font-bold text-4xl mb-5 font-mono animate-wiggle'>Sino ang <span className='text-white dark:text-red-500'>HEN</span>yo?</h1>
+					<p className='text-xl leading-loose mb-10'>Get ready to take charades to a whole new level with Gimme 5, the most thrilling and creative word-guessing game around! Can you guess not one, not two, but five correct answers to the given clue? Prepare for a brain-teasing, high-energy, and laughter-filled experience that will leave you and your friends begging for more!</p>
+					<Link to={'/play'} className='font-bold hover:bg-red-400 bg-red-500 px-7 py-3 rounded-lg text-white'>PLAY NOW!</Link>
 				</div>
 			</div>
 			<div className="mt-5">

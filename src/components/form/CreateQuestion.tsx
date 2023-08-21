@@ -1,65 +1,43 @@
 
-import { zodResolver } from "@hookform/resolvers/zod"
-import { useForm } from "react-hook-form"
 import * as z from "zod"
-import { queryClient } from "@/lib/query"
-import { createQuestion } from "@/lib/api";
 
 import { Button } from "@/components/ui/button"
-import { ArrowLeft } from 'lucide-react';
+import { Apple, Cat, Loader, MapPin, PersonStanding, Shirt } from 'lucide-react';
 
-import { useMutation } from "@tanstack/react-query"
-import { useToast } from "@/components/ui/use-toast";
-import { useAuthenticator } from "@aws-amplify/ui-react";
-import { Link } from "react-router-dom";
+import {
+  Form,
+  FormControl,
+  FormDescription,
+  FormField,
+  FormItem,
+  FormLabel,
+  FormMessage,
+} from "@/components/ui/form"
+import {
+	Select,
+	SelectContent,
+	SelectItem,
+	SelectTrigger,
+	SelectValue,
+  } from "@/components/ui/select"
+import { Input } from "@/components/ui/input"
+import { Textarea } from "@/components/ui/textarea"
+
+import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
+import { Label } from "@/components/ui/label";
 import { CreateFormSchema } from "@/types/question";
-import CreateQuestion from "@/components/form/CreateQuestion";
+
+type CreateQuestionProps = {
+    form: any,
+    isLoading: boolean,
+    onSubmit: (values: z.infer<typeof CreateFormSchema>) => void
+}
 
 
-
-export default function questionsCreate() {
-	const { user } = useAuthenticator((context) => [context.user])
-	const { toast } = useToast()
-
-	const form = useForm<z.infer<typeof CreateFormSchema>>({
-		resolver: zodResolver(CreateFormSchema),
-		defaultValues: {
-			_id: '',
-			question: "Magbigay ng 5 ...",
-			language: "English",
-			category: "Tao",
-			answers: ""
-		},
-	})
-
-	const mutation = useMutation({
-		mutationFn: (payload: any) => createQuestion(payload),
-		onSuccess: () => {
-			toast({
-				title: "Thank you",
-				description: "Successfully submitted the Question",
-				duration: 5000
-			})
-			// ✅ refetch our questions
-			queryClient.invalidateQueries({ queryKey: ['questions', user.username] })
-			console.log('invalidating question queries')
-			form.reset()
-		},
-	})
-
-	function onSubmit(values: z.infer<typeof CreateFormSchema>) {
-		console.log('saving')
-		console.log(values)
-		// submit
-		mutation.mutate({...values, submittedBy: user.username})
-	}
-
+export default function CreateQuestion({ form, isLoading, onSubmit }: CreateQuestionProps) {
 	return (
 		<>
-			<Link to={'/questions'}><Button variant={'secondary'} className="mb-5"><ArrowLeft />&nbsp;Go Back to your Questions</Button></Link>
-			<CreateQuestion form={form} onSubmit={onSubmit} isLoading={mutation.isLoading}/>
-
-			{/* <Form {...form}>
+			<Form {...form}>
 				<form onSubmit={form.handleSubmit(onSubmit)} className="space-y-2 sm:w-1/2 w-full sm:p-0 mb-10">
 					<FormField
 						control={form.control}
@@ -68,7 +46,7 @@ export default function questionsCreate() {
 							<FormItem>
 								<FormLabel>Enter a Gimme5 Question</FormLabel>
 								<FormControl>
-									<Input placeholder="question" {...field} disabled={mutation.isLoading}/>
+									<Input placeholder="question" {...field} disabled={isLoading}/>
 								</FormControl>
 								<FormMessage />
 							</FormItem>
@@ -82,7 +60,7 @@ export default function questionsCreate() {
 							<FormItem>
 								<FormLabel>Language</FormLabel>
 								<FormControl>
-									<RadioGroup {...field} onValueChange={field.onChange} disabled={mutation.isLoading}>
+									<RadioGroup {...field} onValueChange={field.onChange} disabled={isLoading}>
 										<div className="flex space-x-2">
 											<div className="flex items-center space-x-2">
 												<RadioGroupItem value="English" id="r1" />
@@ -111,7 +89,7 @@ export default function questionsCreate() {
 							
 							<FormItem>
 								<FormLabel>Select a Category</FormLabel>
-								<Select  name={field.name} value={field.value} onValueChange={field.onChange} disabled={mutation.isLoading}>
+								<Select  name={field.name} value={field.value} onValueChange={field.onChange} disabled={isLoading}>
 									<FormControl>
 									<SelectTrigger className="bg-white dark:bg-black">
 										<SelectValue placeholder="Select a Category" />
@@ -140,7 +118,8 @@ export default function questionsCreate() {
 									placeholder="Enter 5 possible answers"
 									className="resize-none bg-white dark:bg-black"
 									{...field}
-									disabled={mutation.isLoading}
+									disabled={isLoading}
+                                    rows={5}
 									/>
 								</FormControl>
 								<FormDescription className="dark:text-white">
@@ -150,11 +129,11 @@ export default function questionsCreate() {
 							</FormItem>
 						)}
 					/>
-					<Button type="submit">
-						<Loader className={`${!mutation.isLoading && 'hidden'} animate-spin mr-2`} />Submit
+					<Button type="submit" disabled={isLoading}>
+						<Loader className={`${!isLoading && 'hidden'} animate-spin mr-2`} />Submit
 					</Button>
 				</form>
-			</Form> */}
+			</Form>
 		</>	
 	)
 	

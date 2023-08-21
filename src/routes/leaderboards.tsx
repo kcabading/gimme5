@@ -13,6 +13,7 @@ import {
 import { rankToText } from "@/lib/utils"
 // import React from "react"
 import { Skeleton } from "@/components/ui/skeleton"
+import { useAuthenticator } from "@aws-amplify/ui-react"
 
 
 export type TLeaderData = {
@@ -22,12 +23,13 @@ export type TLeaderData = {
 
 function Leaderboards() {
 
+	const { user, authStatus } = useAuthenticator((context) => [context.user, context.authStatus])
+
 	const { data, isLoading } = useQuery<TLeaderData[]>({
         queryKey: ['leaderboard'],
-        queryFn: async () => getLeaderboardData()
+        queryFn: async () => getLeaderboardData(),
+		refetchOnMount: true
     })
-
-	console.log('leaderboard data: ', data)
   
     return (
 		<>
@@ -64,7 +66,7 @@ function Leaderboards() {
 
 							let rank = rankToText(index)
 							return (
-								<TableRow key={index}>
+								<TableRow key={index} className={`${ authStatus === 'authenticated' && (user.username == leader.username) ? 'text-amber-500 font-bold' : ''}`}>
 									<TableCell className={`${index == 0 ? 'text-red-500 text-4xl' : ''} font-medium text-center`}>{rank}</TableCell>
 									<TableCell className={`${index == 0 ? 'font-bold text-lg' : ''} text-center`}>{leader.username}</TableCell>
 									<TableCell className={`${index == 0 ? 'font-bold text-lg' : ''} text-center`}>{leader.points}</TableCell>
