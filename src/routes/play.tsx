@@ -86,12 +86,11 @@ export default function Play() {
         }
 
         if (question?.error) {
-            console.log('MAY ERROR', question.error)
             setErrorMessage(question.error)
         }
 
         if (question?.data) {
-            setSelectedQuestion({id: question.data._id, text: question.data.question})
+            setSelectedQuestion({id: question.data._id, text: question.data.question, language: question.language})
             setSelectedAnswers(question.data.answers)
             setSelectedCategory(question.data.category)
             setTimerSetting(60, false)
@@ -103,14 +102,6 @@ export default function Play() {
 
         setGameLoading(false)
     }
-
-    // const playAudio = (audio:any) => {
-    //     console.log('play audio')
-    //     audio.play()
-    //     audio.remove()
-    //     audio.srcObject = null;
-    // }
-
 
     const handleInputChange = (e:React.KeyboardEvent<HTMLInputElement>) => {
         if(e.code === 'Enter') {

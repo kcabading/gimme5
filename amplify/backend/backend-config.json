@@ -121,5 +121,159 @@
       "providerPlugin": "awscloudformation",
       "service": "S3AndCloudFront"
     }
+  },
+  "parameters": {
+    "AMPLIFY_function_gimme5Games_dbconPath": {
+      "usedBy": [
+        {
+          "category": "function",
+          "resourceName": "gimme5Games"
+        }
+      ]
+    },
+    "AMPLIFY_function_gimme5Games_deploymentBucketName": {
+      "usedBy": [
+        {
+          "category": "function",
+          "resourceName": "gimme5Games"
+        }
+      ]
+    },
+    "AMPLIFY_function_gimme5Games_region": {
+      "usedBy": [
+        {
+          "category": "function",
+          "resourceName": "gimme5Games"
+        }
+      ]
+    },
+    "AMPLIFY_function_gimme5Games_s3Key": {
+      "usedBy": [
+        {
+          "category": "function",
+          "resourceName": "gimme5Games"
+        }
+      ]
+    },
+    "AMPLIFY_function_gimme5Leaderboards_deploymentBucketName": {
+      "usedBy": [
+        {
+          "category": "function",
+          "resourceName": "gimme5Leaderboards"
+        }
+      ]
+    },
+    "AMPLIFY_function_gimme5Leaderboards_s3Key": {
+      "usedBy": [
+        {
+          "category": "function",
+          "resourceName": "gimme5Leaderboards"
+        }
+      ]
+    },
+    "AMPLIFY_function_gimme5PostSignup_dbconPath": {
+      "usedBy": [
+        {
+          "category": "function",
+          "resourceName": "gimme5PostSignup"
+        }
+      ]
+    },
+    "AMPLIFY_function_gimme5PostSignup_deploymentBucketName": {
+      "usedBy": [
+        {
+          "category": "function",
+          "resourceName": "gimme5PostSignup"
+        }
+      ]
+    },
+    "AMPLIFY_function_gimme5PostSignup_region": {
+      "usedBy": [
+        {
+          "category": "function",
+          "resourceName": "gimme5PostSignup"
+        }
+      ]
+    },
+    "AMPLIFY_function_gimme5PostSignup_s3Key": {
+      "usedBy": [
+        {
+          "category": "function",
+          "resourceName": "gimme5PostSignup"
+        }
+      ]
+    },
+    "AMPLIFY_function_gimme5Questions_dbconPath": {
+      "usedBy": [
+        {
+          "category": "function",
+          "resourceName": "gimme5Questions"
+        }
+      ]
+    },
+    "AMPLIFY_function_gimme5Questions_deploymentBucketName": {
+      "usedBy": [
+        {
+          "category": "function",
+          "resourceName": "gimme5Questions"
+        }
+      ]
+    },
+    "AMPLIFY_function_gimme5Questions_region": {
+      "usedBy": [
+        {
+          "category": "function",
+          "resourceName": "gimme5Questions"
+        }
+      ]
+    },
+    "AMPLIFY_function_gimme5Questions_s3Key": {
+      "usedBy": [
+        {
+          "category": "function",
+          "resourceName": "gimme5Questions"
+        }
+      ]
+    },
+    "AMPLIFY_function_gimme5Questions_secretsPathAmplifyAppId": {
+      "usedBy": [
+        {
+          "category": "function",
+          "resourceName": "gimme5Questions"
+        }
+      ]
+    },
+    "AMPLIFY_function_gimme5UserProfiles_deploymentBucketName": {
+      "usedBy": [
+        {
+          "category": "function",
+          "resourceName": "gimme5UserProfiles"
+        }
+      ]
+    },
+    "AMPLIFY_function_gimme5UserProfiles_s3Key": {
+      "usedBy": [
+        {
+          "category": "function",
+          "resourceName": "gimme5UserProfiles"
+        }
+      ]
+    },
+    "AMPLIFY_function_gimme5layerGimmeDB_deploymentBucketName": {
+      "usedBy": [
+        {
+          "category": "function",
+          "resourceName": "gimme5layerGimmeDB"
+        }
+      ]
+    },
+    "AMPLIFY_function_gimme5layerGimmeDB_s3Key": {
+      "usedBy": [
+        {
+          "category": "function",
+          "resourceName": "gimme5layerGimmeDB"
+        }
+      ]
+    }
   }
 }

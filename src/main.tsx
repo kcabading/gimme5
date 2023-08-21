@@ -4,6 +4,10 @@ import ReactDOM from 'react-dom/client'
 
 import { Amplify } from 'aws-amplify';
 import awsExports from "@/aws-exports";
+
+awsExports.oauth.redirectSignIn = `${window.location.origin}/`
+awsExports.oauth.redirectSignOut = `${window.location.origin}/`
+
 Amplify.configure(awsExports);
 
 import "./index.css";
