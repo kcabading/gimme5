@@ -22,7 +22,7 @@ https://d1hzxelx7q8pzd.cloudfront.net
 - React Router 6
 - React Query
 - Zod
-- Shadcdn (React Component Library)
+- Shadcdn (React UI Component Library)
 - AWS Cognito (Authentication)
 - AWS Lambda (Other Data Processing)
 - MongoDB (Data Store)
@@ -32,11 +32,12 @@ https://d1hzxelx7q8pzd.cloudfront.net
 - [x] Home and Basic Layout pages
 - [x] Game Components (Select Category, Enter Guesses, Use hints, Timer)
 - [x] Play Page
-- [x] Questions Page (Add, Delete)
+- [x] Questions Page (Add,Edit,Delete)
 - [x] Leaderboards page
 - [ ] Challenges page
 - [ ] Settings page
 - [ ] Multiplayer page
+- [ ] Gamification
 
 ## License
 MIT
