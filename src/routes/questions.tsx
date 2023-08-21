@@ -26,7 +26,7 @@ import { useAuthenticator } from "@aws-amplify/ui-react";
 import { Button } from "@/components/ui/button";
 import { Skeleton } from "@/components/ui/skeleton";
 import { useState } from "react";
-import { Copy } from "lucide-react";
+import { Play, Share, Trash2 } from "lucide-react";
 import { toast } from "@/components/ui/use-toast";
 import { queryClient } from "@/lib/query";
 import { convertMSTimeToString } from "@/lib/utils";
@@ -35,6 +35,7 @@ type Question = {
     _id: string,
     question: string,
     category: string,
+    language: string,
     answers: string[],
     noOfTimesUsed: number,
     noOfTimesCompleted: number,
@@ -154,6 +155,7 @@ const Questions = () => {
                                 <TableRow>
                                 <TableHead className="w-[300px] dark:text-white">Question</TableHead>
                                 <TableHead className="text-center dark:text-white">Category</TableHead>
+                                <TableHead className="text-center dark:text-white">Language</TableHead>
                                 <TableHead className=" dark:text-white">Answers</TableHead>
                                 <TableHead className="text-center dark:text-white"># of Times Used</TableHead>
                                 <TableHead className="text-center dark:text-white"># of Times Completed</TableHead>
@@ -171,14 +173,15 @@ const Questions = () => {
                                         <TableRow key={index}>
                                             <TableCell className="font-medium">{item.question}</TableCell>
                                             <TableCell className="text-center">{item.category}</TableCell>
+                                            <TableCell className="text-center">{item.language}</TableCell>
                                             <TableCell>{item.answers.join(', ')}</TableCell>
                                             <TableCell className="text-center">{item.noOfTimesUsed}</TableCell>
                                             <TableCell className="text-center">{item.noOfTimesCompleted}</TableCell>
                                             <TableCell>{bestTime}</TableCell>
                                             <TableCell className="text-right flex">
-                                                <Button variant={"default"} onClick={ () => handlePlayButton(item._id)}>Play</Button>
-                                                <Button className="mx-2" variant={'secondary'} onClick={ () =>handleShareButton(item._id)}><Copy />&nbsp;Share</Button>
-                                                <Button variant={"destructive"} onClick={ () =>handleDeleteButton(item)}>Delete</Button>
+                                                <Button variant={"default"} onClick={ () => handlePlayButton(item._id)} title="Play"><Play /></Button>
+                                                <Button className="mx-2" variant={'secondary'} onClick={ () =>handleShareButton(item._id)} title="Share"><Share /></Button>
+                                                <Button variant={"destructive"} onClick={ () =>handleDeleteButton(item)} title="Delete"><Trash2 /></Button>
                                             </TableCell>
                                         </TableRow>
                                     )

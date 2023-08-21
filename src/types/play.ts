@@ -6,7 +6,8 @@ export enum PlayStatusEnum {
 
 export type TQuestion = {
     id: string,
-    text: string
+    text: string,
+    language: string
 }
 
 export type Thint = {

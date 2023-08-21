@@ -1,6 +1,6 @@
 
 import { API } from "aws-amplify";
-import { CreateFormSchema } from "@/routes/questionsCreate";
+import { CreateFormSchema } from "@/types/question";
 import { queryClient } from "@/lib/query";
 import { getCurrentUser, getGuestUsername } from "./utils";
 

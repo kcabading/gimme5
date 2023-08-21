@@ -12,7 +12,7 @@ const initState = {
     categories: CATEGORIES,
     playState: PlayStatusEnum.SELECT,
     selectedCategory: '',
-    question: { id: '', text: ''},
+    question: { id: '', text: '', language: ''},
     answers: [],
     revealAnswers: false,
     gameLoading: false,
@@ -48,7 +48,7 @@ export const createPlaySlice: StateCreator<IPlaySlice> = (set, get) => ({
         set({playState: playState})
     },
     setSelectedQuestion: (question) => {
-        set({question: { id: question.id, text: question.text }})
+        set({question: { id: question.id, text: question.text, language: question.language }})
     },
     setGameLoading: (loading) => {
         set({gameLoading: loading})
