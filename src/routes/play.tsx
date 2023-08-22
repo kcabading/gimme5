@@ -25,6 +25,7 @@ import timesupSound from '@/assets/sounds/timeout.mp3'
 export default function Play() {
 
     const inputRef = useRef<HTMLInputElement>(null)
+
     const [searchParams] = useSearchParams();
 
     const playState = useBoundStore((state) => state.playState)
@@ -37,8 +38,6 @@ export default function Play() {
     const setSelectedQuestion = useBoundStore((state) => state.setSelectedQuestion)
     const gameLoading = useBoundStore((state) => state.gameLoading)
     const setGameLoading = useBoundStore((state) => state.setGameLoading)
-    
-    // const answers = useBoundStore((state) => state.answers)
 
     const guesses = useBoundStore((state) => state.guesses)
     const setGuesses = useBoundStore((state) => state.setGuesses)
@@ -177,10 +176,8 @@ export default function Play() {
                     &&
                     <Game
                         ref={inputRef}
-                        // selectedCategory={selectedCategory}
                         gameLoading={gameLoading}
                         question={selectedQuestion}
-                        // answers={answers}
                         guesses={guesses}
                         handleHintOpen={handleHintOpen}
                         handleInputChange={handleInputChange}

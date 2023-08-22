@@ -1,6 +1,6 @@
 import Timer from "@/components/game/Timer";
 
-import { forwardRef } from "react";
+import { forwardRef, useRef } from "react";
 import { Skeleton } from "@/components/ui/skeleton"
 import { TGuessDetail } from "@/types/play";
 import { useBoundStore } from "@/store";
@@ -84,13 +84,15 @@ const Game = forwardRef<HTMLInputElement, IGameProps>(({question, gameLoading, g
                                     <ArrowLeft className="mr-2 h-4 w-4"/>Back to Category
                                 </Button>
                             </div>
-                            <div className="flex justify-between items-center mb-5 max-sm:top-20 max-sm:sticky">
+                            
+                            <div className="flex justify-between items-center mb-5">
                                 <p className="text-lg sm:text-2xl font-mono"><span className="font-bold mb-5">Category</span>: {question.category}</p>
                                 <Timer />
                             </div>
                             <div className="gimme5-question mb-5">
                                 <p className="text-2xl sm:text-4xl font-mono">{question.question}&nbsp;({question.language})</p>
                             </div>
+                            
                             {
                                 timesUp 
                                 ?

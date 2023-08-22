@@ -48,8 +48,6 @@ export default function questionsCreate() {
 	})
 
 	function onSubmit(values: z.infer<typeof CreateFormSchema>) {
-		console.log('saving')
-		console.log(values)
 		// submit
 		mutation.mutate({...values, submittedBy: user.username})
 	}
@@ -59,102 +57,6 @@ export default function questionsCreate() {
 			<Link to={'/questions'}><Button variant={'secondary'} className="mb-5"><ArrowLeft />&nbsp;Go Back to your Questions</Button></Link>
 			<CreateQuestion form={form} onSubmit={onSubmit} isLoading={mutation.isLoading}/>
 
-			{/* <Form {...form}>
-				<form onSubmit={form.handleSubmit(onSubmit)} className="space-y-2 sm:w-1/2 w-full sm:p-0 mb-10">
-					<FormField
-						control={form.control}
-						name="question"
-						render={({ field }) => (
-							<FormItem>
-								<FormLabel>Enter a Gimme5 Question</FormLabel>
-								<FormControl>
-									<Input placeholder="question" {...field} disabled={mutation.isLoading}/>
-								</FormControl>
-								<FormMessage />
-							</FormItem>
-						)}
-					/>
-
-					<FormField
-						control={form.control}
-						name="language"
-						render={({ field }) => (
-							<FormItem>
-								<FormLabel>Language</FormLabel>
-								<FormControl>
-									<RadioGroup {...field} onValueChange={field.onChange} disabled={mutation.isLoading}>
-										<div className="flex space-x-2">
-											<div className="flex items-center space-x-2">
-												<RadioGroupItem value="English" id="r1" />
-												<Label htmlFor="r1">English</Label>
-											</div>
-											<div className="flex items-center space-x-2">
-												<RadioGroupItem value="Tagalog" id="r2" />
-												<Label htmlFor="r2">Tagalog</Label>
-											</div>
-											<div className="flex items-center space-x-2">
-												<RadioGroupItem value="English or Tagalog" id="r2" />
-												<Label htmlFor="r2">English or Tagalog</Label>
-											</div>
-										</div>
-									</RadioGroup>
-								</FormControl>
-								<FormMessage />
-							</FormItem>
-						)}
-					/>
-
-					<FormField
-						control={form.control}
-						name="category"
-						render={({ field }) => (
-							
-							<FormItem>
-								<FormLabel>Select a Category</FormLabel>
-								<Select  name={field.name} value={field.value} onValueChange={field.onChange} disabled={mutation.isLoading}>
-									<FormControl>
-									<SelectTrigger className="bg-white dark:bg-black">
-										<SelectValue placeholder="Select a Category" />
-									</SelectTrigger>
-									</FormControl>
-									<SelectContent>
-										<SelectItem value="Tao"><PersonStanding className="inline"/>&nbsp;Tao</SelectItem>
-										<SelectItem value="Bagay"><Shirt className="inline"/>&nbsp;Bagay</SelectItem>
-										<SelectItem value="Hayop"><Cat className="inline"/>&nbsp;Hayop</SelectItem>
-										<SelectItem value="Pagkain"><Apple className="inline"/>&nbsp;Pagkain</SelectItem>
-										<SelectItem value="Lugar"><MapPin className="inline"/>&nbsp;Lugar</SelectItem>
-									</SelectContent>
-								</Select>
-								<FormMessage />
-							</FormItem>
-						)}
-					/>
-					<FormField
-						control={form.control}
-						name="answers"
-						render={({ field }) => (
-							<FormItem>
-								<FormLabel>Enter 5 possible answers</FormLabel>
-								<FormControl>
-									<Textarea
-									placeholder="Enter 5 possible answers"
-									className="resize-none bg-white dark:bg-black"
-									{...field}
-									disabled={mutation.isLoading}
-									/>
-								</FormControl>
-								<FormDescription className="dark:text-white">
-									Separate answers by new line(press enter after every answer) in the text area
-								</FormDescription>
-								<FormMessage />
-							</FormItem>
-						)}
-					/>
-					<Button type="submit">
-						<Loader className={`${!mutation.isLoading && 'hidden'} animate-spin mr-2`} />Submit
-					</Button>
-				</form>
-			</Form> */}
 		</>	
 	)
 	

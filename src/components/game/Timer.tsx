@@ -2,12 +2,11 @@ import useTimer from "@/hooks/useTimer"
 import { useBoundStore } from "@/store"
 
 const Timer = () => {
-    // console.log('Timer RENDER')
     const { minutes, seconds, milliseconds} = useTimer()
     const timesUp = useBoundStore(state => state.timesUp)
     
     return (
-        <>
+        <div className="max-sm:bg-white max-sm:top-20 max-sm:right-3 rounded-md max-sm:border-2 max-sm:fixed max-sm:dark:bg-stone-600">
             {
                 timesUp 
                 ?
@@ -19,7 +18,7 @@ const Timer = () => {
                     <span className="w-[50px]">{milliseconds}</span>
                 </div>
             }
-        </>
+        </div>
     )
 }
 

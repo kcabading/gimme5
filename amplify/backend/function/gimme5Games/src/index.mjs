@@ -40,81 +40,79 @@ export const handler = async (event) => {
     const collection = await db.collection("games");
     const questionCollections = await db.collection("questions");
     
-    console.log('COLLECTIONS', collection)
+    try {
     
-    switch(method){
-        case 'GET':
-            if (queryParams.hasOwnProperty('userName')) {
-                let query = {userName: queryParams.userName};
-                console.log('query', query)
-                let results = await collection.find(query).toArray()
-                responseBody = results
-                statusCode = 200
-                console.log('RESULT', responseBody)
-                
-            } else {
-                responseBody = await collection.find().limit(20).toArray()
-            }
-            break
-        case 'POST':
-            let newDocument = JSON.parse(event.body)
-            newDocument.dateEntered = new Date()
-            console.log('new document', event)
-            responseBody = await collection.insertOne(newDocument);
-            
-            if (responseBody.acknowledged === true) {
-                
-                // update redis
-                const result = await redisClient.zincrby(
-                    "leaderboardsByUserPoints",
-                    newDocument.points ,newDocument.userName
-                );
-                
-                console.log('REDIS RESULT', result)
-                
-                const filter = { _id: new ObjectId(newDocument.questionId) };
-                const update = { 
-                    $inc: {
-                        noOfTimesUsed: 1,
-                        noOfTimesCompleted: newDocument.points === 5 ? 1: 0
-                    },
-                    $min: { 
-                        bestTimeInt: newDocument.completionTimeInt
-                    },
-                    // $set: {
-                        // score: 
-                        
-                        // {
-                        //     '$cond': [ true, 'true', 'false' ]
-                        // }
-                        // bestTime: {
-                        //     $cond: {
-                        //       if: { $gt: ['$bestTimeInt', 1] }, // Condition: If score < 80
-                        //       then: 1,                     // Set score to 80
-                        //       else: 0 // Increment score by 10
-                        //     }
-                        // }
-                        // {
-                        //     $cond: { 
-                        //         if: {
-                        //             $gt: [ "$bestTimeInt", newDocument.completionTimeInt ]
-                        //         }, 
-                        //         then: newDocument.completionTime, 
-                        //         else: '$bestTime'
-                        //     }
-                        // }
-                    // }
+        switch(method){
+            case 'GET':
+                if (queryParams.hasOwnProperty('userName')) {
+                    let query = {userName: queryParams.userName};
+                    let results = await collection.find(query).sort({ "_id": -1 }).toArray()
+                    responseBody = results
+                    statusCode = 200                
+                } else {
+                    responseBody = await collection.find().sort({ "_id": -1 }).toArray()
                 }
-                // `doc` is the document _before_ `update` was applied
-                let doc = await questionCollections.updateOne(filter, update);
-                console.log('UPDATE RESULT', doc)
-            }
-            statusCode = 200
-            break
-        default:
-            break;
+                break
+            case 'POST':
+                let newDocument = JSON.parse(event.body)
+                newDocument.dateEntered = new Date()
+                responseBody = await collection.insertOne(newDocument);
+                
+                if (responseBody.acknowledged === true) {
+                    // update redis
+                    const result = await redisClient.zincrby(
+                        "leaderboardsByUserPoints",
+                        newDocument.points ,newDocument.userName
+                    )
+                    
+                    const filter = { _id: new ObjectId(newDocument.questionId) };
+                    const update = { 
+                        $inc: {
+                            noOfTimesUsed: 1,
+                            noOfTimesCompleted: newDocument.points === 5 ? 1: 0
+                        },
+                        $min: { 
+                            bestTimeInt: newDocument.completionTimeInt
+                        },
+                        // $set: {
+                            // score: 
+                            
+                            // {
+                            //     '$cond': [ true, 'true', 'false' ]
+                            // }
+                            // bestTime: {
+                            //     $cond: {
+                            //       if: { $gt: ['$bestTimeInt', 1] }, // Condition: If score < 80
+                            //       then: 1,                     // Set score to 80
+                            //       else: 0 // Increment score by 10
+                            //     }
+                            // }
+                            // {
+                            //     $cond: { 
+                            //         if: {
+                            //             $gt: [ "$bestTimeInt", newDocument.completionTimeInt ]
+                            //         }, 
+                            //         then: newDocument.completionTime, 
+                            //         else: '$bestTime'
+                            //     }
+                            // }
+                        // }
+                    }
+                    // `doc` is the document _before_ `update` was applied
+                    let doc = await questionCollections.updateOne(filter, update);
+                }
+                statusCode = 200
+                break
+            default:
+                break;
+        }
+    } catch (err) {
+        console.log(err)
+        console.log('DB ERROR', err.message)
+        statusCode = 200
+        responseBody['error'] = 'A server error has occured. Please contact Administrator to report the issue'
     }
-    
+
     return {
         statusCode: statusCode,
         //  Uncomment below to enable CORS requests

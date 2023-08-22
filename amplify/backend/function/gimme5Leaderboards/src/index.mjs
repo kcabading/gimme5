@@ -23,27 +23,6 @@ export const handler = async (event) => {
                 results = await client.zrevrange('leaderboardsByUserCompleted', 0, -1, "WITHSCORES")
             }
     }
-
-    // const result = await client.set('foo', 'bar');
-    
-    // const result = await client.zadd("sortedSet", 1, "one", 2, "dos", 4, "quatro", 3, "three");
-    // const result = await client.zrange("sortedSet", 0, 2, "WITHSCORES")
-    
-    // const scores = [
-    //     { name: "Bob", score: 80 },
-    //     { name: "Jeff", score: 59.5 },
-    //     { name: "Tom", score: 100 },
-    //     { name: "Alex", score: 99.5 },
-    //  ];
-      
-    // // const scoreMap = scores.map(({ name, score }) => [score, name])
-    // // console.log('SCORE MAP', scoreMap)
-    // const result = await client.zadd(
-    //     "leaderboardsByUserPoints",
-    //     [7,'irene'], [10,'theo']
-        
-    // );
-    
     
     for (let i = 0; i < results.length; i += 2) {
         const username = results[i];
@@ -51,8 +30,6 @@ export const handler = async (event) => {
         if (i > 20) break
         leaderboardsData.push({ username, points });
     }
-    
-    console.log('LEADERBOARDS', leaderboardsData)
 
     return {
         statusCode: 200,

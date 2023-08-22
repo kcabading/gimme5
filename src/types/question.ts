@@ -32,3 +32,9 @@ export type TQuestion = {
     noOfTimesCompleted: number,
     bestTimeInt: number
 }
+
+export type QuestionParams = {
+	category?: string, 
+	questionId? : string,
+	play?: boolean,
+}

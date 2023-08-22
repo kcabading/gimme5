@@ -1,12 +1,12 @@
 
 import { API } from "aws-amplify";
-import { CreateFormSchema } from "@/types/question";
+import { CreateFormSchema, QuestionParams } from "@/types/question";
 import { queryClient } from "@/lib/query";
 import { getCurrentUser, getGuestUsername } from "./utils";
 
-const API_NAME = 'gimme5'
+const API_NAME = import.meta.env.VITE_API_NAME
 
-export async function deleteQuestion (questionId: string) {
+export async function deleteQuestion(questionId: string) {
 	const queryStrings = {
 		questionId
 	};
@@ -15,13 +15,8 @@ export async function deleteQuestion (questionId: string) {
         queryStringParameters: queryStrings,
 		headers: { 'x-api-key': import.meta.env.VITE_APIG_KEY}
     });
-    return item
-}
 
-type QuestionParams = {
-	category?: string, 
-	questionId? : string,
-	play?: boolean,
+    return item
 }
 
 export async function getQuestion(params: QuestionParams) {
@@ -32,7 +27,7 @@ export async function getQuestion(params: QuestionParams) {
 	const queryStrings: Record<string, any> = {
 		username: username,
 	}
-
+	// TODO optimise getting query params
 	if (params.play) {
 		queryStrings.play = params.play
 	}

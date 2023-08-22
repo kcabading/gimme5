@@ -26,6 +26,24 @@ const db = await client.db("gimme5");
 const collection = await db.collection("questions");
 const gamesCollection = await db.collection("games");
 
+function shuffle(array) {
+  let currentIndex = array.length,  randomIndex;
+
+  // While there remain elements to shuffle.
+  while (currentIndex != 0) {
+
+    // Pick a remaining element.
+    randomIndex = Math.floor(Math.random() * currentIndex);
+    currentIndex--;
+
+    // And swap it with the current element.
+    [array[currentIndex], array[randomIndex]] = [
+      array[randomIndex], array[currentIndex]];
+  }
+
+  return array;
+}
+
 /**
  * @type {import('@types/aws-lambda').APIGatewayProxyHandler}
  */
@@ -43,11 +61,13 @@ export const handler = async (event) => {
         switch(method){
             case 'GET':
                 let username = queryParams.username
+                let play = queryParams.play
+                console.log('PLAY? ', play)
                 if (queryParams.hasOwnProperty('questionId')) {
                     // check if question is already answered
                     let gameQuery = {questionId: queryParams.questionId, userName: username};
                     let gameResults = await gamesCollection.find(gameQuery).toArray()
-                    if (gameResults.length > 0) {
+                    if (gameResults.length > 0 && play) {
                         statusCode = 200
                         responseBody['error'] = 'Question already answered!'
                     } else {
@@ -58,7 +78,9 @@ export const handler = async (event) => {
                     }
                 } else if (queryParams.hasOwnProperty('category')) {
                     let query = {category: queryParams.category};
-                    let questionResults = await collection.find(query).toArray()
+                    let qResults = await collection.find(query).toArray()
+                    
+                    let questionResults = shuffle(qResults)
                     
                     if (questionResults.length === 0) {
                         responseBody['error'] = 'No Question found on the Category: ' + queryParams.category
@@ -93,7 +115,7 @@ export const handler = async (event) => {
                     statusCode = 200
                 } else if (queryParams.hasOwnProperty('userName')) {
                     let query = {submittedBy: queryParams.userName};
-                    let results = await collection.find(query).toArray()
+                    let results = await collection.find(query).sort({_id : -1}).toArray()
                     statusCode = 200
                     responseBody['data'] = results
                     
@@ -103,12 +125,34 @@ export const handler = async (event) => {
                 }
                 break
             case 'POST':
-                let newDocument = JSON.parse(event.body)
-                newDocument.answers = newDocument.answers.split('\n').filter(answer => answer !== '')
-                newDocument.date = new Date()
+                let questionDocument = JSON.parse(event.body)
+                questionDocument.answers = questionDocument.answers.split('\n').filter(answer => answer !== '')
+                questionDocument.date = new Date()
+                // do we have an id
+                if(questionDocument._id !== '') {
+                    console.log('edit document')
+                    let { question, category, answers, language } = questionDocument
+                    let query = {_id: new ObjectId(questionDocument._id)};
+                    // try to update
+                    let update = { $set: { category, question, answers, language } }
+                    responseBody['data'] = await collection.updateOne(query,update)
+                    console.log('UPDATED', responseBody['data'])
+                } else {
+                    let newDocument = {
+                        question: questionDocument.question,
+                        category: questionDocument.category,
+                        answers: questionDocument.answers,
+                        language: questionDocument.language,
+                        submittedBy: questionDocument.submittedBy,
+                        date: new Date()
+                    }
+                    console.log('new document')
+                    // new document
+                    responseBody['data'] = await collection.insertOne(newDocument);
+                }
                 console.log('new document', event)
                 statusCode = 201
-                responseBody['data'] = await collection.insertOne(newDocument);
+                
                 break
             case 'DELETE':
                 if (queryParams.hasOwnProperty('questionId')) {
@@ -125,18 +169,8 @@ export const handler = async (event) => {
     } catch (err) {
         console.log(err)
         console.log('DB ERROR', err.message)
-        
-        return {
-            statusCode: 200,
-            //  Uncomment below to enable CORS requests
-            headers: {
-                 "Access-Control-Allow-Origin": "*",
-                 "Access-Control-Allow-Headers": "*"
-            },
-            body: JSON.stringify({
-                error: 'A server error has occured. Please contact Administrator to report the issue '
-            }),
-        };
+        responseBody['error'] = 'A server error has occured. Please contact Administrator to report the issue'
+        statusCode = 200
     }
     
     return {
