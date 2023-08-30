@@ -38,7 +38,7 @@ export default function CreateQuestion({ form, isLoading, onSubmit }: CreateQues
 	return (
 		<>
 			<Form {...form}>
-				<form onSubmit={form.handleSubmit(onSubmit)} className="space-y-2 sm:w-1/2 w-full sm:p-0 mb-10">
+				<form onSubmit={form.handleSubmit(onSubmit)} className="space-y-3 sm:w-1/2 w-full sm:p-0 mb-10">
 					<FormField
 						control={form.control}
 						name="question"
@@ -61,7 +61,7 @@ export default function CreateQuestion({ form, isLoading, onSubmit }: CreateQues
 								<FormLabel>Language</FormLabel>
 								<FormControl>
 									<RadioGroup {...field} onValueChange={field.onChange} disabled={isLoading}>
-										<div className="flex space-x-2">
+										<div className="flex space-x-2 max-sm:justify-between">
 											<div className="flex items-center space-x-2">
 												<RadioGroupItem value="English" id="r1"/>
 												<Label htmlFor="r1">English</Label>
@@ -71,8 +71,8 @@ export default function CreateQuestion({ form, isLoading, onSubmit }: CreateQues
 												<Label htmlFor="r2">Tagalog</Label>
 											</div>
 											<div className="flex items-center space-x-2">
-												<RadioGroupItem value="English or Tagalog" id="r2" />
-												<Label htmlFor="r2">English or Tagalog</Label>
+												<RadioGroupItem value="English or Tagalog" id="r3" />
+												<Label htmlFor="r3">English or Tagalog</Label>
 											</div>
 										</div>
 									</RadioGroup>

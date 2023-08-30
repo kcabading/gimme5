@@ -20,7 +20,7 @@
       "function": {
         "gimme5Questions": {
           "deploymentBucketName": "amplify-gimme5-dev-15749-deployment",
-          "s3Key": "amplify-builds/gimme5Questions-346949546c47682f3733-build.zip",
+          "s3Key": "amplify-builds/gimme5Questions-67494159763548637668-build.zip",
           "secretsPathAmplifyAppId": "d3osxefc286uo0",
           "dbconPath": "/amplify/d3osxefc286uo0/dev/AMPLIFY_gimme5Questions_MONGODB_CONNECTION_STRING",
           "region": "us-east-1"
@@ -41,13 +41,13 @@
         },
         "gimme5Games": {
           "deploymentBucketName": "amplify-gimme5-dev-15749-deployment",
-          "s3Key": "amplify-builds/gimme5Games-5063776d7a6b77773964-build.zip",
+          "s3Key": "amplify-builds/gimme5Games-7665386d2b6848315632-build.zip",
           "dbconPath": "/amplify/d3osxefc286uo0/dev/AMPLIFY_gimme5Questions_MONGODB_CONNECTION_STRING",
           "region": "us-east-1"
         },
         "gimme5Leaderboards": {
           "deploymentBucketName": "amplify-gimme5-dev-15749-deployment",
-          "s3Key": "amplify-builds/gimme5Leaderboards-39435136637147745476-build.zip"
+          "s3Key": "amplify-builds/gimme5Leaderboards-48464d4f374c69775473-build.zip"
         }
       },
       "api": {

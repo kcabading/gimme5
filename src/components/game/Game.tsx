@@ -1,6 +1,6 @@
 import Timer from "@/components/game/Timer";
 
-import { forwardRef, useRef } from "react";
+import { forwardRef} from "react";
 import { Skeleton } from "@/components/ui/skeleton"
 import { TGuessDetail } from "@/types/play";
 import { useBoundStore } from "@/store";
@@ -8,7 +8,6 @@ import { Button } from "@/components/ui/button";
 import { ArrowLeft, Eye, Table, Undo } from "lucide-react"
 import { Input } from "../ui/input";
 import { useNavigate, useSearchParams } from "react-router-dom";
-
 import { TQuestion } from "@/types/play";
 
 
@@ -25,10 +24,10 @@ const Game = forwardRef<HTMLInputElement, IGameProps>(({question, gameLoading, g
     const [, setSearchParams] = useSearchParams();
     const navigate = useNavigate()
     const timesUp = useBoundStore((state) => state.timesUp)
-    const revealAnswers = useBoundStore((state) => state.revealAnswers)
-    const noOfCorrectAnswer = useBoundStore((state) => state.noOfCorrectAnswer)
-    const setRevealAnswers = useBoundStore((state) => state.setRevealAnswers)
+
     const setTimesUp = useBoundStore((state) => state.setTimesUp)
+    const {revealAnswers, noOfCorrectAnswer}  = useBoundStore((state) => ({revealAnswers: state.revealAnswers, noOfCorrectAnswer: state.noOfCorrectAnswer}))
+    const setRevealAnswers = useBoundStore((state) => state.setRevealAnswers)
     const resetGameState = useBoundStore((state) => state.resetPlay)
     const errorMessage = useBoundStore((state) => state.errorMessage)
 
